@@ -8,5 +8,8 @@
     "name": "KokelSan",
     "email": "kokelsan@outlook.com",
     "url": "https://github.com/KokelSan"
+  },
+  "dependencies": {
+    "com.unity.inputsystem": "1.7.0"
   }
 }
