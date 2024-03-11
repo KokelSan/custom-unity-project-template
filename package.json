@@ -11,5 +11,15 @@
   },
   "dependencies": {
     "com.unity.inputsystem": "1.7.0"
-  }
+  },
+  "installPath": {
+    "Scripts": "Assets/Imported/Scripts"
+  },
+  "samples": [
+    {
+      "displayName": "Base sample",
+      "description": "Contains sample scene and inputActions",
+      "path": "Samples~/BaseSample"
+    }
+  ]
 }
