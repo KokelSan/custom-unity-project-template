@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugSceneLoading: 1
-  DebugInputs: 1
+  DebugInputs: 0
