@@ -41,6 +41,7 @@ namespace custom_unity_project_template.Editor
                 else
                 {
                     UnityEngine.Debug.Log($"Pull command succeeded \n{output}");
+                    AssetDatabase.Refresh();
                 }
             }
             catch (Exception e)
