@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4278872821093449779}
   - component: {fileID: 4210904907205968595}
   m_Layer: 0
-  m_Name: EventDebuggerManager
+  m_Name: EventDebugger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67812f40dea77aa4cacd49b95fe1aa76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugSceneLoading: 1
+  DebugInputs: 1

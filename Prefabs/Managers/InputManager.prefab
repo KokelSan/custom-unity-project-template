@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00d0384b23e3cf4b9c2ae66eb289d9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugInputs: 1
 --- !u!114 &5998808814150596504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +125,6 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: MainActions
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
