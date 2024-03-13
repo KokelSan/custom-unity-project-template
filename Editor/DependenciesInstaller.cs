@@ -6,9 +6,9 @@ using UnityEditor.PackageManager.Requests;
 
 namespace custom_unity_project_template.Editor
 {
-    public class DependenciesInstaller
+    public static class DependenciesInstaller
     {
-        static AddRequest _request;
+        private static AddRequest _request;
         
         private static int _currentDependencyIndex;
         private static List<string> _successes = new List<string>();
