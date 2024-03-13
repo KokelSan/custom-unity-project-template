@@ -35,7 +35,7 @@ namespace custom_unity_project_template.Editor
 
                 process.WaitForExit();
                 
-                UnityEngine.Debug.LogWarning($"output = {output}, error = {error}");
+                UnityEngine.Debug.LogWarning($"output = {output}, error = {error}, exitCode = {process.ExitCode}");
 
                 if (!string.IsNullOrEmpty(error))
                 {
