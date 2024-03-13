@@ -29,7 +29,7 @@ namespace custom_unity_project_template.Editor
             {
                 Process process = new Process { StartInfo = startInfo };
                 
-                string globalOutput = null;
+                string globalOutput = "";
                 process.OutputDataReceived += (_, args) => { globalOutput += args.Data + "\n"; }; 
                 process.ErrorDataReceived += (_, args) => { globalOutput += args.Data + "\n"; }; 
                 process.Start();
@@ -38,9 +38,6 @@ namespace custom_unity_project_template.Editor
                 process.BeginErrorReadLine();
 
                 process.WaitForExit();
-                
-                // UnityEngine.Debug.LogWarning($"GIT DEBUG: output = {output}, error = {error}, exitCode = {process.ExitCode}");
-                UnityEngine.Debug.LogWarning($"GIT DEBUG: globalOutput = {globalOutput}, exitCode = {process.ExitCode}");
 
                 if (process.ExitCode == 0)
                 {
