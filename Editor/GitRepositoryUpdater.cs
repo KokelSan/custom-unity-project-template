@@ -35,7 +35,7 @@ namespace custom_unity_project_template.Editor
 
                 process.WaitForExit();
                 
-                // UnityEngine.Debug.LogWarning($"GIT DEBUG: output = {output}, error = {error}, exitCode = {process.ExitCode}");
+                UnityEngine.Debug.LogWarning($"GIT DEBUG: output = {output}, error = {error}, exitCode = {process.ExitCode}");
 
                 if (process.ExitCode == 0)
                 {
