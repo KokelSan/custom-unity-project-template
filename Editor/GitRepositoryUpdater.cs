@@ -35,16 +35,16 @@ namespace custom_unity_project_template.Editor
 
                 process.WaitForExit();
                 
-                UnityEngine.Debug.LogWarning($"GIT DEBUG: output = {output}, error = {error}, exitCode = {process.ExitCode}");
+                // UnityEngine.Debug.LogWarning($"GIT DEBUG: output = {output}, error = {error}, exitCode = {process.ExitCode}");
 
-                if (!string.IsNullOrEmpty(error))
-                {
-                    UnityEngine.Debug.LogError($"Git command failed \n{error}");
-                }
-                else
+                if (process.ExitCode == 0)
                 {
                     UnityEngine.Debug.Log($"Pull command succeeded \n{output}");
                     AssetDatabase.Refresh();
+                }
+                else
+                {
+                    UnityEngine.Debug.LogError($"Git command failed \n{error}");
                 }
             }
             catch (Exception e)
