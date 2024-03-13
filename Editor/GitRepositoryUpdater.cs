@@ -28,13 +28,18 @@ namespace custom_unity_project_template.Editor
             try
             {
                 Process process = new Process { StartInfo = startInfo };
-                string error = null;
-                process.ErrorDataReceived += (_, args) => { error += args.Data; }; 
+                
+                // string error = null;
+                // process.ErrorDataReceived += (_, args) => { error += args.Data; }; 
+                string output = null;
+                process.OutputDataReceived += (_, args) => { output += args.Data; }; 
+                
                 process.Start();
 
-                process.BeginErrorReadLine();
-                string output = process.StandardOutput.ReadToEnd();
-                // string error = process.StandardError.ReadToEnd();
+                // process.BeginErrorReadLine();
+                // string output = process.StandardOutput.ReadToEnd();
+                process.BeginOutputReadLine();
+                string error = process.StandardError.ReadToEnd();
 
                 process.WaitForExit();
                 
