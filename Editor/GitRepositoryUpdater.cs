@@ -30,8 +30,8 @@ namespace custom_unity_project_template.Editor
                 Process process = new Process { StartInfo = startInfo };
                 
                 string globalOutput = "";
-                process.OutputDataReceived += (_, args) => { globalOutput += args.Data + "\n"; }; 
-                process.ErrorDataReceived += (_, args) => { globalOutput += args.Data + "\n"; }; 
+                process.OutputDataReceived += (_, args) => { globalOutput += "\n" + args.Data; }; 
+                process.ErrorDataReceived += (_, args) => { globalOutput += "\n" + args.Data; }; 
                 process.Start();
                 
                 process.BeginOutputReadLine();
