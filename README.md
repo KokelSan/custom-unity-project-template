@@ -3,3 +3,6 @@ Sections to write:
 - The choice to not make it a package (assets modifications especially)
 - Overview (architecture explanation)
 - Add images
+
+TODO:
+- Add scene transitions / loading screen

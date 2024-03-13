@@ -116,7 +116,6 @@ public class SceneLoadingManager : Manager
 
         while (!loadingOperation.isDone)
         {
-            // TODO: loading screen & progress bar
             // float progress = loadingOperation.progress / 0.9f * 100;
             yield return null;
         }
