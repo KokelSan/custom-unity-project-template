@@ -29,30 +29,27 @@ namespace custom_unity_project_template.Editor
             {
                 Process process = new Process { StartInfo = startInfo };
                 
-                // string error = null;
-                // process.ErrorDataReceived += (_, args) => { error += args.Data; }; 
-                string output = null;
-                process.OutputDataReceived += (_, args) => { output += args.Data; }; 
-                
+                string globalOutput = null;
+                process.OutputDataReceived += (_, args) => { globalOutput += args.Data + "\n"; }; 
+                process.ErrorDataReceived += (_, args) => { globalOutput += args.Data + "\n"; }; 
                 process.Start();
-
-                // process.BeginErrorReadLine();
-                // string output = process.StandardOutput.ReadToEnd();
+                
                 process.BeginOutputReadLine();
-                string error = process.StandardError.ReadToEnd();
+                process.BeginErrorReadLine();
 
                 process.WaitForExit();
                 
-                UnityEngine.Debug.LogWarning($"GIT DEBUG: output = {output}, error = {error}, exitCode = {process.ExitCode}");
+                // UnityEngine.Debug.LogWarning($"GIT DEBUG: output = {output}, error = {error}, exitCode = {process.ExitCode}");
+                UnityEngine.Debug.LogWarning($"GIT DEBUG: globalOutput = {globalOutput}, exitCode = {process.ExitCode}");
 
                 if (process.ExitCode == 0)
                 {
-                    UnityEngine.Debug.Log($"Pull command succeeded \n{output}");
+                    UnityEngine.Debug.Log($"Pull command succeeded \n{globalOutput}");
                     AssetDatabase.Refresh();
                 }
                 else
                 {
-                    UnityEngine.Debug.LogError($"Git command failed \n{error}");
+                    UnityEngine.Debug.LogError($"Git command failed \n{globalOutput}");
                 }
             }
             catch (Exception e)
