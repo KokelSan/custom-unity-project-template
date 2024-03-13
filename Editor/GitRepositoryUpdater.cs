@@ -2,17 +2,21 @@ using System;
 using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
+using Debug = UnityEngine.Debug;
 
 namespace custom_unity_project_template.Editor
 {
     public class GitRepositoryUpdater : MonoBehaviour
     {
-        [MenuItem("Custom Project Template/Update Git Repository")]
-        public static void UpdateGitRepository()
+        [MenuItem("Custom Project Template/Git Commands/Pull Repository")]
+        public static void PullRepository()
+        {
+            ExecuteGitCommand("pull");
+        }
+
+        private static void ExecuteGitCommand(string gitCommand)
         {
             string repositoryPath = Application.dataPath + "/custom-unity-project-template";
-            string gitCommand = "pull";
 
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
@@ -41,17 +45,17 @@ namespace custom_unity_project_template.Editor
 
                 if (process.ExitCode == 0)
                 {
-                    UnityEngine.Debug.Log($"Pull command succeeded \n{globalOutput}");
+                    Debug.Log($"Git {gitCommand} succeeded \n{globalOutput}");
                     AssetDatabase.Refresh();
                 }
                 else
                 {
-                    UnityEngine.Debug.LogError($"Git command failed \n{globalOutput}");
+                    Debug.LogError($"Git command failed \n{globalOutput}");
                 }
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogError($"Git process failed \n{e}");
+                Debug.LogError($"Git process failed \n\n{e}");
             }
         }
     }
