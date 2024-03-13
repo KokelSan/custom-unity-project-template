@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 namespace custom_unity_project_template.Editor
 {
@@ -33,6 +34,8 @@ namespace custom_unity_project_template.Editor
                 string error = process.StandardError.ReadToEnd();
 
                 process.WaitForExit();
+                
+                UnityEngine.Debug.LogWarning($"output = {output} / error = {error}");
 
                 if (!string.IsNullOrEmpty(error))
                 {
