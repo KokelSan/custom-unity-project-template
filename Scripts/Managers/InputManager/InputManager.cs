@@ -60,4 +60,21 @@ public class InputManager : Manager
     }
 
     #endregion
+    
+    /////////
+
+    public void OnTest1()
+    {
+        SceneLoadingManagerHandlerData.LoadSceneAdditive(2);
+    }
+    
+    public void OnTest2()
+    {
+        SceneLoadingManagerHandlerData.UnLoadScene(2);
+    }
+    
+    public void OnTest3()
+    {
+        
+    }
 }
