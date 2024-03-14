@@ -3,20 +3,6 @@ using UnityEngine.InputSystem;
 
 public class InputManager : Manager
 {
-    #region Overrides
-
-    protected override void EventHandlerRegister()
-        {
-            
-        }
-    
-        protected override void EventHandlerUnRegister()
-        {
-            
-        }
-
-    #endregion
-
     #region Mouse & Keyboard
     
     public void OnMove(InputValue input)
