@@ -1,88 +1,59 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace custom_unity_project_template.Editor
 {
     public static class DependenciesInstaller
     {
-        private static AddRequest _request;
+        static AddAndRemoveRequest _request;
+        private static List<string> _startingPackages = new List<string>();
         
-        private static int _currentDependencyIndex;
-        private static List<string> _successes = new List<string>();
-        private static List<string> _fails = new List<string>();
-        
-        static List<string> _dependencies = new List<string>() 
+        static string[] _dependencies = 
         {
             "com.unity.inputsystem",
+            // "com.unity.addressables",
         };
 
         [MenuItem("Custom Project Template/Install Dependencies")]
         static void InstallDependencies()
         {
-            _currentDependencyIndex = 0;
-            _successes.Clear();
-            _fails.Clear();
-            InstallDependency();
+            _startingPackages = PackageInfo.GetAllRegisteredPackages().Select(info => info.packageId).ToList();
+            _request = Client.AddAndRemove(_dependencies);
+            EditorApplication.update += OnEditorUpdate;
         }
 
-        static void InstallDependency()
-        {
-            _request = Client.Add(_dependencies[_currentDependencyIndex]);
-            EditorApplication.update += Progress;
-        }
-
-        static void Progress()
+        static void OnEditorUpdate()
         {
             if (_request.IsCompleted)
             {
+                EditorApplication.update -= OnEditorUpdate;
+                
                 if (_request.Status == StatusCode.Success)
                 {
-                    _successes.Add(_request.Result.packageId);
+                    List<string> finalPackages = _request.Result.Select(info => info.packageId).ToList();
+                    var newPackages = finalPackages.Except(_startingPackages).ToList();
+                    int newCount = newPackages.Count;
+                    if (newCount == 0)
+                    {
+                        Debug.Log($"All the required packages are already installed \n");
+                        return;
+                    }
+
+                    string debug = $"Dependencies installation completed, {newCount} {(newCount > 1 ? "packages" : "package")} installed";
+                    foreach (var package in newPackages)
+                    {
+                        debug += "\n  " + package;
+                    }
+                    Debug.Log($"{debug} \n");
                 }
                 else if (_request.Status == StatusCode.Failure)
                 {
-                    _fails.Add($"{_dependencies[_currentDependencyIndex]}");
-                }
-                
-                EditorApplication.update -= Progress;
-
-                if (_currentDependencyIndex < _dependencies.Count - 1)
-                {
-                    _currentDependencyIndex++;
-                    InstallDependency();
-                }
-                else
-                {
-                    string debugMsg = $"Installation of {_dependencies.Count} {(_dependencies.Count > 1 ? "packages" : "package")} completed";
-                    
-                    if (_fails.Count > 0)
-                    {
-                        debugMsg += $" with {_fails.Count} ";
-                        debugMsg += _fails.Count > 1 ? "fails" : "fail";
-                        debugMsg += "\n\nFAILED: \n";
-                        foreach (string fail in _fails)
-                        {
-                            debugMsg += $"  {fail}\n";
-                        }
-                    }
-                    else
-                    {
-                        debugMsg += "\n";
-                    }
-                    
-                    if (_successes.Count > 0)
-                    {
-                        debugMsg += "\nINSTALLED: \n";
-                        foreach (string success in _successes)
-                        {
-                            debugMsg += $"  {success}\n";
-                        }
-                    }
-
-                    Debug.Log(debugMsg);
+                    Debug.LogError($"Dependencies installation failed \n\n{_request.Error.message}\n");
                 }
             }
         }
