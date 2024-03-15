@@ -17,9 +17,7 @@ public class GameManager : Manager
             GameManagerManagerHandlerData.OnStopGame += StopGame;
             GameManagerManagerHandlerData.OnExitGame += ExitGame;
 
-            /////
             InputManagerHandlerData.OnEscape += TogglePause;
-            StartGame();
         }
     
         protected override void EventHandlerUnRegister()
@@ -30,6 +28,8 @@ public class GameManager : Manager
             GameManagerManagerHandlerData.OnTogglePause -= TogglePause;
             GameManagerManagerHandlerData.OnStopGame -= StopGame;
             GameManagerManagerHandlerData.OnExitGame -= ExitGame;
+            
+            InputManagerHandlerData.OnEscape -= TogglePause;
         }
 
     #endregion

@@ -87,7 +87,7 @@ public class SceneLoadingManager : Manager
 
     #region Load/Unload Core
 
-    private void LoadScene(int sceneIndex, bool loadAsync, LoadSceneMode loadSceneMode)
+    private void LoadScene(int sceneIndex, LoadSceneMode loadSceneMode, TransitionType transitionType, bool isBoot)
     {
         if (!CanSceneBeLoaded(sceneIndex, out string errorMsg))
         {
@@ -95,30 +95,52 @@ public class SceneLoadingManager : Manager
             return;
         }
         
-        if (loadAsync)
-        {
-            StartCoroutine(LoadSceneAsync(sceneIndex, loadSceneMode));
-        }
-        else
-        {
-            SceneManager.LoadScene(sceneIndex, loadSceneMode);
-        }
+        StartCoroutine(LoadSceneAsync(sceneIndex, loadSceneMode, transitionType, isBoot));
     }
     
-    private IEnumerator LoadSceneAsync(int sceneIndex, LoadSceneMode loadSceneMode)
+    private IEnumerator LoadSceneAsync(int sceneIndex, LoadSceneMode loadSceneMode, TransitionType transitionType, bool isBoot)
     {
+        bool hasTransition = transitionType != TransitionType.None;
+        if (hasTransition)
+        {
+            bool transitionStarted = false;
+            float transitionDuration = 0;
+            ScreenTransitionManagerHandlerData.ShowTransition(transitionType, isBoot, OnTransitionStarted);
+            
+            void OnTransitionStarted(float duration)
+            {
+                transitionStarted = true;
+                transitionDuration = duration;
+            }
+            
+            while (!transitionStarted)
+            {
+                yield return null;
+            }
+            
+            yield return new WaitForSeconds(transitionDuration);
+        }
+        
         AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(sceneIndex, loadSceneMode);
         if (loadingOperation == null)
         {
             Debug.LogWarning($"Scene {sceneIndex} couldn't be loaded, operation aborted.");
             yield break;
         }
-
+        
+        loadingOperation.allowSceneActivation = false;
         while (!loadingOperation.isDone)
         {
             // float progress = loadingOperation.progress / 0.9f * 100;
+            if (loadingOperation.progress >= 0.9f)
+            {
+                // Debug.Log("Scene fully loaded, unloading old scene");
+                loadingOperation.allowSceneActivation = true;
+            }
             yield return null;
         }
+        
+        if (hasTransition) ScreenTransitionManagerHandlerData.HideTransition(transitionType);
     }
     
     private void UnLoadScene(int sceneIndex)

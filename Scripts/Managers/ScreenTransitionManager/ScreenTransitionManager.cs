@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,31 +20,21 @@ public class ScreenTransitionManager : Manager
         ScreenTransitionManagerHandlerData.OnHideTransition -= HideTransition;
     }
 
-    public override void Initialize()
-    {
-        base.Initialize();
-
-        foreach (var screenTransition in ScreenTransitions)
-        {
-            screenTransition.Initialize();
-        }
-    }
-
     #endregion
 
-    private void ShowTransition(TransitionType transitionType, bool isBoot)
+    private void ShowTransition(TransitionType transitionType, bool isBoot, Action<float> onTransitionStarted)
     {
         if (TryGetScreenTransition(transitionType, out ScreenTransition screenTransition))
         {
-            screenTransition.Show(isBoot);
+            screenTransition.Show(isBoot, onTransitionStarted);
         }
     }
 
-    private void HideTransition(TransitionType transitionType)
+    private void HideTransition(TransitionType transitionType, Action<float> onTransitionStarted)
     {
         if (TryGetScreenTransition(transitionType, out ScreenTransition screenTransition))
         {
-            screenTransition.Hide();
+            screenTransition.Hide(onTransitionStarted);
         }
     }
 

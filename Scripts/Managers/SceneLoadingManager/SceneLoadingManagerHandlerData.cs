@@ -3,9 +3,8 @@ using UnityEngine.SceneManagement;
 
 public static class SceneLoadingManagerHandlerData
 {
-    public static void LoadScene(int sceneIndex, bool loadAsync = false) => OnLoadScene?.Invoke(sceneIndex, loadAsync, LoadSceneMode.Single);
-    public static void LoadSceneAdditive(int sceneIndex, bool loadAsync = false) => OnLoadScene?.Invoke(sceneIndex, loadAsync, LoadSceneMode.Additive);
-    public static event Action<int, bool, LoadSceneMode> OnLoadScene;
+    public static void LoadScene(int sceneIndex, LoadSceneMode loadSceneMode = LoadSceneMode.Single, TransitionType transitionType = TransitionType.None, bool isBoot = false) => OnLoadScene?.Invoke(sceneIndex, loadSceneMode, transitionType, isBoot);
+    public static Action<int, LoadSceneMode, TransitionType, bool> OnLoadScene;
     
     public static void UnLoadScene(int sceneIndex) => OnUnLoadScene?.Invoke(sceneIndex);
     public static event Action<int> OnUnLoadScene;

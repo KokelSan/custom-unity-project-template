@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class responsible for instantiating the needed managers and loading the game's starting scene.
@@ -21,15 +22,6 @@ public class Boot : MonoBehaviour
             DontDestroyOnLoad(instance);
         }
 
-        ScreenTransitionManagerHandlerData.ShowTransition(ScreenTransitionForFirstScene, true);
-        SceneLoadingManagerHandlerData.OnSceneLoaded += OnSceneLoaded;
-        SceneLoadingManagerHandlerData.LoadScene(SceneToLoadOnBootCompleted);
-    }
-
-    private void OnSceneLoaded(int index)
-    {
-        if(index != SceneToLoadOnBootCompleted) return;
-        SceneLoadingManagerHandlerData.OnSceneLoaded -= OnSceneLoaded;
-        ScreenTransitionManagerHandlerData.HideTransition(ScreenTransitionForFirstScene);
+        SceneLoadingManagerHandlerData.LoadScene(SceneToLoadOnBootCompleted, LoadSceneMode.Single, ScreenTransitionForFirstScene, true);
     }
 }

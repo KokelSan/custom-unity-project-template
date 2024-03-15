@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class InputManager : Manager
 {
@@ -65,12 +66,14 @@ public class InputManager : Manager
 
     public void OnTest1()
     {
-        ScreenTransitionManagerHandlerData.ShowTransition(TransitionType.Fade);
+        // ScreenTransitionManagerHandlerData.ShowTransition(TransitionType.Fade);
+        SceneLoadingManagerHandlerData.LoadScene(2, LoadSceneMode.Additive, TransitionType.Fade);
     }
     
     public void OnTest2()
     {
-        ScreenTransitionManagerHandlerData.HideTransition(TransitionType.Fade);
+        // ScreenTransitionManagerHandlerData.HideTransition(TransitionType.Fade);
+        SceneLoadingManagerHandlerData.UnLoadScene(2);
     }
     
     public void OnTest3()
