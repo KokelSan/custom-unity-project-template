@@ -51,19 +51,16 @@ public class ScreenTransition : MonoBehaviour
         }
         Animator.SetTrigger(triggerName);
         _isShown = show;
-        Debug.LogError("Transition triggered");
     }
     
     
     public void OnTransitionStarted()
     {
-        Debug.LogError("Transition started");
         ScreenTransitionManagerHandlerData.TransitionStarted();
     }
     
     public void OnTransitionCompleted()
     {
-        Debug.LogError("Transition completed");
         ScreenTransitionManagerHandlerData.TransitionCompleted();
     }
 }

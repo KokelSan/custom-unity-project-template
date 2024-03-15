@@ -119,8 +119,6 @@ public class SceneLoadingManager : Manager
 
     IEnumerator PerformSceneLoading(int sceneIndex, LoadSceneMode loadSceneMode, TransitionType transitionType)
     {
-        Debug.LogError("Performing loading");
-        
         AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(sceneIndex, loadSceneMode);
         if (loadingOperation == null)
         {
@@ -138,11 +136,9 @@ public class SceneLoadingManager : Manager
             }
             yield return null;
         }
-        Debug.LogError("Loading completed");
 
         if (transitionType != TransitionType.None)
         {
-            Debug.LogError("Hiding transition");
             ScreenTransitionManagerHandlerData.HideTransition(transitionType);
         }
     }

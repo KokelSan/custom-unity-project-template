@@ -5,6 +5,7 @@ public class EventDebugger : Manager
     public bool DebugSceneLoading;
     public bool DebugInputs;
     public bool DebugGameStates;
+    public bool DebugScreenTransitions;
     
     protected override void EventHandlerRegister()
     {
@@ -32,6 +33,12 @@ public class EventDebugger : Manager
             GameManagerManagerHandlerData.OnGamePaused += OnGamePaused;
             GameManagerManagerHandlerData.OnGameResumed += OnGameResumed;
             GameManagerManagerHandlerData.OnGameStopped += OnGameStopped;
+        }
+
+        if (DebugScreenTransitions)
+        {
+            ScreenTransitionManagerHandlerData.OnTransitionStarted += OnTransitionStarted;
+            ScreenTransitionManagerHandlerData.OnTransitionCompleted += OnTransitionCompleted;
         }
     }
     
@@ -62,6 +69,12 @@ public class EventDebugger : Manager
             GameManagerManagerHandlerData.OnGameResumed -= OnGameResumed;
             GameManagerManagerHandlerData.OnGameStopped -= OnGameStopped;
         }
+        
+        if (DebugScreenTransitions)
+        {
+            ScreenTransitionManagerHandlerData.OnTransitionStarted -= OnTransitionStarted;
+            ScreenTransitionManagerHandlerData.OnTransitionCompleted -= OnTransitionCompleted;
+        }
     }
 
     #region Scene Loading
@@ -90,6 +103,13 @@ public class EventDebugger : Manager
     private void OnGamePaused() => Debug.Log("Game paused");
     private void OnGameResumed() => Debug.Log("Game resumed");
     private void OnGameStopped() => Debug.Log("Game stopped");
+
+    #endregion
+    
+    #region Screen transitions
+
+    private void OnTransitionStarted() => Debug.Log("Transition started");
+    private void OnTransitionCompleted() => Debug.Log("Transition completed");
 
     #endregion
     
