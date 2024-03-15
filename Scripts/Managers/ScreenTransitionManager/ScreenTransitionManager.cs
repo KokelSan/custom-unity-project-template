@@ -22,19 +22,19 @@ public class ScreenTransitionManager : Manager
 
     #endregion
 
-    private void ShowTransition(TransitionType transitionType, bool isBoot, Action<float> onTransitionStarted)
+    private void ShowTransition(TransitionType transitionType, bool isBoot)
     {
         if (TryGetScreenTransition(transitionType, out ScreenTransition screenTransition))
         {
-            screenTransition.Show(isBoot, onTransitionStarted);
+            screenTransition.Show(isBoot);
         }
     }
 
-    private void HideTransition(TransitionType transitionType, Action<float> onTransitionStarted)
+    private void HideTransition(TransitionType transitionType)
     {
         if (TryGetScreenTransition(transitionType, out ScreenTransition screenTransition))
         {
-            screenTransition.Hide(onTransitionStarted);
+            screenTransition.Hide();
         }
     }
 

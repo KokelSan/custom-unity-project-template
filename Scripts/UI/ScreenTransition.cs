@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum TransitionType
@@ -14,7 +13,6 @@ public class ScreenTransition : MonoBehaviour
 {
     public Animator Animator;
     public TransitionType TransitionType;
-    public float TransitionDuration = 1;
     
     [HideInInspector] public bool IsAnimating = false;
     private bool _isShown = false;
@@ -24,40 +22,48 @@ public class ScreenTransition : MonoBehaviour
         if(Animator == null && !TryGetComponent(out Animator))
         {
             Debug.LogWarning($"Transition '{TransitionType}' (id = {GetInstanceID()}) has no Animator component'");
-            return;
         }
     }
 
     /// <summary>
     /// Show the transition to hide the screen
     /// </summary>
-    public void Show(bool isBoot, Action<float> onTransitionStarted)
+    public void Show(bool isBoot)
     {
         string triggerName = isBoot ? "Boot" : "Show";
-        StartCoroutine(TriggerAnimator(true, triggerName, onTransitionStarted));
+        TriggerAnimator(true, triggerName);
     }
 
     /// <summary>
     /// Hide the transition to show the screen
     /// </summary>
-    public void Hide(Action<float> onTransitionStarted)
+    public void Hide()
     {
-        StartCoroutine(TriggerAnimator(false, "Hide", onTransitionStarted));
+        TriggerAnimator(false, "Hide");
     }
 
-    IEnumerator TriggerAnimator(bool isShown, string triggerName, Action<float> onTransitionStarted)
+    private void TriggerAnimator(bool show, string triggerName)
     {
-        if(Animator == null || IsAnimating || isShown == _isShown) yield break;
-        
-        AnimatorStateInfo oldState = Animator.GetCurrentAnimatorStateInfo(0);
-        AnimatorStateInfo newState = oldState;
-        Animator.SetTrigger(triggerName);
-        while (newState.Equals(oldState))
+        if(Animator == null || IsAnimating || _isShown == show)
         {
-            newState = Animator.GetCurrentAnimatorStateInfo(0);
-            yield return null;
+            Debug.LogError($"Animator null = {Animator == null}, IsAnimating = {IsAnimating}, _isShown = {_isShown}, shown = {show}");
+            return;
         }
-        onTransitionStarted?.Invoke(newState.length);
-        _isShown = isShown;
+        Animator.SetTrigger(triggerName);
+        _isShown = show;
+        Debug.LogError("Transition triggered");
+    }
+    
+    
+    public void OnTransitionStarted()
+    {
+        Debug.LogError("Transition started");
+        ScreenTransitionManagerHandlerData.TransitionStarted();
+    }
+    
+    public void OnTransitionCompleted()
+    {
+        Debug.LogError("Transition completed");
+        ScreenTransitionManagerHandlerData.TransitionCompleted();
     }
 }
