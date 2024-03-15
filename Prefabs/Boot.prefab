@@ -48,4 +48,7 @@ MonoBehaviour:
   - {fileID: 7307232036096142055, guid: 346e37dcc729d9b4695196438e065ebf, type: 3}
   - {fileID: 4210904907205968595, guid: a2e4974db9f623d43999b26953112768, type: 3}
   - {fileID: -1070763831891760728, guid: 61827e6305b6b9a47b38bc0422b79e82, type: 3}
+  - {fileID: 4902445268561979590, guid: 22552bb7114eb17439d84d4b3900071a, type: 3}
+  - {fileID: 6260837695170409693, guid: a386a119d47d95743b089d8612a114c6, type: 3}
   SceneToLoadOnBootCompleted: 1
+  ScreenTransitionForFirstScene: 1

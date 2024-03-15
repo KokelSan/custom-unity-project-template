@@ -17,4 +17,5 @@ public abstract class Manager : MonoBehaviour
     
     protected virtual void EventHandlerRegister(){}
     protected virtual void EventHandlerUnRegister(){}
+    public virtual void Initialize(){}
 }

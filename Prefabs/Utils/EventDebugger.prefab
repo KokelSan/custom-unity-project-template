@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugSceneLoading: 0
   DebugInputs: 0
-  DebugGameStates: 1
+  DebugGameStates: 0

@@ -9,6 +9,7 @@ public class Boot : MonoBehaviour
 {
     public List<Manager> ManagersToInstantiate;
     public int SceneToLoadOnBootCompleted = 1;
+    public TransitionType ScreenTransitionForFirstScene;
     
     void Start()
     {
@@ -16,9 +17,19 @@ public class Boot : MonoBehaviour
         {
             Manager instance = Instantiate(manager);
             instance.name = manager.name;
+            instance.Initialize();
             DontDestroyOnLoad(instance);
         }
 
+        ScreenTransitionManagerHandlerData.ShowTransition(ScreenTransitionForFirstScene, true);
+        SceneLoadingManagerHandlerData.OnSceneLoaded += OnSceneLoaded;
         SceneLoadingManagerHandlerData.LoadScene(SceneToLoadOnBootCompleted);
+    }
+
+    private void OnSceneLoaded(int index)
+    {
+        if(index != SceneToLoadOnBootCompleted) return;
+        SceneLoadingManagerHandlerData.OnSceneLoaded -= OnSceneLoaded;
+        ScreenTransitionManagerHandlerData.HideTransition(ScreenTransitionForFirstScene);
     }
 }
