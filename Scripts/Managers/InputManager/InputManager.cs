@@ -72,6 +72,7 @@ public class InputManager : Manager
     public void OnTest2()
     {
         SceneLoadingManagerHandlerData.LoadScene(1, TransitionType.Fade);
+        GameManagerManagerHandlerData.StopGame();
     }
     
     public void OnTest3()

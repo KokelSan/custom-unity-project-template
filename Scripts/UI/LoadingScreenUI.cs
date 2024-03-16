@@ -5,6 +5,7 @@ public class LoadingScreenUI : ScreenTransition
     public override void OnTransitionCompleted()
     {
         base.OnTransitionCompleted();
+        if(!_isShown) return;
         InputManagerHandlerData.OnClick += OnClick;
         Debug.Log("Loading screen ready to be clicked");
     }

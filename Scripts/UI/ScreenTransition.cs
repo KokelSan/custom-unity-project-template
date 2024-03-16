@@ -14,7 +14,7 @@ public class ScreenTransition : BaseUIElement
     public TransitionType TransitionType;
     
     [HideInInspector] public bool IsAnimating = false;
-    private bool _isShown = false;
+    protected bool _isShown = false;
 
     protected override void Initialize()
     {

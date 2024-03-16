@@ -140,10 +140,8 @@ public class SceneLoadingManager : Manager
         {
             loadingOperation.allowSceneActivation = false;
             ScreenTransitionManagerHandlerData.OnLoadingScreenClicked += OnLoadingScreenClicked;
-            ScreenTransitionManagerHandlerData.ShowTransition(TransitionType.LoadingScreen);
             void OnLoadingScreenClicked()
             {
-                Debug.Log("Loading screen clicked");
                 _loadingScreenClickedTime = Time.time;
                 _loadingScreenClickedFrames = Time.frameCount;
                 ScreenTransitionManagerHandlerData.OnLoadingScreenClicked -= OnLoadingScreenClicked;
@@ -157,10 +155,9 @@ public class SceneLoadingManager : Manager
             {
                 if (loadingOperation.progress >= 0.9f)
                 {
-                    Debug.Log($"Loading ready after {Time.frameCount - _loadingStartingFrames} Frames, {Time.time - _loadingStartingTime}s");
-                    
-                    hasLoadingScreen = false; // So we enter this condition only once
-                    // Show waiting UI
+                    Debug.Log($"Loading ready after {Time.frameCount - _loadingStartingFrames} Frames (= {Time.time - _loadingStartingTime}s)");
+                    ScreenTransitionManagerHandlerData.ShowTransition(TransitionType.LoadingScreen);
+                    hasLoadingScreen = false; // So we won't enter this condition anymore
                 }
                 else
                 {
@@ -184,12 +181,13 @@ public class SceneLoadingManager : Manager
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode _)
     {
-        Debug.Log($"Loading in completed {Time.frameCount - _loadingScreenClickedFrames} Frames, {Time.time - _loadingScreenClickedTime}s after loading screen clicked");
+        Debug.Log($"Loading completed in {Time.frameCount - _loadingScreenClickedFrames} Frames (= {Time.time - _loadingScreenClickedTime}s) after loading screen clicked");
         
         SceneLoadingManagerHandlerData.SceneLoaded(scene.buildIndex);
         
         if(_pendingTransition == default) return;
         ScreenTransitionManagerHandlerData.HideTransition(_pendingTransition);
+        ScreenTransitionManagerHandlerData.HideTransition(TransitionType.LoadingScreen);
         _pendingTransition = default;
     }
     
