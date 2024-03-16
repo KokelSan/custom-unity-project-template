@@ -37,6 +37,7 @@ public class GameManager : Manager
     private void StartGame()
     {
         if(_isGameStarted) return;
+        SceneLoadingManagerHandlerData.LoadScene(2, TransitionType.Fade);
         _isGameStarted = true;
         GameManagerManagerHandlerData.GameStarted();
     }

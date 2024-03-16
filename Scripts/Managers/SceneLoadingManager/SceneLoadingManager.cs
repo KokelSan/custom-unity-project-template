@@ -4,8 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoadingManager : Manager
 {
+    private TransitionType _pendingTransition;
     private float _loadingStartingTime;
-    private int _loadingStartingFrame;
+    private int _loadingStartingFrames;
+    private float _loadingScreenClickedTime;
+    private float _loadingScreenClickedFrames;
     
     #region Overrides
 
@@ -126,43 +129,36 @@ public class SceneLoadingManager : Manager
             yield break;
         }
 
+        _pendingTransition = transitionType;
         _loadingStartingTime = Time.time;
-        _loadingStartingFrame = Time.frameCount;
+        _loadingStartingFrames = Time.frameCount;
         
         bool hasTransition = transitionType != TransitionType.None;
         bool hasLoadingScreen = !isBoot && hasTransition;
         
         if (hasLoadingScreen)
         {
-            Debug.Log("Showing loading screen");
-            
             loadingOperation.allowSceneActivation = false;
             ScreenTransitionManagerHandlerData.OnLoadingScreenClicked += OnLoadingScreenClicked;
             ScreenTransitionManagerHandlerData.ShowTransition(TransitionType.LoadingScreen);
             void OnLoadingScreenClicked()
             {
-                Debug.Log("Hiding loading screen");
-                
+                Debug.Log("Loading screen clicked");
+                _loadingScreenClickedTime = Time.time;
+                _loadingScreenClickedFrames = Time.frameCount;
                 ScreenTransitionManagerHandlerData.OnLoadingScreenClicked -= OnLoadingScreenClicked;
                 loadingOperation.allowSceneActivation = true;
-                ScreenTransitionManagerHandlerData.HideTransition(TransitionType.LoadingScreen);
             }
-        }
-        else if(hasTransition)
-        {
-            Debug.Log("No loading screen needed");
         }
 
         while (!loadingOperation.isDone)
         {
-            Debug.Log("Loading...");
-            
             if (hasLoadingScreen)
             {
                 if (loadingOperation.progress >= 0.9f)
                 {
-                    // Debug.Log("Loading done, waiting for input");
-                    Debug.Log($"Loading completed in {Time.frameCount - _loadingStartingFrame} frames, {Time.time - _loadingStartingTime}s");
+                    Debug.Log($"Loading ready after {Time.frameCount - _loadingStartingFrames} Frames, {Time.time - _loadingStartingTime}s");
+                    
                     hasLoadingScreen = false; // So we enter this condition only once
                     // Show waiting UI
                 }
@@ -172,16 +168,6 @@ public class SceneLoadingManager : Manager
                 }
             }
             yield return null;
-        }
-
-        if (isBoot)
-        {
-            Debug.Log($"Loading completed in {Time.frameCount - _loadingStartingFrame} frames, {Time.time - _loadingStartingTime}s");
-        }
-
-        if (hasTransition)
-        {
-            ScreenTransitionManagerHandlerData.HideTransition(transitionType);
         }
     }
     
@@ -198,8 +184,13 @@ public class SceneLoadingManager : Manager
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode _)
     {
+        Debug.Log($"Loading in completed {Time.frameCount - _loadingScreenClickedFrames} Frames, {Time.time - _loadingScreenClickedTime}s after loading screen clicked");
+        
         SceneLoadingManagerHandlerData.SceneLoaded(scene.buildIndex);
-        Debug.Log("Scene loaded");
+        
+        if(_pendingTransition == default) return;
+        ScreenTransitionManagerHandlerData.HideTransition(_pendingTransition);
+        _pendingTransition = default;
     }
     
     private void OnSceneUnLoaded(Scene scene)

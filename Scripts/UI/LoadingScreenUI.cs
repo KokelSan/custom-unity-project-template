@@ -6,12 +6,11 @@ public class LoadingScreenUI : ScreenTransition
     {
         base.OnTransitionCompleted();
         InputManagerHandlerData.OnClick += OnClick;
-        // Debug.Log("Transition Completed");
+        Debug.Log("Loading screen ready to be clicked");
     }
 
     private void OnClick(Vector2 _)
     {
-        // Debug.Log("LoadingScreenClicked");
         InputManagerHandlerData.OnClick -= OnClick;
         ScreenTransitionManagerHandlerData.LoadingScreenClicked();
     }
