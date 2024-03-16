@@ -181,14 +181,16 @@ public class SceneLoadingManager : Manager
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode _)
     {
-        Debug.Log($"Loading completed in {Time.frameCount - _loadingScreenClickedFrames} Frames (= {Time.time - _loadingScreenClickedTime}s) after loading screen clicked");
+        // Debug.Log($"Loading completed in {Time.frameCount - _loadingScreenClickedFrames} Frames (= {Time.time - _loadingScreenClickedTime}s) after loading screen clicked");
+
+        if (_pendingTransition != default)
+        {
+            ScreenTransitionManagerHandlerData.HideTransition(_pendingTransition);
+            ScreenTransitionManagerHandlerData.HideTransition(TransitionType.LoadingScreen);
+            _pendingTransition = default;
+        }
         
         SceneLoadingManagerHandlerData.SceneLoaded(scene.buildIndex);
-        
-        if(_pendingTransition == default) return;
-        ScreenTransitionManagerHandlerData.HideTransition(_pendingTransition);
-        ScreenTransitionManagerHandlerData.HideTransition(TransitionType.LoadingScreen);
-        _pendingTransition = default;
     }
     
     private void OnSceneUnLoaded(Scene scene)
