@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuUI : BaseUIMenu
+public class MainMenuUI : BaseUIElement
 {
     public Button StartButton;
     public Button ParametersButton;

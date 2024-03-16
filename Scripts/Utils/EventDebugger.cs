@@ -1,12 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class EventDebugger : Manager
+public class EventDebugger : BaseBehaviour
 {
     public bool DebugSceneLoading;
     public bool DebugInputs;
     public bool DebugGameStates;
     public bool DebugScreenTransitions;
-    
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        DontDestroyOnLoad(this);
+    }
+
+    private void OnValidate()
+    {
+        EventHandlerRegister();
+    }
+
     protected override void EventHandlerRegister()
     {
         if (DebugSceneLoading)

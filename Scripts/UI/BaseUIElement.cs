@@ -1,24 +1,11 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
-public abstract class BaseUIMenu : MonoBehaviour
+public abstract class BaseUIElement : BaseBehaviour
 {
     public CanvasGroup CanvasGroup;
-
-    protected virtual void EventHandlerRegister(){}
-    protected virtual void EventHandlerUnRegister(){}
     
-    private void Awake()
-    {
-        EventHandlerRegister();
-    }
-
-    private void OnDestroy()
-    {
-        EventHandlerUnRegister();
-    }
-
-    private void Start()
+    protected override void Initialize()
     {
         if (CanvasGroup == null && !TryGetComponent(out CanvasGroup))
         {

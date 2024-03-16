@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ScreenTransitionManager : Manager
 {
     public List<ScreenTransition> ScreenTransitions;
+    private List<ScreenTransition> _transitions = new List<ScreenTransition>();
     
     #region Overrides
 
@@ -20,13 +20,22 @@ public class ScreenTransitionManager : Manager
         ScreenTransitionManagerHandlerData.OnHideTransition -= HideTransition;
     }
 
+    protected override void Initialize()
+    {
+        base.Initialize();
+        foreach (ScreenTransition transition in ScreenTransitions)
+        {
+            _transitions.Add(Instantiate(transition, transform));
+        }
+    }
+
     #endregion
 
     private void ShowTransition(TransitionType transitionType, bool isBoot)
     {
         if (TryGetScreenTransition(transitionType, out ScreenTransition screenTransition))
         {
-            screenTransition.Show(isBoot);
+            screenTransition.ShowTransition(isBoot);
         }
     }
 
@@ -34,13 +43,13 @@ public class ScreenTransitionManager : Manager
     {
         if (TryGetScreenTransition(transitionType, out ScreenTransition screenTransition))
         {
-            screenTransition.Hide();
+            screenTransition.HideTransition();
         }
     }
 
     private bool TryGetScreenTransition(TransitionType transitionType, out ScreenTransition screenTransition)
     {
-        screenTransition = ScreenTransitions.Find(transition => transition.TransitionType == transitionType);
+        screenTransition = _transitions.Find(transition => transition.TransitionType == transitionType);
         if (screenTransition == null)
         {
             Debug.LogWarning("Trying to access an unknown ScreenTransition");

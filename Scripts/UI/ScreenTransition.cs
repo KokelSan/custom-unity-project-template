@@ -1,66 +1,64 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public enum TransitionType
 {
     None = 0,
     Fade,
+    LoadingScreen,
 }
 
 [RequireComponent(typeof(Animator))]
-public class ScreenTransition : MonoBehaviour
+public class ScreenTransition : BaseUIElement
 {
     public Animator Animator;
     public TransitionType TransitionType;
     
     [HideInInspector] public bool IsAnimating = false;
     private bool _isShown = false;
-    
-    private void Start()
+
+    protected override void Initialize()
     {
+        base.Initialize();
+        
         if(Animator == null && !TryGetComponent(out Animator))
         {
             Debug.LogWarning($"Transition '{TransitionType}' (id = {GetInstanceID()}) has no Animator component'");
         }
     }
-
-    /// <summary>
-    /// Show the transition to hide the screen
-    /// </summary>
-    public void Show(bool isBoot)
+    
+    public void ShowTransition(bool isBoot)
     {
         string triggerName = isBoot ? "Boot" : "Show";
         TriggerAnimator(true, triggerName);
     }
-
-    /// <summary>
-    /// Hide the transition to show the screen
-    /// </summary>
-    public void Hide()
+    
+    public void HideTransition()
     {
         TriggerAnimator(false, "Hide");
     }
 
     private void TriggerAnimator(bool show, string triggerName)
     {
-        if(Animator == null || IsAnimating || _isShown == show)
-        {
-            Debug.LogError($"Animator null = {Animator == null}, IsAnimating = {IsAnimating}, _isShown = {_isShown}, shown = {show}");
-            return;
-        }
+        if(Animator == null || IsAnimating || _isShown == show) return;
+        _isShown = CanvasGroup.interactable = CanvasGroup.blocksRaycasts = show;
         Animator.SetTrigger(triggerName);
-        _isShown = show;
     }
     
-    
-    public void OnTransitionStarted()
+    /// <summary>
+    /// Called by the animator at the beginning of the AnimationClip
+    /// </summary>
+    public virtual void OnTransitionStarted()
     {
         ScreenTransitionManagerHandlerData.TransitionStarted();
+        IsAnimating = true;
     }
     
-    public void OnTransitionCompleted()
+    /// <summary>
+    /// Called by the animator at the end of the AnimationClip
+    /// </summary>
+    public virtual void OnTransitionCompleted()
     {
         ScreenTransitionManagerHandlerData.TransitionCompleted();
+        IsAnimating = false;
     }
 }

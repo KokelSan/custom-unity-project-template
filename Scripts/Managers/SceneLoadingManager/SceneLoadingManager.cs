@@ -102,22 +102,19 @@ public class SceneLoadingManager : Manager
     {
         if (transitionType != TransitionType.None)
         {
+            ScreenTransitionManagerHandlerData.ShowTransition(transitionType, isBoot);
+            ScreenTransitionManagerHandlerData.OnTransitionCompleted += OnTransitionCompleted;
             void OnTransitionCompleted()
             {
-                Debug.LogError("Transition completed on SceneLoadingManager");
-                StartCoroutine(PerformSceneLoading(sceneIndex,  loadSceneMode,  transitionType));
                 ScreenTransitionManagerHandlerData.OnTransitionCompleted -= OnTransitionCompleted;
+                StartCoroutine(PerformSceneLoading(sceneIndex,  loadSceneMode,  transitionType, isBoot));
             }
-            
-            ScreenTransitionManagerHandlerData.OnTransitionCompleted += OnTransitionCompleted;
-            ScreenTransitionManagerHandlerData.ShowTransition(transitionType, isBoot);
             yield break;
         }
-
-        StartCoroutine(PerformSceneLoading(sceneIndex,  loadSceneMode,  transitionType));
+        StartCoroutine(PerformSceneLoading(sceneIndex,  loadSceneMode,  transitionType, isBoot));
     }
 
-    IEnumerator PerformSceneLoading(int sceneIndex, LoadSceneMode loadSceneMode, TransitionType transitionType)
+    IEnumerator PerformSceneLoading(int sceneIndex, LoadSceneMode loadSceneMode, TransitionType transitionType, bool isBoot)
     {
         AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(sceneIndex, loadSceneMode);
         if (loadingOperation == null)
@@ -126,18 +123,52 @@ public class SceneLoadingManager : Manager
             yield break;
         }
         
-        loadingOperation.allowSceneActivation = false;
+        bool hasTransition = transitionType != TransitionType.None;
+        bool hasLoadingScreen = !isBoot && hasTransition;
+        
+        if (hasLoadingScreen)
+        {
+            Debug.Log("Showing loading screen");
+            
+            loadingOperation.allowSceneActivation = false;
+            ScreenTransitionManagerHandlerData.OnLoadingScreenClicked += OnLoadingScreenClicked;
+            ScreenTransitionManagerHandlerData.ShowTransition(TransitionType.LoadingScreen);
+            void OnLoadingScreenClicked()
+            {
+                Debug.Log("Hiding loading screen");
+                
+                ScreenTransitionManagerHandlerData.OnLoadingScreenClicked -= OnLoadingScreenClicked;
+                loadingOperation.allowSceneActivation = true;
+                ScreenTransitionManagerHandlerData.HideTransition(TransitionType.LoadingScreen);
+            }
+        }
+        else if(hasTransition)
+        {
+            Debug.Log("No loading screen needed");
+        }
+
         while (!loadingOperation.isDone)
         {
-            // float progress = loadingOperation.progress / 0.9f * 100;
-            if (loadingOperation.progress >= 0.9f)
+            Debug.Log("Loading...");
+            
+            if (hasLoadingScreen)
             {
-                loadingOperation.allowSceneActivation = true;
+                if (loadingOperation.progress >= 0.9f)
+                {
+                    Debug.Log("Loading done, waiting for input");
+                    // Show waiting UI
+                }
+                else
+                {
+                    SceneLoadingManagerHandlerData.UpdateLoadingProgress(loadingOperation.progress / 0.9f * 100);
+                }
             }
             yield return null;
         }
+        
+        Debug.Log("Loading completed");
 
-        if (transitionType != TransitionType.None)
+        if (hasTransition)
         {
             ScreenTransitionManagerHandlerData.HideTransition(transitionType);
         }
@@ -156,12 +187,13 @@ public class SceneLoadingManager : Manager
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode _)
     {
-        SceneLoadingManagerHandlerData.NotifySceneLoaded(scene.buildIndex);
+        SceneLoadingManagerHandlerData.SceneLoaded(scene.buildIndex);
+        Debug.Log("Scene loaded");
     }
     
     private void OnSceneUnLoaded(Scene scene)
     {
-        SceneLoadingManagerHandlerData.NotifySceneUnLoaded(scene.buildIndex);
+        SceneLoadingManagerHandlerData.SceneUnLoaded(scene.buildIndex);
     }
 
     #endregion

@@ -14,4 +14,8 @@ public static class ScreenTransitionManagerHandlerData
 
     public static void TransitionCompleted() => OnTransitionCompleted?.Invoke();
     public static event Action OnTransitionCompleted;
+
+
+    public static void LoadingScreenClicked() => OnLoadingScreenClicked?.Invoke();
+    public static event Action OnLoadingScreenClicked;
 }

@@ -66,14 +66,12 @@ public class InputManager : Manager
 
     public void OnTest1()
     {
-        // ScreenTransitionManagerHandlerData.ShowTransition(TransitionType.Fade);
-        SceneLoadingManagerHandlerData.LoadScene(2, LoadSceneMode.Additive, TransitionType.Fade);
+        SceneLoadingManagerHandlerData.LoadScene(2, TransitionType.Fade);
     }
     
     public void OnTest2()
     {
-        // ScreenTransitionManagerHandlerData.HideTransition(TransitionType.Fade);
-        SceneLoadingManagerHandlerData.UnLoadScene(2);
+        SceneLoadingManagerHandlerData.LoadScene(1, TransitionType.Fade);
     }
     
     public void OnTest3()

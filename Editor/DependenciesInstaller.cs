@@ -16,7 +16,6 @@ namespace custom_unity_project_template.Editor
         static string[] _dependencies = 
         {
             "com.unity.inputsystem",
-            // "com.unity.addressables",
         };
 
         [MenuItem("Custom Project Template/Install Dependencies")]

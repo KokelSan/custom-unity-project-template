@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class responsible for instantiating the needed managers and loading the game's starting scene.
@@ -18,10 +17,9 @@ public class Boot : MonoBehaviour
         {
             Manager instance = Instantiate(manager);
             instance.name = manager.name;
-            instance.Initialize();
             DontDestroyOnLoad(instance);
         }
 
-        SceneLoadingManagerHandlerData.LoadScene(SceneToLoadOnBootCompleted, LoadSceneMode.Single, ScreenTransitionForFirstScene, true);
+        SceneLoadingManagerHandlerData.LoadBootScene(SceneToLoadOnBootCompleted, ScreenTransitionForFirstScene);
     }
 }
