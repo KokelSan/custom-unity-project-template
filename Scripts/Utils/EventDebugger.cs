@@ -1,12 +1,15 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EventDebugger : BaseBehaviour
 {
     public bool DebugSceneLoading;
+    private bool _sceneLoadingDebugged;
+    
     public bool DebugInputs;
+    private bool _inputsDebugged;
+    
     public bool DebugGameStates;
-    public bool DebugScreenTransitions;
+    private bool _gameStatesDebugged;
 
     protected override void Initialize()
     {
@@ -16,19 +19,42 @@ public class EventDebugger : BaseBehaviour
 
     private void OnValidate()
     {
-        EventHandlerRegister();
+        SetSceneLoadingDebug();
+        SetInputsDebug();
+        SetDebugGameStates();
     }
 
-    protected override void EventHandlerRegister()
+    #region Scene Loading
+
+    private void SetSceneLoadingDebug()
     {
-        if (DebugSceneLoading)
+        if (DebugSceneLoading && !_sceneLoadingDebugged)
         {
+            _sceneLoadingDebugged = true;
             SceneLoadingManagerHandlerData.OnSceneLoaded += OnSceneLoaded;
             SceneLoadingManagerHandlerData.OnSceneUnLoaded += OnSceneUnLoaded;
         }
-
-        if (DebugInputs)
+        
+        if (!DebugSceneLoading && _sceneLoadingDebugged)
         {
+            _sceneLoadingDebugged = false;
+            SceneLoadingManagerHandlerData.OnSceneLoaded -= OnSceneLoaded;
+            SceneLoadingManagerHandlerData.OnSceneUnLoaded -= OnSceneUnLoaded;
+        }
+    }
+    
+    private void OnSceneLoaded(int index) => Debug.Log($"SceneLoadingManager: Scene {index} successfully loaded");
+    private void OnSceneUnLoaded(int index) => Debug.Log($"SceneLoadingManager: Scene {index} successfully unloaded");
+
+    #endregion
+
+    #region Inputs
+
+    private void SetInputsDebug()
+    {
+        if (DebugInputs && !_inputsDebugged)
+        {
+            _inputsDebugged = true;
             InputManagerHandlerData.OnMove += OnMove;
             InputManagerHandlerData.OnLook += OnLook;
             InputManagerHandlerData.OnRightClick += OnRightClick;
@@ -38,32 +64,10 @@ public class EventDebugger : BaseBehaviour
             InputManagerHandlerData.OnPointerMove += OnPointerMove;
             InputManagerHandlerData.OnClick += OnClick;
         }
-
-        if (DebugGameStates)
+        
+        if (!DebugInputs && _inputsDebugged)
         {
-            GameManagerManagerHandlerData.OnGameStarted += OnGameStarted;
-            GameManagerManagerHandlerData.OnGamePaused += OnGamePaused;
-            GameManagerManagerHandlerData.OnGameResumed += OnGameResumed;
-            GameManagerManagerHandlerData.OnGameStopped += OnGameStopped;
-        }
-
-        if (DebugScreenTransitions)
-        {
-            ScreenTransitionManagerHandlerData.OnTransitionStarted += OnTransitionStarted;
-            ScreenTransitionManagerHandlerData.OnTransitionCompleted += OnTransitionCompleted;
-        }
-    }
-    
-    protected override void EventHandlerUnRegister()
-    {
-        if (DebugSceneLoading)
-        {
-            SceneLoadingManagerHandlerData.OnSceneLoaded -= OnSceneLoaded;
-            SceneLoadingManagerHandlerData.OnSceneUnLoaded -= OnSceneUnLoaded;
-        }
-
-        if (DebugInputs)
-        {
+            _inputsDebugged = false;
             InputManagerHandlerData.OnMove -= OnMove;
             InputManagerHandlerData.OnLook -= OnLook;
             InputManagerHandlerData.OnRightClick -= OnRightClick;
@@ -73,31 +77,8 @@ public class EventDebugger : BaseBehaviour
             InputManagerHandlerData.OnPointerMove -= OnPointerMove;
             InputManagerHandlerData.OnClick -= OnClick;
         }
-
-        if (DebugGameStates)
-        {
-            GameManagerManagerHandlerData.OnGameStarted -= OnGameStarted;
-            GameManagerManagerHandlerData.OnGamePaused -= OnGamePaused;
-            GameManagerManagerHandlerData.OnGameResumed -= OnGameResumed;
-            GameManagerManagerHandlerData.OnGameStopped -= OnGameStopped;
-        }
-        
-        if (DebugScreenTransitions)
-        {
-            ScreenTransitionManagerHandlerData.OnTransitionStarted -= OnTransitionStarted;
-            ScreenTransitionManagerHandlerData.OnTransitionCompleted -= OnTransitionCompleted;
-        }
     }
-
-    #region Scene Loading
-
-    private void OnSceneLoaded(int index) => Debug.Log($"SceneLoadingManager: Scene {index} successfully loaded");
-    private void OnSceneUnLoaded(int index) => Debug.Log($"SceneLoadingManager: Scene {index} successfully unloaded");
-
-    #endregion
-
-    #region Inputs
-
+    
     private void OnMove(Vector2 _) => Debug.Log("Moving");
     private void OnLook(Vector2 _) => Debug.Log("Looking");
     private void OnRightClick(Vector2 pos) => Debug.Log($"Right click at {pos}");
@@ -111,17 +92,31 @@ public class EventDebugger : BaseBehaviour
 
     #region Game states
 
+    private void SetDebugGameStates()
+    {
+        if (DebugGameStates && !_gameStatesDebugged)
+        {
+            _gameStatesDebugged = true;
+            GameManagerManagerHandlerData.OnGameStarted += OnGameStarted;
+            GameManagerManagerHandlerData.OnGamePaused += OnGamePaused;
+            GameManagerManagerHandlerData.OnGameResumed += OnGameResumed;
+            GameManagerManagerHandlerData.OnGameStopped += OnGameStopped;
+        }
+        
+        if (!DebugGameStates && _gameStatesDebugged)
+        {
+            _gameStatesDebugged = false;
+            GameManagerManagerHandlerData.OnGameStarted -= OnGameStarted;
+            GameManagerManagerHandlerData.OnGamePaused -= OnGamePaused;
+            GameManagerManagerHandlerData.OnGameResumed -= OnGameResumed;
+            GameManagerManagerHandlerData.OnGameStopped -= OnGameStopped;
+        }
+    }
+    
     private void OnGameStarted() => Debug.Log("Game started");
     private void OnGamePaused() => Debug.Log("Game paused");
     private void OnGameResumed() => Debug.Log("Game resumed");
     private void OnGameStopped() => Debug.Log("Game stopped");
-
-    #endregion
-    
-    #region Screen transitions
-
-    private void OnTransitionStarted() => Debug.Log("Transition started");
-    private void OnTransitionCompleted() => Debug.Log("Transition completed");
 
     #endregion
     
