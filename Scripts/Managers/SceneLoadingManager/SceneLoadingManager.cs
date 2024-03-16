@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoadingManager : Manager
 {
+    private float _loadingStartingTime;
+    private int _loadingStartingFrame;
+    
     #region Overrides
 
     protected override void EventHandlerRegister()
@@ -122,6 +125,9 @@ public class SceneLoadingManager : Manager
             Debug.LogWarning($"Scene {sceneIndex} couldn't be loaded, operation aborted.");
             yield break;
         }
+
+        _loadingStartingTime = Time.time;
+        _loadingStartingFrame = Time.frameCount;
         
         bool hasTransition = transitionType != TransitionType.None;
         bool hasLoadingScreen = !isBoot && hasTransition;
@@ -155,7 +161,9 @@ public class SceneLoadingManager : Manager
             {
                 if (loadingOperation.progress >= 0.9f)
                 {
-                    Debug.Log("Loading done, waiting for input");
+                    // Debug.Log("Loading done, waiting for input");
+                    Debug.Log($"Loading completed in {Time.frameCount - _loadingStartingFrame} frames, {Time.time - _loadingStartingTime}s");
+                    hasLoadingScreen = false; // So we enter this condition only once
                     // Show waiting UI
                 }
                 else
@@ -165,8 +173,11 @@ public class SceneLoadingManager : Manager
             }
             yield return null;
         }
-        
-        Debug.Log("Loading completed");
+
+        if (isBoot)
+        {
+            Debug.Log($"Loading completed in {Time.frameCount - _loadingStartingFrame} frames, {Time.time - _loadingStartingTime}s");
+        }
 
         if (hasTransition)
         {
