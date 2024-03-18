@@ -15,8 +15,11 @@ public static class SceneLoadingManagerHandlerData
     public static event Action<int> OnUnLoadScene;
     
     
-    public static void SceneLoaded(int sceneIndex) => OnSceneLoaded?.Invoke(sceneIndex);
-    public static event Action<int> OnSceneLoaded;
+    public static void SceneLoaded(int sceneIndex, LoadingReport report = default) => OnSceneLoaded?.Invoke(sceneIndex, report);
+    public static event Action<int, LoadingReport> OnSceneLoaded;
+    
+    public static void SceneReady(int sceneIndex, LoadingReport report) => OnSceneReady?.Invoke(sceneIndex, report);
+    public static event Action<int, LoadingReport> OnSceneReady;
     
     public static void SceneUnLoaded(int sceneIndex) => OnSceneUnLoaded?.Invoke(sceneIndex);
     public static event Action<int> OnSceneUnLoaded;

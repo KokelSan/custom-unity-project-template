@@ -2,13 +2,56 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public struct FrameTimePair
+{
+    public int Frames;
+    public float Seconds;
+    
+    public bool IsNull => Frames == 0 && Seconds == 0;
+    public float Rate => Frames / Seconds;
+
+    public void Set()
+    {
+        Frames = Time.renderedFrameCount;
+        Seconds = Time.realtimeSinceStartup;
+    }
+    
+    public void Reset()
+    {
+        Frames = 0;
+        Seconds = 0;
+    }
+
+    public static FrameTimePair operator-(FrameTimePair a, FrameTimePair b)
+    {
+        // Debug.Log($"Pair operation: ({a.Frames}, {a.Seconds}) - ({b.Frames}, {b.Seconds})");
+        
+        return new FrameTimePair
+        {
+            Frames = a.Frames - b.Frames,
+            Seconds = a.Seconds - b.Seconds
+        };
+    }
+}
+
+public struct LoadingReport
+{
+    public FrameTimePair Start;
+    public FrameTimePair End;
+    
+    public FrameTimePair Duration => End - Start;
+    
+    public void Reset()
+    {
+        Start.Reset();
+        End.Reset();
+    }
+}
+
 public class SceneLoadingManager : Manager
 {
     private TransitionType _pendingTransition;
-    private float _loadingStartingTime;
-    private int _loadingStartingFrames;
-    private float _loadingScreenClickedTime;
-    private float _loadingScreenClickedFrames;
+    private LoadingReport _loadingReport;
     
     #region Overrides
 
@@ -130,8 +173,9 @@ public class SceneLoadingManager : Manager
         }
 
         _pendingTransition = transitionType;
-        _loadingStartingTime = Time.time;
-        _loadingStartingFrames = Time.frameCount;
+        
+        _loadingReport.Reset();
+        _loadingReport.Start.Set();
         
         bool hasTransition = transitionType != TransitionType.None;
         bool hasLoadingScreen = !isBoot && hasTransition;
@@ -142,8 +186,6 @@ public class SceneLoadingManager : Manager
             ScreenTransitionManagerHandlerData.OnLoadingScreenClicked += OnLoadingScreenClicked;
             void OnLoadingScreenClicked()
             {
-                _loadingScreenClickedTime = Time.time;
-                _loadingScreenClickedFrames = Time.frameCount;
                 ScreenTransitionManagerHandlerData.OnLoadingScreenClicked -= OnLoadingScreenClicked;
                 loadingOperation.allowSceneActivation = true;
             }
@@ -155,7 +197,9 @@ public class SceneLoadingManager : Manager
             {
                 if (loadingOperation.progress >= 0.9f)
                 {
-                    Debug.Log($"Loading ready after {Time.frameCount - _loadingStartingFrames} Frames (= {Time.time - _loadingStartingTime}s)");
+                    
+                    _loadingReport.End.Set();
+                    SceneLoadingManagerHandlerData.SceneReady(sceneIndex, _loadingReport);
                     ScreenTransitionManagerHandlerData.ShowTransition(TransitionType.LoadingScreen);
                     hasLoadingScreen = false; // So we won't enter this condition anymore
                 }
@@ -181,13 +225,18 @@ public class SceneLoadingManager : Manager
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode _)
     {
-        // Debug.Log($"Loading completed in {Time.frameCount - _loadingScreenClickedFrames} Frames (= {Time.time - _loadingScreenClickedTime}s) after loading screen clicked");
-
         if (_pendingTransition != default)
         {
             ScreenTransitionManagerHandlerData.HideTransition(_pendingTransition);
             ScreenTransitionManagerHandlerData.HideTransition(TransitionType.LoadingScreen);
             _pendingTransition = default;
+        }
+
+        if (_loadingReport.End.IsNull)
+        {
+            _loadingReport.End.Set();
+            SceneLoadingManagerHandlerData.SceneLoaded(scene.buildIndex, _loadingReport);
+            return;
         }
         
         SceneLoadingManagerHandlerData.SceneLoaded(scene.buildIndex);

@@ -32,6 +32,7 @@ public class EventDebugger : BaseBehaviour
         {
             _sceneLoadingDebugged = true;
             SceneLoadingManagerHandlerData.OnSceneLoaded += OnSceneLoaded;
+            SceneLoadingManagerHandlerData.OnSceneReady += OnSceneReady;
             SceneLoadingManagerHandlerData.OnSceneUnLoaded += OnSceneUnLoaded;
         }
         
@@ -39,12 +40,14 @@ public class EventDebugger : BaseBehaviour
         {
             _sceneLoadingDebugged = false;
             SceneLoadingManagerHandlerData.OnSceneLoaded -= OnSceneLoaded;
+            SceneLoadingManagerHandlerData.OnSceneReady -= OnSceneReady;
             SceneLoadingManagerHandlerData.OnSceneUnLoaded -= OnSceneUnLoaded;
         }
     }
     
-    private void OnSceneLoaded(int index) => Debug.Log($"SceneLoadingManager: Scene {index} successfully loaded");
-    private void OnSceneUnLoaded(int index) => Debug.Log($"SceneLoadingManager: Scene {index} successfully unloaded");
+    private void OnSceneLoaded(int index, LoadingReport report) => Debug.Log($"Scene {index} successfully loaded {(report.Equals(default(LoadingReport)) ? "" : $"in {report.Duration.Frames} frame(s) ({report.Duration.Seconds}s) @{report.Duration.Rate}fps")}");
+    private void OnSceneReady(int index, LoadingReport report) => Debug.Log($"Scene {index} ready after {report.Duration.Frames} frame(s) ({report.Duration.Seconds}s) @{report.Duration.Rate}fps");
+    private void OnSceneUnLoaded(int index) => Debug.Log($"Scene {index} successfully unloaded");
 
     #endregion
 

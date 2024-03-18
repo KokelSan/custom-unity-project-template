@@ -9,10 +9,13 @@ public class Boot : MonoBehaviour
 {
     public List<Manager> ManagersToInstantiate;
     public int SceneToLoadOnBootCompleted = 1;
-    public TransitionType ScreenTransitionForFirstScene;
-    
-    void Start()
+    public TransitionType ScreenTransitionForFirstScene = TransitionType.Fade;
+    public int TargetedFrameRate = 60;
+
+    private void Awake()
     {
+        Application.targetFrameRate = TargetedFrameRate;
+        
         foreach (Manager manager in ManagersToInstantiate)
         {
             Manager instance = Instantiate(manager);
