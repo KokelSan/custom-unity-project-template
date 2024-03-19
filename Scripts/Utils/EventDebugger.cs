@@ -45,8 +45,8 @@ public class EventDebugger : BaseBehaviour
         }
     }
     
-    private void OnSceneLoaded(int index, LoadingReport report) => Debug.Log($"Scene {index} successfully loaded {(report.Equals(default(LoadingReport)) ? "" : $"in {report.Duration.Frames} frame(s) ({report.Duration.Seconds}s) @{report.Duration.Rate}fps")}");
-    private void OnSceneReady(int index, LoadingReport report) => Debug.Log($"Scene {index} ready after {report.Duration.Frames} frame(s) ({report.Duration.Seconds}s) @{report.Duration.Rate}fps");
+    private void OnSceneLoaded(int index, LoadingReport report) => Debug.Log($"Scene {index} successfully loaded {(report.Equals(default(LoadingReport)) ? "" : $"in {report.Duration}s")}");
+    private void OnSceneReady(int index, LoadingReport report) => Debug.Log($"Scene {index} ready after {report.Duration}s");
     private void OnSceneUnLoaded(int index) => Debug.Log($"Scene {index} successfully unloaded");
 
     #endregion

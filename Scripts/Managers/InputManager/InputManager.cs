@@ -66,17 +66,19 @@ public class InputManager : Manager
 
     public void OnTest1()
     {
-        SceneLoadingManagerHandlerData.LoadScene(3, TransitionType.Fade);
+        GameManagerManagerHandlerData.StopGame();
+        SceneLoadingManagerHandlerData.LoadScene(1, TransitionType.Fade);
     }
     
     public void OnTest2()
     {
-        SceneLoadingManagerHandlerData.LoadScene(1, TransitionType.Fade);
-        GameManagerManagerHandlerData.StopGame();
+        GameManagerManagerHandlerData.StartGame();
+        SceneLoadingManagerHandlerData.LoadScene(2, TransitionType.Fade);
     }
     
     public void OnTest3()
     {
-        
+        GameManagerManagerHandlerData.StartGame();
+        SceneLoadingManagerHandlerData.LoadScene(3, TransitionType.Fade);
     }
 }

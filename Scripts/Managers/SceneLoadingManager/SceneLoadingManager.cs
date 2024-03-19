@@ -2,44 +2,29 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public struct FrameTimePair
+public struct TimeSnapshot
 {
-    public int Frames;
-    public float Seconds;
+    public float Time;
+    private const float NullValue = -1;
     
-    public bool IsNull => Frames == 0 && Seconds == 0;
-    public float Rate => Frames / Seconds;
+    public bool IsNull => Time == NullValue;
 
     public void Set()
     {
-        Frames = Time.renderedFrameCount;
-        Seconds = Time.realtimeSinceStartup;
+        Time = UnityEngine.Time.realtimeSinceStartup;
     }
-    
+
     public void Reset()
     {
-        Frames = 0;
-        Seconds = 0;
-    }
-
-    public static FrameTimePair operator-(FrameTimePair a, FrameTimePair b)
-    {
-        // Debug.Log($"Pair operation: ({a.Frames}, {a.Seconds}) - ({b.Frames}, {b.Seconds})");
-        
-        return new FrameTimePair
-        {
-            Frames = a.Frames - b.Frames,
-            Seconds = a.Seconds - b.Seconds
-        };
+        Time = NullValue;
     }
 }
-
 public struct LoadingReport
 {
-    public FrameTimePair Start;
-    public FrameTimePair End;
+    public TimeSnapshot Start;
+    public TimeSnapshot End;
     
-    public FrameTimePair Duration => End - Start;
+    public float Duration => End.Time - Start.Time;
     
     public void Reset()
     {
@@ -191,17 +176,22 @@ public class SceneLoadingManager : Manager
             }
         }
 
-        while (!loadingOperation.isDone)
+        bool sceneReady = false;
+        while (loadingOperation.progress < 1)
         {
+            Debug.LogError($"Loading progress = {loadingOperation.progress}");
+            
             if (hasLoadingScreen)
             {
                 if (loadingOperation.progress >= 0.9f)
                 {
-                    
-                    _loadingReport.End.Set();
-                    SceneLoadingManagerHandlerData.SceneReady(sceneIndex, _loadingReport);
-                    ScreenTransitionManagerHandlerData.ShowTransition(TransitionType.LoadingScreen);
-                    hasLoadingScreen = false; // So we won't enter this condition anymore
+                    if(!sceneReady)
+                    {
+                        _loadingReport.End.Set();
+                        SceneLoadingManagerHandlerData.SceneReady(sceneIndex, _loadingReport);
+                        ScreenTransitionManagerHandlerData.ShowTransition(TransitionType.LoadingScreen);
+                        sceneReady = true; // So we won't enter this condition anymore
+                    }
                 }
                 else
                 {
@@ -210,6 +200,13 @@ public class SceneLoadingManager : Manager
             }
             yield return null;
         }
+
+        Debug.LogError($"Loading progress after while = {loadingOperation.progress}");
+        
+        // while (loadingOperation.progress < 1)
+        // {
+        //     Debug.Log($"Progress < 1");
+        // }
     }
     
     private void UnLoadScene(int sceneIndex)
