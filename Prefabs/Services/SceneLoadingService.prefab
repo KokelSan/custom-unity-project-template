@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5629268490885117174
+--- !u!1 &4389428855990276622
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4596332730214198653}
-  - component: {fileID: 3651717548318041444}
+  - component: {fileID: 1024489581550757766}
+  - component: {fileID: 7307232036096142055}
   m_Layer: 0
-  m_Name: Boot
+  m_Name: SceneLoadingService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4596332730214198653
+--- !u!4 &1024489581550757766
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5629268490885117174}
+  m_GameObject: {fileID: 4389428855990276622}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,22 +32,15 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3651717548318041444
+--- !u!114 &7307232036096142055
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5629268490885117174}
+  m_GameObject: {fileID: 4389428855990276622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c166d978a55360243a8da5371ad6dc9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 098de76ff4f15784289c3c2fc31f71df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServicesToInstantiate:
-  - {fileID: 7307232036096142055, guid: 346e37dcc729d9b4695196438e065ebf, type: 3}
-  - {fileID: 4902445268561979590, guid: 22552bb7114eb17439d84d4b3900071a, type: 3}
-  - {fileID: -1070763831891760728, guid: 61827e6305b6b9a47b38bc0422b79e82, type: 3}
-  - {fileID: 6260837695170409693, guid: a386a119d47d95743b089d8612a114c6, type: 3}
-  SceneIndexToLoadOnBootCompleted: 1
-  TargetedFrameRate: 60

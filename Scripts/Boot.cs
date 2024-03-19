@@ -7,22 +7,22 @@ using UnityEngine;
 /// </summary>
 public class Boot : MonoBehaviour
 {
-    public List<Manager> ManagersToInstantiate;
-    public int SceneToLoadOnBootCompleted = 1;
-    public TransitionType ScreenTransitionForFirstScene = TransitionType.Fade;
+    public List<Service> ServicesToInstantiate;
+    public int SceneIndexToLoadOnBootCompleted = 1;
     public int TargetedFrameRate = 60;
 
     private void Awake()
     {
         Application.targetFrameRate = TargetedFrameRate;
+        // Time.timeScale = 0.01f;
         
-        foreach (Manager manager in ManagersToInstantiate)
+        foreach (Service manager in ServicesToInstantiate)
         {
-            Manager instance = Instantiate(manager);
+            Service instance = Instantiate(manager);
             instance.name = manager.name;
             DontDestroyOnLoad(instance);
         }
 
-        SceneLoadingManagerHandlerData.LoadBootScene(SceneToLoadOnBootCompleted, ScreenTransitionForFirstScene);
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(SceneIndexToLoadOnBootCompleted, screenTransitionType: ScreenTransitionType.Boot));
     }
 }

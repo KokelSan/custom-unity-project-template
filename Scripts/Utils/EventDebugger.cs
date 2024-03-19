@@ -31,23 +31,23 @@ public class EventDebugger : BaseBehaviour
         if (DebugSceneLoading && !_sceneLoadingDebugged)
         {
             _sceneLoadingDebugged = true;
-            SceneLoadingManagerHandlerData.OnSceneLoaded += OnSceneLoaded;
-            SceneLoadingManagerHandlerData.OnSceneReady += OnSceneReady;
-            SceneLoadingManagerHandlerData.OnSceneUnLoaded += OnSceneUnLoaded;
+            SceneLoadingServiceHandlerData.OnSceneLoaded += OnSceneLoaded;
+            SceneLoadingServiceHandlerData.OnSceneReadyToPlay += OnSceneReadyToPlay;
+            SceneLoadingServiceHandlerData.OnSceneUnLoaded += OnSceneUnLoaded;
         }
         
         if (!DebugSceneLoading && _sceneLoadingDebugged)
         {
             _sceneLoadingDebugged = false;
-            SceneLoadingManagerHandlerData.OnSceneLoaded -= OnSceneLoaded;
-            SceneLoadingManagerHandlerData.OnSceneReady -= OnSceneReady;
-            SceneLoadingManagerHandlerData.OnSceneUnLoaded -= OnSceneUnLoaded;
+            SceneLoadingServiceHandlerData.OnSceneLoaded -= OnSceneLoaded;
+            SceneLoadingServiceHandlerData.OnSceneReadyToPlay -= OnSceneReadyToPlay;
+            SceneLoadingServiceHandlerData.OnSceneUnLoaded -= OnSceneUnLoaded;
         }
     }
     
-    private void OnSceneLoaded(int index, LoadingReport report) => Debug.Log($"Scene {index} successfully loaded {(report.Equals(default(LoadingReport)) ? "" : $"in {report.Duration}s")}");
-    private void OnSceneReady(int index, LoadingReport report) => Debug.Log($"Scene {index} ready after {report.Duration}s");
-    private void OnSceneUnLoaded(int index) => Debug.Log($"Scene {index} successfully unloaded");
+    private void OnSceneLoaded(int index, LoadingReport report) => Debug.Log($"Scene {index} loaded in {report.Duration}s");
+    private void OnSceneReadyToPlay(int index) => Debug.Log($"Scene {index} ready to play");
+    private void OnSceneUnLoaded(int index) => Debug.Log($"Scene {index} unloaded");
 
     #endregion
 
@@ -58,27 +58,27 @@ public class EventDebugger : BaseBehaviour
         if (DebugInputs && !_inputsDebugged)
         {
             _inputsDebugged = true;
-            InputManagerHandlerData.OnMove += OnMove;
-            InputManagerHandlerData.OnLook += OnLook;
-            InputManagerHandlerData.OnRightClick += OnRightClick;
-            InputManagerHandlerData.OnEscape += OnEscape;
-            InputManagerHandlerData.OnSpace += OnSpace;
-            InputManagerHandlerData.OnTap += OnTap;
-            InputManagerHandlerData.OnPointerMove += OnPointerMove;
-            InputManagerHandlerData.OnClick += OnClick;
+            InputServiceHandlerData.OnMove += OnMove;
+            InputServiceHandlerData.OnLook += OnLook;
+            InputServiceHandlerData.OnRightClick += OnRightClick;
+            InputServiceHandlerData.OnEscape += OnEscape;
+            InputServiceHandlerData.OnSpace += OnSpace;
+            InputServiceHandlerData.OnTap += OnTap;
+            InputServiceHandlerData.OnPointerMove += OnPointerMove;
+            InputServiceHandlerData.OnClick += OnClick;
         }
         
         if (!DebugInputs && _inputsDebugged)
         {
             _inputsDebugged = false;
-            InputManagerHandlerData.OnMove -= OnMove;
-            InputManagerHandlerData.OnLook -= OnLook;
-            InputManagerHandlerData.OnRightClick -= OnRightClick;
-            InputManagerHandlerData.OnEscape -= OnEscape;
-            InputManagerHandlerData.OnSpace -= OnSpace;
-            InputManagerHandlerData.OnTap -= OnTap;
-            InputManagerHandlerData.OnPointerMove -= OnPointerMove;
-            InputManagerHandlerData.OnClick -= OnClick;
+            InputServiceHandlerData.OnMove -= OnMove;
+            InputServiceHandlerData.OnLook -= OnLook;
+            InputServiceHandlerData.OnRightClick -= OnRightClick;
+            InputServiceHandlerData.OnEscape -= OnEscape;
+            InputServiceHandlerData.OnSpace -= OnSpace;
+            InputServiceHandlerData.OnTap -= OnTap;
+            InputServiceHandlerData.OnPointerMove -= OnPointerMove;
+            InputServiceHandlerData.OnClick -= OnClick;
         }
     }
     
