@@ -14,9 +14,6 @@ public class ScreenTransitionService : Service
     public List<UIScreenTransition> ScreenTransitions;
 
     private UIScreenTransition _pendingScreenTransition;
-
-    private const string ShowAnimatorTrigger = "Show";
-    private const string HideAnimatorTrigger = "Hide";
     
     protected override void EventHandlerRegister()
     {
@@ -35,7 +32,7 @@ public class ScreenTransitionService : Service
         UIScreenTransition screenTransition = ScreenTransitions.Find(screen => screen.TransitionType == transitionType);
         if (screenTransition != null)
         {
-            screenTransition.TriggerAnimator(true, ShowAnimatorTrigger, onTransitionCompleted);
+            screenTransition.Show(onTransitionCompleted);
             _pendingScreenTransition = screenTransition;
             return;
         }
@@ -46,7 +43,7 @@ public class ScreenTransitionService : Service
     {
         if (_pendingScreenTransition != null)
         {
-            _pendingScreenTransition.TriggerAnimator(false, HideAnimatorTrigger, onTransitionCompleted);
+            _pendingScreenTransition.Hide(onTransitionCompleted);
             _pendingScreenTransition = null;
             return;
         }

@@ -14,11 +14,11 @@ public abstract class UIBaseElement : BaseBehaviour
         }
     }
 
-    private void SetCanvasGroupProperties(float alpha, bool intaractableAndBlocksRaycasts)
+    private void SetCanvasGroupProperties(float alpha, bool interactableAndBlocksRaycasts)
     {
         if (CanvasGroup == null) return;
         CanvasGroup.alpha = alpha;
-        CanvasGroup.interactable = CanvasGroup.blocksRaycasts = intaractableAndBlocksRaycasts;
+        CanvasGroup.interactable = CanvasGroup.blocksRaycasts = interactableAndBlocksRaycasts;
     }
     
     public void Enable()

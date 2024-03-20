@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoadingService : Service
 {
     private LoadingReport _loadingReport;
+    private SceneLoadingParameters _pendingLoading;
     
     #region Overrides
 
@@ -12,7 +13,7 @@ public class SceneLoadingService : Service
     {
         SceneLoadingServiceHandlerData.OnLoadScene += LoadScene;
         SceneLoadingServiceHandlerData.OnUnLoadScene += UnLoadScene;
-        // SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnLoaded;
     }
 
@@ -20,7 +21,7 @@ public class SceneLoadingService : Service
     {
         SceneLoadingServiceHandlerData.OnLoadScene -= LoadScene;
         SceneLoadingServiceHandlerData.OnUnLoadScene -= UnLoadScene;
-        // SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneUnloaded -= OnSceneUnLoaded;
     }
 
@@ -113,16 +114,14 @@ public class SceneLoadingService : Service
             yield break;
         }
         
-        Debug.Log("Loading started");
-        
-        SceneManager.sceneLoaded += OnSceneLoaded;
         _loadingReport.Start();
+        _pendingLoading = parameters;
 
         while (!loadingOperation.isDone)
         {
-            if (parameters.ScreenTransitionType == ScreenTransitionType.LoadingScreen)
+            if (parameters.HasLoadingScreen)
             {
-                float progress = Mathf.Clamp01(loadingOperation.progress / 0.9f);
+                float progress = Mathf.Clamp01(loadingOperation.progress);
                 LoadingScreenHandlerData.UpdateLoadingProgress(progress);
             }
             yield return null;
@@ -131,15 +130,38 @@ public class SceneLoadingService : Service
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode _)
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        if(scene.buildIndex == 0) return; // We ignore the BootScene, which is loaded directly from Unity at start
         
-        _loadingReport.EndTime.Set();
+        if (_pendingLoading.Equals(default))
+        {
+            Debug.LogWarning($"Scene {scene.buildIndex} has been loaded outside the SceneLoadingService");
+            return;
+        }
+
+        if (scene.buildIndex != _pendingLoading.SceneIndex)
+        {
+            Debug.LogWarning($"The loaded scene {scene.buildIndex} doesn't match with the pending loading of the SceneLoadingService");
+            return;
+        }
+        
+        _loadingReport.Finish();
         SceneLoadingServiceHandlerData.SceneLoaded(scene.buildIndex, _loadingReport);
+
+        if (_pendingLoading.HasLoadingScreen)
+        {
+            LoadingScreenHandlerData.WaitForInput(DeclareSceneReady);
+            return;
+        }
         
+        DeclareSceneReady();
+    }
+
+    private void DeclareSceneReady()
+    {
         ScreenTransitionServiceHandlerData.HideScreenTransition(OnTransitionCompleted);
         void OnTransitionCompleted()
         {
-            SceneLoadingServiceHandlerData.SceneReadyToPlay(scene.buildIndex);
+            SceneLoadingServiceHandlerData.SceneReadyToPlay(_pendingLoading.SceneIndex);
         }
     }
     

@@ -1,11 +1,9 @@
 using System;
-using UnityEngine.SceneManagement;
 
 public static class SceneLoadingServiceHandlerData
 {
     public static void LoadScene(SceneLoadingParameters parameters) => OnLoadScene?.Invoke(parameters);
     public static event Action<SceneLoadingParameters> OnLoadScene;
-    
     
     public static void UnLoadScene(int sceneIndex) => OnUnLoadScene?.Invoke(sceneIndex);
     public static event Action<int> OnUnLoadScene;
@@ -19,9 +17,4 @@ public static class SceneLoadingServiceHandlerData
     
     public static void SceneUnLoaded(int sceneIndex) => OnSceneUnLoaded?.Invoke(sceneIndex);
     public static event Action<int> OnSceneUnLoaded;
-
-
-    public static void UpdateLoadingProgress(float newProgress) => OnLoadingProgressUpdated?.Invoke(newProgress);
-    public static event Action<float> OnLoadingProgressUpdated;
-
-}
+    }

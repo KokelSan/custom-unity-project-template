@@ -8,9 +8,12 @@ public class UIAnimatedElement : UIBaseElement
     public Animator Animator;
     
     [HideInInspector] public bool IsAnimating = false;
-    protected bool IsShown = false;
+    protected bool IsShown;
 
     private Action _onAnimationCompleted;
+    
+    private const string ShowAnimatorTrigger = "Show";
+    private const string HideAnimatorTrigger = "Hide";
     
     protected override void Initialize()
     {
@@ -22,7 +25,17 @@ public class UIAnimatedElement : UIBaseElement
         }
     }
 
-    public void TriggerAnimator(bool show, string triggerName, Action onAnimationCompleted)
+    public virtual void Show (Action onAnimationCompleted)
+    {
+        TriggerAnimator(true, ShowAnimatorTrigger, onAnimationCompleted);
+    }
+    
+    public virtual void Hide (Action onAnimationCompleted)
+    {
+        TriggerAnimator(false, HideAnimatorTrigger, onAnimationCompleted);
+    }
+
+    private void TriggerAnimator(bool show, string triggerName, Action onAnimationCompleted)
     {
         if(Animator == null || IsAnimating || IsShown == show) return;
         

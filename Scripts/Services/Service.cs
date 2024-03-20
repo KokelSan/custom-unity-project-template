@@ -1,4 +1,3 @@
-using UnityEngine;
 
 /// <summary>
 /// A base class for all managers needed in the game

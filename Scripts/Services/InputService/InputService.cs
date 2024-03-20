@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class InputService : Service
 {
@@ -67,18 +66,18 @@ public class InputService : Service
     public void OnTest1()
     {
         GameManagerManagerHandlerData.StopGame();
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(1, screenTransitionType: ScreenTransitionType.Fade));
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(1, ScreenTransitionType.Fade));
     }
     
     public void OnTest2()
     {
         GameManagerManagerHandlerData.StartGame();
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2, screenTransitionType: ScreenTransitionType.Fade));
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2));
     }
     
     public void OnTest3()
     {
         GameManagerManagerHandlerData.StartGame();
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(3, screenTransitionType: ScreenTransitionType.Fade));
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(3));
     }
 }

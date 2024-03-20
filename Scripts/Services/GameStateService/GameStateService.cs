@@ -37,7 +37,7 @@ public class GameStateService : Service
     private void StartGame()
     {
         if(_isGameStarted) return;
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2, screenTransitionType: ScreenTransitionType.Fade));
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2));
         _isGameStarted = true;
         GameManagerManagerHandlerData.GameStarted();
     }

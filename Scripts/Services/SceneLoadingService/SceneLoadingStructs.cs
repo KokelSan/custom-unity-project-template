@@ -1,17 +1,18 @@
 ﻿using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public struct SceneLoadingParameters
 {
-    public int SceneIndex;
-    public LoadSceneMode LoadSceneMode;
-    public ScreenTransitionType ScreenTransitionType; // used if ShowLoadingScreen is false
+    public int SceneIndex  { get; private set; }
+    public ScreenTransitionType ScreenTransitionType  { get; private set; }
+    public LoadSceneMode LoadSceneMode  { get; private set; }
 
-    public SceneLoadingParameters(int sceneIndex, LoadSceneMode loadSceneMode = LoadSceneMode.Single, ScreenTransitionType screenTransitionType = default)
+    public bool HasLoadingScreen => ScreenTransitionType == ScreenTransitionType.LoadingScreen;
+
+    public SceneLoadingParameters(int sceneIndex, ScreenTransitionType screenTransitionType = ScreenTransitionType.LoadingScreen, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
     {
         SceneIndex = sceneIndex;
-        LoadSceneMode = loadSceneMode;
         ScreenTransitionType = screenTransitionType;
+        LoadSceneMode = loadSceneMode;
     }
 }
 
@@ -34,8 +35,8 @@ public struct TimeSnapshot
 
 public struct LoadingReport
 {
-    public TimeSnapshot StartTime;
-    public TimeSnapshot EndTime;
+    public TimeSnapshot StartTime { get; private set; }
+    public TimeSnapshot EndTime { get; private set; }
     
     public float Duration => EndTime.Value - StartTime.Value;
     
