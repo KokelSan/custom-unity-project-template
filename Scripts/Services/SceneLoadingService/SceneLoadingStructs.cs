@@ -1,4 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public struct SceneLoadingParameters
 {
@@ -19,35 +20,27 @@ public struct SceneLoadingParameters
 public struct TimeSnapshot
 {
     public float Value { get; private set; }
-    public bool IsNull { get; private set; }
     
     public void Set()
     {
-        Value = UnityEngine.Time.realtimeSinceStartup;
-        IsNull = false;
-    }
-
-    public void Reset()
-    {
-        IsNull = true;
+        Value = Time.realtimeSinceStartup;
     }
 }
 
 public struct LoadingReport
 {
-    public TimeSnapshot StartTime { get; private set; }
-    public TimeSnapshot EndTime { get; private set; }
+    private TimeSnapshot _startTime;
+    private TimeSnapshot _endTime;
     
-    public float Duration => EndTime.Value - StartTime.Value;
+    public float Duration => Mathf.Max(0, _endTime.Value - _startTime.Value);
     
     public void Start()
     {
-        StartTime.Set();
-        EndTime.Reset();
+        _startTime.Set();
     }
 
-    public void Finish()
+    public void Stop()
     {
-        EndTime.Set();
+        _endTime.Set();
     }
 }

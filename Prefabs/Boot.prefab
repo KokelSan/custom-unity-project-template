@@ -50,4 +50,4 @@ MonoBehaviour:
   - {fileID: -1070763831891760728, guid: 61827e6305b6b9a47b38bc0422b79e82, type: 3}
   - {fileID: 6260837695170409693, guid: a386a119d47d95743b089d8612a114c6, type: 3}
   SceneIndexToLoadOnBootCompleted: 1
-  TargetedFrameRate: 60
+  TargetedFrameRate: -1

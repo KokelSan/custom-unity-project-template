@@ -144,7 +144,7 @@ public class SceneLoadingService : Service
             return;
         }
         
-        _loadingReport.Finish();
+        _loadingReport.Stop();
         SceneLoadingServiceHandlerData.SceneLoaded(scene.buildIndex, _loadingReport);
 
         if (_pendingLoading.HasLoadingScreen)

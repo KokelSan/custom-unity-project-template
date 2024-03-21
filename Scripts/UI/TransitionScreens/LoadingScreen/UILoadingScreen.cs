@@ -34,12 +34,15 @@ public class UILoadingScreen : UIScreenTransition
 
     private void OnProgressUpdated(float progress)
     {
-        ProgressSlider.value = progress;
-        ProgressText.text = $"{(int)(progress * 100) + 1}%";
+        float adjustedProgress = Mathf.Min(1, progress + 0.09f);
+        ProgressSlider.value = adjustedProgress;
+        int progressPercent = (int)(adjustedProgress * 100);
+        ProgressText.text = $"{progressPercent}%";
     }
 
     private void WaitForInput(Action onScreenClicked)
     {
+        OnProgressUpdated(1);
         _onScreenClickedWhenWaiting = onScreenClicked;
         _isWaitingForInput = true;
         Animator.SetTrigger(WaitingForInputAnimatorTrigger);
