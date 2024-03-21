@@ -10,24 +10,24 @@ public class GameStateService : Service
 
         protected override void EventHandlerRegister()
         {
-            GameManagerManagerHandlerData.OnStartGame += StartGame;
-            GameManagerManagerHandlerData.OnPauseGame += PauseGame;
-            GameManagerManagerHandlerData.OnResumeGame += ResumeGame;
-            GameManagerManagerHandlerData.OnTogglePause += TogglePause;
-            GameManagerManagerHandlerData.OnStopGame += StopGame;
-            GameManagerManagerHandlerData.OnExitGame += ExitGame;
+            GameStateServiceHandlerData.OnStartGame += StartGame;
+            GameStateServiceHandlerData.OnStopGame += StopGame;
+            GameStateServiceHandlerData.OnPauseGame += PauseGame;
+            GameStateServiceHandlerData.OnResumeGame += ResumeGame;
+            GameStateServiceHandlerData.OnIsGamePaused += IsGamePaused;
+            GameStateServiceHandlerData.OnExitGame += ExitGame;
 
             InputServiceHandlerData.OnEscape += TogglePause;
         }
     
         protected override void EventHandlerUnRegister()
         {
-            GameManagerManagerHandlerData.OnStartGame -= StartGame;
-            GameManagerManagerHandlerData.OnPauseGame -= PauseGame;            
-            GameManagerManagerHandlerData.OnResumeGame -= ResumeGame;
-            GameManagerManagerHandlerData.OnTogglePause -= TogglePause;
-            GameManagerManagerHandlerData.OnStopGame -= StopGame;
-            GameManagerManagerHandlerData.OnExitGame -= ExitGame;
+            GameStateServiceHandlerData.OnStartGame -= StartGame;
+            GameStateServiceHandlerData.OnStopGame -= StopGame;
+            GameStateServiceHandlerData.OnPauseGame -= PauseGame;            
+            GameStateServiceHandlerData.OnResumeGame -= ResumeGame;
+            GameStateServiceHandlerData.OnIsGamePaused -= IsGamePaused;
+            GameStateServiceHandlerData.OnExitGame -= ExitGame;
             
             InputServiceHandlerData.OnEscape -= TogglePause;
         }
@@ -37,9 +37,16 @@ public class GameStateService : Service
     private void StartGame()
     {
         if(_isGameStarted) return;
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2));
         _isGameStarted = true;
-        GameManagerManagerHandlerData.GameStarted();
+        GameStateServiceHandlerData.GameStarted();
+    }
+    
+    private void StopGame()
+    {
+        if(!_isGameStarted) return;
+        _isGameStarted = _isGamePaused = false;
+        Time.timeScale = 1;
+        GameStateServiceHandlerData.GameStopped();
     }
 
     private void PauseGame()
@@ -63,21 +70,18 @@ public class GameStateService : Service
         if (_isGamePaused)
         {
             Time.timeScale = 0;
-            GameManagerManagerHandlerData.GamePaused();
+            GameStateServiceHandlerData.GamePaused();
         }
         else
         {
             Time.timeScale = 1;
-            GameManagerManagerHandlerData.GameResumed();
+            GameStateServiceHandlerData.GameResumed();
         }
     }
 
-    private void StopGame()
+    private bool IsGamePaused()
     {
-        if(!_isGameStarted) return;
-        _isGameStarted = _isGamePaused = false;
-        Time.timeScale = 1;
-        GameManagerManagerHandlerData.GameStopped();
+        return _isGamePaused;
     }
 
     private void ExitGame()

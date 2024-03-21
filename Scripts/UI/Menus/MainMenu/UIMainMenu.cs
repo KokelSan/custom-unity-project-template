@@ -5,35 +5,37 @@ public class UIMainMenu : UIAnimatedElement
 {
     [Header("Main Menu Elements")]
     public Button StartButton;
-    public Button ParametersButton;
+    public Button OptionsButton;
     public Button ExitButton;
 
     protected override void EventHandlerRegister()
     {
         StartButton.onClick.AddListener(OnStartButtonClicked);
-        ParametersButton.onClick.AddListener(OnParametersButtonClicked);
+        OptionsButton.onClick.AddListener(OnOptionsButtonClicked);
         ExitButton.onClick.AddListener(OnExitButtonClicked);
     }
     
     protected override void EventHandlerUnRegister()
     {
         StartButton.onClick.RemoveAllListeners();
-        ParametersButton.onClick.RemoveAllListeners();
+        OptionsButton.onClick.RemoveAllListeners();
         ExitButton.onClick.RemoveAllListeners();
     }
 
     private void OnStartButtonClicked()
     {
-        GameManagerManagerHandlerData.StartGame();
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2));
+        GameStateServiceHandlerData.StartGame();
     }
 
-    private void OnParametersButtonClicked()
+    private void OnOptionsButtonClicked()
     {
-        Debug.Log("Parameters menu's button clicked");
+        Hide();
+        OptionsMenuHandlerData.ShowMenu(Show);    
     }
 
     private void OnExitButtonClicked()
     {
-        GameManagerManagerHandlerData.ExitGame();
+        GameStateServiceHandlerData.ExitGame();
     }
 }

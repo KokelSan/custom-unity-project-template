@@ -100,19 +100,19 @@ public class EventDebugger : BaseBehaviour
         if (DebugGameStates && !_gameStatesDebugged)
         {
             _gameStatesDebugged = true;
-            GameManagerManagerHandlerData.OnGameStarted += OnGameStarted;
-            GameManagerManagerHandlerData.OnGamePaused += OnGamePaused;
-            GameManagerManagerHandlerData.OnGameResumed += OnGameResumed;
-            GameManagerManagerHandlerData.OnGameStopped += OnGameStopped;
+            GameStateServiceHandlerData.OnGameStarted += OnGameStarted;
+            GameStateServiceHandlerData.OnGamePaused += OnGamePaused;
+            GameStateServiceHandlerData.OnGameResumed += OnGameResumed;
+            GameStateServiceHandlerData.OnGameStopped += OnGameStopped;
         }
         
         if (!DebugGameStates && _gameStatesDebugged)
         {
             _gameStatesDebugged = false;
-            GameManagerManagerHandlerData.OnGameStarted -= OnGameStarted;
-            GameManagerManagerHandlerData.OnGamePaused -= OnGamePaused;
-            GameManagerManagerHandlerData.OnGameResumed -= OnGameResumed;
-            GameManagerManagerHandlerData.OnGameStopped -= OnGameStopped;
+            GameStateServiceHandlerData.OnGameStarted -= OnGameStarted;
+            GameStateServiceHandlerData.OnGamePaused -= OnGamePaused;
+            GameStateServiceHandlerData.OnGameResumed -= OnGameResumed;
+            GameStateServiceHandlerData.OnGameStopped -= OnGameStopped;
         }
     }
     

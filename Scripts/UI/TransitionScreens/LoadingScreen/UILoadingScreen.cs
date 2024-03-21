@@ -26,9 +26,9 @@ public class UILoadingScreen : UIScreenTransition
         LoadingScreenHandlerData.OnWaitForInput -= WaitForInput;
     }
 
-    public override void Show(Action _)
+    public override void PlayShowAnimation(Action _)
     {
-        base.Show(_);
+        base.PlayShowAnimation(_);
         OnProgressUpdated(0);
     }
 

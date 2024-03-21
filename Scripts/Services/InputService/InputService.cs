@@ -65,19 +65,19 @@ public class InputService : Service
 
     public void OnTest1()
     {
-        GameManagerManagerHandlerData.StopGame();
+        GameStateServiceHandlerData.StopGame();
         SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(1, ScreenTransitionType.Fade));
     }
     
     public void OnTest2()
     {
-        GameManagerManagerHandlerData.StartGame();
+        GameStateServiceHandlerData.StartGame();
         SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2));
     }
     
     public void OnTest3()
     {
-        GameManagerManagerHandlerData.StartGame();
+        GameStateServiceHandlerData.StartGame();
         SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(3));
     }
 }

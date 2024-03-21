@@ -27,23 +27,23 @@ public class ScreenTransitionService : Service
         ScreenTransitionServiceHandlerData.OnHideScreenTransition -= HideScreenTransition;
     }
 
-    private void ShowScreenTransition(ScreenTransitionType transitionType, Action onTransitionCompleted)
+    private void ShowScreenTransition(ScreenTransitionType transitionType, Action onAnimationCompleted)
     {
         UIScreenTransition screenTransition = ScreenTransitions.Find(screen => screen.TransitionType == transitionType);
         if (screenTransition != null)
         {
-            screenTransition.Show(onTransitionCompleted);
+            screenTransition.PlayShowAnimation(onAnimationCompleted);
             _pendingScreenTransition = screenTransition;
             return;
         }
         Debug.LogWarning("Trying to show an unregistered transition");
     }
     
-    private void HideScreenTransition(Action onTransitionCompleted)
+    private void HideScreenTransition(Action onAnimationCompleted)
     {
         if (_pendingScreenTransition != null)
         {
-            _pendingScreenTransition.Hide(onTransitionCompleted);
+            _pendingScreenTransition.PlayHideAnimation(onAnimationCompleted);
             _pendingScreenTransition = null;
             return;
         }

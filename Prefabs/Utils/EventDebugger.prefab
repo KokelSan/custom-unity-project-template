@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67812f40dea77aa4cacd49b95fe1aa76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugSceneLoading: 1
+  DebugSceneLoading: 0
   DebugInputs: 0
   DebugGameStates: 0

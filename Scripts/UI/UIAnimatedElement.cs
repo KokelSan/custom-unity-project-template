@@ -8,7 +8,6 @@ public class UIAnimatedElement : UIBaseElement
     public Animator Animator;
     
     [HideInInspector] public bool IsAnimating = false;
-    protected bool IsShown;
 
     private Action _onAnimationCompleted;
     
@@ -25,22 +24,22 @@ public class UIAnimatedElement : UIBaseElement
         }
     }
 
-    public virtual void Show (Action onAnimationCompleted)
+    public virtual void PlayShowAnimation (Action onAnimationCompleted)
     {
         TriggerAnimator(true, ShowAnimatorTrigger, onAnimationCompleted);
     }
     
-    public virtual void Hide (Action onAnimationCompleted)
+    public virtual void PlayHideAnimation (Action onAnimationCompleted)
     {
         TriggerAnimator(false, HideAnimatorTrigger, onAnimationCompleted);
     }
 
-    private void TriggerAnimator(bool show, string triggerName, Action onAnimationCompleted)
+    private void TriggerAnimator(bool visible, string triggerName, Action onAnimationCompleted)
     {
-        if(Animator == null || IsAnimating || IsShown == show) return;
+        if(Animator == null || IsAnimating || IsVisible == visible) return;
         
-        IsShown = show;
-        CanvasGroup.interactable = CanvasGroup.blocksRaycasts = show;
+        IsVisible = visible;
+        CanvasGroup.interactable = CanvasGroup.blocksRaycasts = visible;
         _onAnimationCompleted = onAnimationCompleted;
         Animator.SetTrigger(triggerName);
     }

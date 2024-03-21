@@ -1,6 +1,6 @@
 ﻿using System;
 
-public static class GameManagerManagerHandlerData
+public static class GameStateServiceHandlerData
 {
     public static void StartGame() => OnStartGame?.Invoke();
     public static event Action OnStartGame;
@@ -12,16 +12,14 @@ public static class GameManagerManagerHandlerData
     public static event Action OnPauseGame;
     public static void GamePaused() => OnGamePaused?.Invoke();
     public static event Action OnGamePaused;
+    public static bool IsGamePaused() => OnIsGamePaused?.Invoke() ?? false;
+    public static event Func<bool> OnIsGamePaused; 
     
     
     public static void ResumeGame() => OnResumeGame?.Invoke();
     public static event Action OnResumeGame;
     public static void GameResumed() => OnGameResumed?.Invoke();
     public static event Action OnGameResumed;
-    
-    
-    public static void TogglePause() => OnTogglePause?.Invoke();
-    public static event Action OnTogglePause;
     
     
     public static void StopGame() => OnStopGame?.Invoke();

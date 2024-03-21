@@ -98,8 +98,8 @@ public class SceneLoadingService : Service
             return;
         }
         
-        ScreenTransitionServiceHandlerData.ShowScreenTransition(parameters.ScreenTransitionType, OnTransitionCompleted);
-        void OnTransitionCompleted()
+        ScreenTransitionServiceHandlerData.ShowScreenTransition(parameters.ScreenTransitionType, OnAnimationCompleted);
+        void OnAnimationCompleted()
         {
             StartCoroutine(LoadSceneAsync(parameters));
         }
@@ -158,8 +158,8 @@ public class SceneLoadingService : Service
 
     private void DeclareSceneReady()
     {
-        ScreenTransitionServiceHandlerData.HideScreenTransition(OnTransitionCompleted);
-        void OnTransitionCompleted()
+        ScreenTransitionServiceHandlerData.HideScreenTransition(OnAnimationCompleted);
+        void OnAnimationCompleted()
         {
             SceneLoadingServiceHandlerData.SceneReadyToPlay(_pendingLoading.SceneIndex);
         }
