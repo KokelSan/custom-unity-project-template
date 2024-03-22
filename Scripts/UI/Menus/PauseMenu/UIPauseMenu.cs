@@ -10,8 +10,8 @@ public class UIPauseMenu : UIAnimatedElement
     
     protected override void EventHandlerRegister()
     {
-        GameStateServiceHandlerData.OnGamePaused += OnGamePaused;
-        GameStateServiceHandlerData.OnGameResumed += OnGameResumed;
+        GameManagerHandlerData.OnGamePaused += OnGamePaused;
+        GameManagerHandlerData.OnGameResumed += OnGameResumed;
         
         ResumeButton.onClick.AddListener(OnResumeButtonClicked);
         OptionsButton.onClick.AddListener(OnOptionsButtonClicked);
@@ -20,8 +20,8 @@ public class UIPauseMenu : UIAnimatedElement
 
     protected override void EventHandlerUnRegister()
     {
-        GameStateServiceHandlerData.OnGamePaused -= OnGamePaused;
-        GameStateServiceHandlerData.OnGameResumed -= OnGameResumed;
+        GameManagerHandlerData.OnGamePaused -= OnGamePaused;
+        GameManagerHandlerData.OnGameResumed -= OnGameResumed;
         
         ResumeButton.onClick.RemoveAllListeners();
         OptionsButton.onClick.RemoveAllListeners();
@@ -30,29 +30,28 @@ public class UIPauseMenu : UIAnimatedElement
     
     private void OnGamePaused()
     {
-        Show();
+        PlayShowAnimation();
     }
     
     private void OnGameResumed()
     {
-        Hide();
+        PlayHideAnimation();
     }
-    
 
     private void OnResumeButtonClicked()
     {
-        GameStateServiceHandlerData.ResumeGame();
+        GameManagerHandlerData.ResumeGame();
     }
 
     private void OnOptionsButtonClicked()
     {
-        Hide();
-        UIOptionsMenuHandlerData.ShowMenu(Show);    
+        PlayHideAnimation();
+        UIOptionsMenuHandlerData.ShowMenu(() => PlayShowAnimation());    
     }
 
     private void OnMainMenuButtonClicked()
     {
-        Hide();
-        GameStateServiceHandlerData.StopGame();
+        PlayHideAnimation();
+        GameManagerHandlerData.StopGame();
     }
 }

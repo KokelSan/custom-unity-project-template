@@ -12,35 +12,35 @@ public class UIOptionsMenu : UIAnimatedElement
     public Toggle FullscreenToggle;
     public TMP_Dropdown GraphicsQualityDropdown;
     public Slider VolumeSlider;
-    public Button CloseButton;
+    public Button GoBackButton;
 
     private List<Resolution> _resolutions = new List<Resolution>();
     private List<string> _textResolutions = new List<string>();
     
-    private Action _onHideMenu;
+    private Action _onGoBack;
     
     protected override void EventHandlerRegister()
     {
         UIOptionsMenuHandlerData.OnShowMenu += ShowMenu;
-        GameStateServiceHandlerData.OnGameResumed += HideMenu;
+        GameManagerHandlerData.OnGameResumed += HideMenu;
         
         ResolutionDropdown.onValueChanged.AddListener(OnResolutionSelected);
         FullscreenToggle.onValueChanged.AddListener(OnFullscreenToggled);
         GraphicsQualityDropdown.onValueChanged.AddListener(OnGraphicsQualitySelected);
         VolumeSlider.onValueChanged.AddListener(OnVolumeUpdated);
-        CloseButton.onClick.AddListener(HideMenu);
+        GoBackButton.onClick.AddListener(GoBack);
     }
     
     protected override void EventHandlerUnRegister()
     {
         UIOptionsMenuHandlerData.OnShowMenu -= ShowMenu;
-        GameStateServiceHandlerData.OnGameResumed -= HideMenu;
+        GameManagerHandlerData.OnGameResumed -= HideMenu;
         
         ResolutionDropdown.onValueChanged.RemoveAllListeners();
         FullscreenToggle.onValueChanged.RemoveAllListeners();
         GraphicsQualityDropdown.onValueChanged.RemoveAllListeners();
         VolumeSlider.onValueChanged.RemoveAllListeners();
-        CloseButton.onClick.RemoveAllListeners();
+        GoBackButton.onClick.RemoveAllListeners();
     }
 
     protected override void Initialize()
@@ -53,14 +53,14 @@ public class UIOptionsMenu : UIAnimatedElement
         VolumeSlider.SetValueWithoutNotify(AudioServiceDataHandler.GetVolume());
     }
 
-    private void ShowMenu(Action onMenuHidden)
+    private void ShowMenu(Action onGoBack)
     {
-        _onHideMenu = onMenuHidden;
+        _onGoBack = onGoBack;
         
         // For unknown reasons, the dropdown is sometimes not placed properly, the rebuild fix this
         LayoutRebuilder.MarkLayoutForRebuild((RectTransform)GraphicsQualityDropdown.transform);
         
-        Show();
+        PlayShowAnimation();
     }
 
     private void InitializeResolutionDropdown()
@@ -110,10 +110,16 @@ public class UIOptionsMenu : UIAnimatedElement
         AudioServiceDataHandler.UpdateVolume(value);
     }
 
+    private void GoBack()
+    {
+        if(!IsVisible) return;
+        PlayHideAnimation();
+        _onGoBack?.Invoke();
+    }
+
     private void HideMenu()
     {
         if(!IsVisible) return;
-        Hide();
-        _onHideMenu?.Invoke();
+        PlayHideAnimation();
     }
 }

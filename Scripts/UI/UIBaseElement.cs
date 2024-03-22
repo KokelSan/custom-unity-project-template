@@ -5,7 +5,6 @@ public abstract class UIBaseElement : BaseBehaviour
 {
     [Header("UI Base Element")]
     public CanvasGroup CanvasGroup;
-    public bool HideOnStart;
     
     protected bool IsVisible;
     
@@ -14,12 +13,6 @@ public abstract class UIBaseElement : BaseBehaviour
         if (CanvasGroup == null && !TryGetComponent(out CanvasGroup))
         {
             Debug.LogWarning($"UIMenu named '{name}' (id = {GetInstanceID()}) has no CanvasGroup component'");
-            return;
-        }
-        
-        if (HideOnStart)
-        {
-            Hide();
         }
     }
 

@@ -24,12 +24,12 @@ public class UIAnimatedElement : UIBaseElement
         }
     }
 
-    public virtual void PlayShowAnimation (Action onAnimationCompleted)
+    public virtual void PlayShowAnimation (Action onAnimationCompleted = null)
     {
         TriggerAnimator(true, ShowAnimatorTrigger, onAnimationCompleted);
     }
     
-    public virtual void PlayHideAnimation (Action onAnimationCompleted)
+    public virtual void PlayHideAnimation (Action onAnimationCompleted = null)
     {
         TriggerAnimator(false, HideAnimatorTrigger, onAnimationCompleted);
     }

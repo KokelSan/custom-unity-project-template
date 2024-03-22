@@ -127,9 +127,9 @@ Animator:
   m_GameObject: {fileID: 2461636911873937919}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ea1e17bbbcdebd549a141e9dcca4da93, type: 2}
+  m_Controller: {fileID: 22100000, guid: 8b3ec0f614761c647b0e612a2c5fee75, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -151,7 +151,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanvasGroup: {fileID: 8264422631556281400}
-  HideOnStart: 0
   Animator: {fileID: 1864572100950780747}
   IsAnimating: 0
   TransitionType: 3

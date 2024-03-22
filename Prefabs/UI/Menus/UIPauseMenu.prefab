@@ -33,6 +33,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3275332595364910093, guid: 403363050ba927e4d8d338d1d52b29a2,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3275332595364910093, guid: 403363050ba927e4d8d338d1d52b29a2,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3275332595364910093, guid: 403363050ba927e4d8d338d1d52b29a2,
+        type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5383093915914725198, guid: 403363050ba927e4d8d338d1d52b29a2,
         type: 3}
       propertyPath: m_text
@@ -262,9 +277,9 @@ Animator:
   m_GameObject: {fileID: 6050619937260332611}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 0b504b8dc01a7694e85897ab2c95321f, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -286,7 +301,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanvasGroup: {fileID: 1916460162180316193}
-  HideOnStart: 1
   Animator: {fileID: 7379119026726298220}
   IsAnimating: 0
   ResumeButton: {fileID: 1292686114245625133}

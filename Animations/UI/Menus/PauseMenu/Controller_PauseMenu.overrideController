@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Controller_PauseMenu
+  m_Controller: {fileID: 9100000, guid: b0663207eec3b8e4c93519eb37794a84, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: f3ca531f06aee4c4d953a34e8c0355a9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: df5ba3baafce11548bd3c94e4d7cb66f, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c923a41780afbf841bd25ba14e387a8b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8bcfcd253d1667144bc0623e4ce7c6a4, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7fc234c368642104d9185bf2b8647b6e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c16fde5095dd3ad4bae4cac526c22e69, type: 2}

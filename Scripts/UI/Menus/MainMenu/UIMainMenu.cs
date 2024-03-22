@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,8 @@ public class UIMainMenu : UIAnimatedElement
 
     protected override void EventHandlerRegister()
     {
+        UIMainMenuHandlerData.OnShowMenu += ShowMenu;
+        
         StartButton.onClick.AddListener(OnStartButtonClicked);
         OptionsButton.onClick.AddListener(OnOptionsButtonClicked);
         ExitButton.onClick.AddListener(OnExitButtonClicked);
@@ -18,25 +21,32 @@ public class UIMainMenu : UIAnimatedElement
     
     protected override void EventHandlerUnRegister()
     {
+        UIMainMenuHandlerData.OnShowMenu -= ShowMenu;
+        
         StartButton.onClick.RemoveAllListeners();
         OptionsButton.onClick.RemoveAllListeners();
         ExitButton.onClick.RemoveAllListeners();
     }
 
+    private void ShowMenu(Action onMenuHidden)
+    {
+        PlayShowAnimation(onMenuHidden);
+    }
+
     private void OnStartButtonClicked()
     {
-        Hide();
-        GameStateServiceHandlerData.StartGame();
+        PlayHideAnimation();
+        GameManagerHandlerData.StartGame();
     }
 
     private void OnOptionsButtonClicked()
     {
-        Hide();
-        UIOptionsMenuHandlerData.ShowMenu(Show);    
+        PlayHideAnimation();
+        UIOptionsMenuHandlerData.ShowMenu(() => PlayShowAnimation());    
     }
 
     private void OnExitButtonClicked()
     {
-        GameStateServiceHandlerData.ExitGame();
+        GameManagerHandlerData.ExitGame();
     }
 }

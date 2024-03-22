@@ -203,6 +203,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: dda2f61408feab046a8ef7c41075b3c8, type: 2}
+    - target: {fileID: 4518868831157548259, guid: 08e49f4d57de8a64b82848d87e54441e,
+        type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4808659234290088367, guid: 08e49f4d57de8a64b82848d87e54441e,
         type: 3}
       propertyPath: m_Name
@@ -347,7 +352,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanvasGroup: {fileID: 214609784577787846}
-  HideOnStart: 0
   Animator: {fileID: 8626330559955148673}
   IsAnimating: 0
   TransitionType: 2

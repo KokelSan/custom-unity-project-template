@@ -49,5 +49,7 @@ MonoBehaviour:
   - {fileID: 4902445268561979590, guid: 22552bb7114eb17439d84d4b3900071a, type: 3}
   - {fileID: -1070763831891760728, guid: 61827e6305b6b9a47b38bc0422b79e82, type: 3}
   - {fileID: 6260837695170409693, guid: a386a119d47d95743b089d8612a114c6, type: 3}
+  - {fileID: 8202564103586003190, guid: 11c36c0ce02ddc74facae72a18a562d8, type: 3}
+  - {fileID: 1917284165043118940, guid: d39106e47d0693343af3f1c2d970ea48, type: 3}
   SceneIndexToLoadOnBootCompleted: 1
   TargetedFrameRate: -1
