@@ -43,14 +43,21 @@ public class UIOptionsMenu : UIAnimatedElement
         CloseButton.onClick.RemoveAllListeners();
     }
 
-    private void ShowMenu(Action onMenuHidden)
+    protected override void Initialize()
     {
+        base.Initialize();
+        
         InitializeResolutionDropdown();
         FullscreenToggle.isOn = Screen.fullScreen;
         GraphicsQualityDropdown.SetValueWithoutNotify(QualitySettings.GetQualityLevel());
+        VolumeSlider.SetValueWithoutNotify(AudioServiceDataHandler.GetVolume());
+    }
+
+    private void ShowMenu(Action onMenuHidden)
+    {
         _onHideMenu = onMenuHidden;
         
-        // For unknown reasons, the dropdown is not placed properly at start, this line fix this
+        // For unknown reasons, the dropdown is sometimes not placed properly, the rebuild fix this
         LayoutRebuilder.MarkLayoutForRebuild((RectTransform)GraphicsQualityDropdown.transform);
         
         Show();
