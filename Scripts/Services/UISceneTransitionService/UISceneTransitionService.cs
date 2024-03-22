@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UISceneTransitionService : Service
 {
+    public UISceneTransitionsTableSO TransitionsTableSO;
     public List<UIScreenTransition> ScreenTransitions;
 
     private UIScreenTransition _pendingScreenTransition;
@@ -20,8 +21,9 @@ public class UISceneTransitionService : Service
         UISceneTransitionServiceHandlerData.OnHideScreenTransition -= HideScreenTransition;
     }
 
-    private void ShowScreenTransition(ScreenTransitionType transitionType, Action onAnimationCompleted)
+    private void ShowScreenTransition(int fromScene, int toScene, Action onAnimationCompleted)
     {
+        ScreenTransitionType transitionType = UISceneTransitionsTableUtils.GetTransition(TransitionsTableSO, fromScene, toScene);
         UIScreenTransition screenTransition = ScreenTransitions.Find(screen => screen.TransitionType == transitionType);
         if (screenTransition != null)
         {

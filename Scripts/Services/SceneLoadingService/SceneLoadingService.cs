@@ -8,6 +8,9 @@ public class SceneLoadingService : Service
     
     private LoadingReport _loadingReport;
     private SceneLoadingParameters _pendingLoading;
+
+    private int activeSceneIndex => SceneManager.GetActiveScene().buildIndex;
+    
     
     #region Overrides
 
@@ -50,7 +53,7 @@ public class SceneLoadingService : Service
     {
         if (_isLoading)
         {
-            errorMsg = _pendingLoading.SceneIndex == sceneIndex ? "already loading this scene" : "already loading another scene";
+            errorMsg = _pendingLoading.SceneToLoadIndex == sceneIndex ? "already loading this scene" : "already loading another scene";
             return false;
         }
         
@@ -100,13 +103,13 @@ public class SceneLoadingService : Service
 
     private void LoadScene(SceneLoadingParameters parameters)
     {
-        if (!CanSceneBeLoaded(parameters.SceneIndex, out string errorMsg))
+        if (!CanSceneBeLoaded(parameters.SceneToLoadIndex, out string errorMsg))
         {
-            Debug.LogWarning($"Scene {parameters.SceneIndex} cannot be loaded ({errorMsg}), operation aborted.");
+            Debug.LogWarning($"Scene {parameters.SceneToLoadIndex} cannot be loaded ({errorMsg}), operation aborted.");
             return;
         }
         
-        UISceneTransitionServiceHandlerData.ShowScreenTransition(parameters.ScreenTransitionType, OnAnimationCompleted);
+        UISceneTransitionServiceHandlerData.ShowScreenTransition(activeSceneIndex, parameters.SceneToLoadIndex, OnAnimationCompleted);
         void OnAnimationCompleted()
         {
             StartCoroutine(LoadSceneAsync(parameters));
@@ -115,10 +118,10 @@ public class SceneLoadingService : Service
 
     IEnumerator LoadSceneAsync(SceneLoadingParameters parameters)
     {
-        AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(parameters.SceneIndex, parameters.LoadSceneMode);
+        AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(parameters.SceneToLoadIndex, parameters.LoadSceneMode);
         if (loadingOperation == null)
         {
-            Debug.LogWarning($"Scene {parameters.SceneIndex} couldn't be loaded, operation aborted.");
+            Debug.LogWarning($"Scene {parameters.SceneToLoadIndex} couldn't be loaded, operation aborted.");
             yield break;
         }
 
@@ -128,11 +131,7 @@ public class SceneLoadingService : Service
 
         while (!loadingOperation.isDone)
         {
-            if (parameters.HasLoadingScreen)
-            {
-                float progress = loadingOperation.progress;
-                UILoadingScreenHandlerData.UpdateLoadingProgress(progress);
-            }
+            UILoadingScreenHandlerData.UpdateLoadingProgress(loadingOperation.progress);
             yield return null;
         }
     }
@@ -141,16 +140,16 @@ public class SceneLoadingService : Service
     {
         if(scene.buildIndex == 0) return; // We ignore the BootScene, which is loaded directly from Unity at start
 
-        if (scene.buildIndex != _pendingLoading.SceneIndex)
+        if (scene.buildIndex != _pendingLoading.SceneToLoadIndex)
         {
-            Debug.LogWarning($"The loaded scene ({scene.buildIndex}) doesn't match with the pending load operation ({_pendingLoading.SceneIndex}");
+            Debug.LogWarning($"The loaded scene ({scene.buildIndex}) doesn't match with the expected pending one ({_pendingLoading.SceneToLoadIndex}");
             return;
         }
         
         _loadingReport.Stop();
         SceneLoadingServiceHandlerData.SceneLoaded(scene.buildIndex, _loadingReport);
 
-        if (_pendingLoading.ShouldWaitForInputAfterLoading)
+        if (UILoadingScreenHandlerData.ShouldWaitForInput())
         {
             UILoadingScreenHandlerData.WaitForInput(DeclareSceneReady);
             return;
@@ -164,7 +163,7 @@ public class SceneLoadingService : Service
         UISceneTransitionServiceHandlerData.HideScreenTransition(OnAnimationCompleted);
         void OnAnimationCompleted()
         {
-            SceneLoadingServiceHandlerData.SceneReadyToPlay(_pendingLoading.SceneIndex);
+            SceneLoadingServiceHandlerData.SceneReadyToPlay(_pendingLoading.SceneToLoadIndex);
             _isLoading = false;
         }
     }

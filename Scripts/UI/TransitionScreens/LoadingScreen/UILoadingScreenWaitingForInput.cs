@@ -11,15 +11,19 @@ public class UILoadingScreenWaitingForInput : UILoadingScreen
 
     public override void PlayShowAnimation(Action _)
     {
+        UILoadingScreenHandlerData.OnShouldWaitForInput += ShouldWaitForInput;
         UILoadingScreenHandlerData.OnWaitForInput += WaitForInput;
         base.PlayShowAnimation(_);
     }
 
     public override void PlayHideAnimation(Action onAnimationCompleted)
     {
+        UILoadingScreenHandlerData.OnShouldWaitForInput -= ShouldWaitForInput;
         UILoadingScreenHandlerData.OnWaitForInput -= WaitForInput;
         base.PlayHideAnimation(onAnimationCompleted);
     }
+
+    private bool ShouldWaitForInput() => true;
     
     private void WaitForInput(Action onScreenClicked)
     {

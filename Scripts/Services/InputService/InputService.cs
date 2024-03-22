@@ -66,7 +66,7 @@ public class InputService : Service
     public void OnTest1()
     {
         GameStateServiceHandlerData.StopGame();
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(1, ScreenTransitionType.Fade));
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(1));
     }
     
     public void OnTest2()
@@ -78,6 +78,6 @@ public class InputService : Service
     public void OnTest3()
     {
         GameStateServiceHandlerData.StartGame();
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(3, ScreenTransitionType.LoadingScreenWaitingForInput));
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(3));
     }
 }

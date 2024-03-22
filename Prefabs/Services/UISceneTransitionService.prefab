@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6205dd15939b43239502f03e65929a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TransitionsTableSO: {fileID: 11400000, guid: 96e3297bd7cc78a46b1cc656ac362b9a, type: 2}
   ScreenTransitions:
   - {fileID: 4264099276016565195}
   - {fileID: 1528442021488688753}
@@ -242,12 +243,12 @@ PrefabInstance:
     - target: {fileID: 1422417808828630170, guid: b69a22c7477ecbe42a5c9b6a81c40409,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 30.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1422417808828630170, guid: b69a22c7477ecbe42a5c9b6a81c40409,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 16.76
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2498478739487208068, guid: b69a22c7477ecbe42a5c9b6a81c40409,
         type: 3}
@@ -352,12 +353,12 @@ PrefabInstance:
     - target: {fileID: 2894996153204764451, guid: b69a22c7477ecbe42a5c9b6a81c40409,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 441.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2894996153204764451, guid: b69a22c7477ecbe42a5c9b6a81c40409,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 67.04
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3317733441870393575, guid: b69a22c7477ecbe42a5c9b6a81c40409,
         type: 3}
@@ -408,12 +409,12 @@ PrefabInstance:
     - target: {fileID: 6538575506867515384, guid: 08e49f4d57de8a64b82848d87e54441e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 30.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6538575506867515384, guid: 08e49f4d57de8a64b82848d87e54441e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 16.76
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7424793452595747717, guid: 08e49f4d57de8a64b82848d87e54441e,
         type: 3}

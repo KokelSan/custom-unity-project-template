@@ -17,14 +17,9 @@ MonoBehaviour:
   - FromSceneIndex: 2
     ToSceneIndex: 1
     TransitionType: 3
-  - FromSceneIndex: 3
-    ToSceneIndex: 1
-    TransitionType: 1
   GlobalFromTransitions:
   - SceneIndex: 0
     TransitionType: 0
   GlobalToTransitions:
-  - SceneIndex: 2
-    TransitionType: 1
   - SceneIndex: 3
     TransitionType: 2
