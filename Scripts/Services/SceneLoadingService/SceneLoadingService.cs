@@ -152,7 +152,6 @@ public class SceneLoadingService : Service
 
         if (_pendingLoading.ShouldWaitForInputAfterLoading)
         {
-            Debug.Log("Wait for input");
             UILoadingScreenHandlerData.WaitForInput(DeclareSceneReady);
             return;
         }
