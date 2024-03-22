@@ -78,6 +78,6 @@ public class InputService : Service
     public void OnTest3()
     {
         GameStateServiceHandlerData.StartGame();
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(3));
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(3, ScreenTransitionType.LoadingScreenWaitingForInput));
     }
 }

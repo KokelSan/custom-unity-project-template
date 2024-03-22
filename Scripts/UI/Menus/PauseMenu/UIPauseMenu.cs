@@ -47,7 +47,7 @@ public class UIPauseMenu : UIAnimatedElement
     private void OnOptionsButtonClicked()
     {
         Hide();
-        OptionsMenuHandlerData.ShowMenu(Show);    
+        UIOptionsMenuHandlerData.ShowMenu(Show);    
     }
 
     private void OnMainMenuButtonClicked()

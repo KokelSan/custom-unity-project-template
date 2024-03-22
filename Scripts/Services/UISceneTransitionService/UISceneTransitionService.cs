@@ -2,14 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ScreenTransitionType
-{
-    Boot,
-    LoadingScreen,
-    Fade,
-}
-
-public class ScreenTransitionService : Service
+public class UISceneTransitionService : Service
 {
     public List<UIScreenTransition> ScreenTransitions;
 
@@ -17,14 +10,14 @@ public class ScreenTransitionService : Service
     
     protected override void EventHandlerRegister()
     {
-        ScreenTransitionServiceHandlerData.OnShowScreenTransition += ShowScreenTransition;
-        ScreenTransitionServiceHandlerData.OnHideScreenTransition += HideScreenTransition;
+        UISceneTransitionServiceHandlerData.OnShowScreenTransition += ShowScreenTransition;
+        UISceneTransitionServiceHandlerData.OnHideScreenTransition += HideScreenTransition;
     }
 
     protected override void EventHandlerUnRegister()
     {
-        ScreenTransitionServiceHandlerData.OnShowScreenTransition -= ShowScreenTransition;
-        ScreenTransitionServiceHandlerData.OnHideScreenTransition -= HideScreenTransition;
+        UISceneTransitionServiceHandlerData.OnShowScreenTransition -= ShowScreenTransition;
+        UISceneTransitionServiceHandlerData.OnHideScreenTransition -= HideScreenTransition;
     }
 
     private void ShowScreenTransition(ScreenTransitionType transitionType, Action onAnimationCompleted)

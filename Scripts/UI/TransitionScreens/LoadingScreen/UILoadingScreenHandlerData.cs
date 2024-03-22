@@ -1,6 +1,6 @@
 ﻿using System;
 
-public static class LoadingScreenHandlerData
+public static class UILoadingScreenHandlerData
 {
     public static void UpdateLoadingProgress(float value) => OnLoadingProgressUpdate?.Invoke(value);
     public static event Action<float> OnLoadingProgressUpdate;

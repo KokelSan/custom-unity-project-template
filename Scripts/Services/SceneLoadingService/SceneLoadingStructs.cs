@@ -7,7 +7,12 @@ public struct SceneLoadingParameters
     public ScreenTransitionType ScreenTransitionType  { get; private set; }
     public LoadSceneMode LoadSceneMode  { get; private set; }
 
-    public bool HasLoadingScreen => ScreenTransitionType == ScreenTransitionType.LoadingScreen;
+    public bool HasLoadingScreen => ScreenTransitionType is 
+        ScreenTransitionType.LoadingScreen or 
+        ScreenTransitionType.LoadingScreenWaitingForInput;
+
+    public bool ShouldWaitForInputAfterLoading => ScreenTransitionType is
+        ScreenTransitionType.LoadingScreenWaitingForInput;
 
     public SceneLoadingParameters(int sceneIndex, ScreenTransitionType screenTransitionType = ScreenTransitionType.LoadingScreen, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
     {

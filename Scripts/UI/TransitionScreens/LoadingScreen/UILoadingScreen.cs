@@ -8,60 +8,27 @@ public class UILoadingScreen : UIScreenTransition
     [Header("Loading Screen Elements")] 
     public Slider ProgressSlider;
     public TMP_Text ProgressText;
-
-    private bool _isWaitingForInput;
-    private Action _onScreenClickedWhenWaiting;
-
-    private const string WaitingForInputAnimatorTrigger = "WaitingForInput";
-
-    protected override void EventHandlerRegister()
-    {
-        LoadingScreenHandlerData.OnLoadingProgressUpdate += OnProgressUpdated;
-        LoadingScreenHandlerData.OnWaitForInput += WaitForInput;
-    }
-
-    protected override void EventHandlerUnRegister()
-    {
-        LoadingScreenHandlerData.OnLoadingProgressUpdate -= OnProgressUpdated;
-        LoadingScreenHandlerData.OnWaitForInput -= WaitForInput;
-    }
-
+    
     public override void PlayShowAnimation(Action _)
     {
-        base.PlayShowAnimation(_);
+        UILoadingScreenHandlerData.OnLoadingProgressUpdate += OnProgressUpdated;
         OnProgressUpdated(0);
+        base.PlayShowAnimation(_);
     }
 
-    private void OnProgressUpdated(float progress)
+    public override void PlayHideAnimation(Action onAnimationCompleted)
     {
-        float adjustedProgress = Mathf.Min(1, progress + 0.09f);
+        UILoadingScreenHandlerData.OnLoadingProgressUpdate -= OnProgressUpdated;
+        OnProgressUpdated(1);
+        base.PlayHideAnimation(onAnimationCompleted);
+    }
+    
+
+    protected void OnProgressUpdated(float progress)
+    {
+        float adjustedProgress = Mathf.Clamp01(progress / 0.9f - 0.01f); // -0.01f so we stay at 99% until loading is fully done
         ProgressSlider.value = adjustedProgress;
         int progressPercent = (int)(adjustedProgress * 100);
         ProgressText.text = $"{progressPercent}%";
-    }
-
-    private void WaitForInput(Action onScreenClicked)
-    {
-        OnProgressUpdated(1);
-        _onScreenClickedWhenWaiting = onScreenClicked;
-        _isWaitingForInput = true;
-        Animator.SetTrigger(WaitingForInputAnimatorTrigger);
-    }
-
-    public override void OnAnimationCompleted()
-    {
-        base.OnAnimationCompleted();
-        if (!_isWaitingForInput) return;
-        
-        InputServiceHandlerData.OnClick += OnClick;
-    }
-
-    private void OnClick(Vector2 _)
-    {
-        if (!_isWaitingForInput) return;
-        
-        InputServiceHandlerData.OnClick -= OnClick;
-        _onScreenClickedWhenWaiting?.Invoke();
-        _isWaitingForInput = false;
     }
 }

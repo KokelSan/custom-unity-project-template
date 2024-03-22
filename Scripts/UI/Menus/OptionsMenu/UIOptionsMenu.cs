@@ -21,7 +21,7 @@ public class UIOptionsMenu : UIAnimatedElement
     
     protected override void EventHandlerRegister()
     {
-        OptionsMenuHandlerData.OnShowMenu += ShowMenu;
+        UIOptionsMenuHandlerData.OnShowMenu += ShowMenu;
         GameStateServiceHandlerData.OnGameResumed += HideMenu;
         
         ResolutionDropdown.onValueChanged.AddListener(OnResolutionSelected);
@@ -33,7 +33,7 @@ public class UIOptionsMenu : UIAnimatedElement
     
     protected override void EventHandlerUnRegister()
     {
-        OptionsMenuHandlerData.OnShowMenu -= ShowMenu;
+        UIOptionsMenuHandlerData.OnShowMenu -= ShowMenu;
         GameStateServiceHandlerData.OnGameResumed -= HideMenu;
         
         ResolutionDropdown.onValueChanged.RemoveAllListeners();
@@ -108,6 +108,5 @@ public class UIOptionsMenu : UIAnimatedElement
         if(!IsVisible) return;
         Hide();
         _onHideMenu?.Invoke();
-        OptionsMenuHandlerData.MenuHidden();
     }
 }

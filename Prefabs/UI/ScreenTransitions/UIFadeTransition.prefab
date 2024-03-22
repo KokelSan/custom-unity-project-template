@@ -151,9 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanvasGroup: {fileID: 8264422631556281400}
+  HideOnStart: 0
   Animator: {fileID: 1864572100950780747}
   IsAnimating: 0
-  TransitionType: 2
+  TransitionType: 3
 --- !u!1 &6865132844881935715
 GameObject:
   m_ObjectHideFlags: 0

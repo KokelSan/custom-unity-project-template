@@ -31,7 +31,7 @@ public class UIMainMenu : UIAnimatedElement
     private void OnOptionsButtonClicked()
     {
         Hide();
-        OptionsMenuHandlerData.ShowMenu(Show);    
+        UIOptionsMenuHandlerData.ShowMenu(Show);    
     }
 
     private void OnExitButtonClicked()
