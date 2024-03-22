@@ -38,6 +38,7 @@ public class GameStateService : Service
     {
         if(_isGameStarted) return;
         _isGameStarted = true;
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2));
         GameStateServiceHandlerData.GameStarted();
     }
     
@@ -46,6 +47,7 @@ public class GameStateService : Service
         if(!_isGameStarted) return;
         _isGameStarted = _isGamePaused = false;
         Time.timeScale = 1;
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(1));
         GameStateServiceHandlerData.GameStopped();
     }
 

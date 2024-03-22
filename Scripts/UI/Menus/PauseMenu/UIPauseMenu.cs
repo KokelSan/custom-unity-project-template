@@ -52,8 +52,7 @@ public class UIPauseMenu : UIAnimatedElement
 
     private void OnMainMenuButtonClicked()
     {
-        GameStateServiceHandlerData.StopGame();
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(1));
         Hide();
+        GameStateServiceHandlerData.StopGame();
     }
 }

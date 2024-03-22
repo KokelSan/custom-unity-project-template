@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIMainMenu : UIAnimatedElement
 {
     [Header("Main Menu Elements")]
@@ -24,7 +25,7 @@ public class UIMainMenu : UIAnimatedElement
 
     private void OnStartButtonClicked()
     {
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2));
+        Hide();
         GameStateServiceHandlerData.StartGame();
     }
 
