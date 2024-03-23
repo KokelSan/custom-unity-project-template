@@ -24,6 +24,11 @@ public class UIAnimatedElement : UIBaseElement
         }
     }
 
+    private bool CanPlayAnimation(bool show)
+    {
+        return Animator != null && !IsAnimating && IsVisible != show;
+    }
+    
     public virtual void PlayShowAnimation (Action onAnimationCompleted = null)
     {
         TriggerAnimator(true, ShowAnimatorTrigger, onAnimationCompleted);
@@ -36,7 +41,7 @@ public class UIAnimatedElement : UIBaseElement
 
     private void TriggerAnimator(bool visible, string triggerName, Action onAnimationCompleted)
     {
-        if(Animator == null || IsAnimating || IsVisible == visible) return;
+        if(!CanPlayAnimation(visible)) return;
         
         IsVisible = visible;
         CanvasGroup.interactable = CanvasGroup.blocksRaycasts = visible;
@@ -52,7 +57,15 @@ public class UIAnimatedElement : UIBaseElement
     public virtual void OnAnimationCompleted()
     {
         IsAnimating = false;
+        Action onAnimationCompletedTmp = _onAnimationCompleted;
         _onAnimationCompleted?.Invoke();
-        _onAnimationCompleted = null;
+        
+        // To prevent null the action if the invoke calls a play/hide on the same object
+        if (_onAnimationCompleted == onAnimationCompletedTmp)
+        {
+            _onAnimationCompleted = null;
+        }
+        
+        Debug.Log($"{name} completed, action is null = {_onAnimationCompleted == null}");
     }
 }

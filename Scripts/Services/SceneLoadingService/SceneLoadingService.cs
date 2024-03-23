@@ -108,7 +108,7 @@ public class SceneLoadingService : Service
             return;
         }
         
-        UITransitionServiceHandlerData.ShowScreenTransition(GetActiveScene(), parameters.SceneToLoadIndex, OnAnimationCompleted);
+        UITransitionServiceHandlerData.ShowSceneTransition(GetActiveScene(), parameters.SceneToLoadIndex, OnAnimationCompleted);
         void OnAnimationCompleted()
         {
             StartCoroutine(LoadSceneAsync(parameters));
@@ -159,7 +159,7 @@ public class SceneLoadingService : Service
 
     private void DeclareSceneReady()
     {
-        UITransitionServiceHandlerData.HideScreenTransition(OnAnimationCompleted);
+        UITransitionServiceHandlerData.HideTransition(OnAnimationCompleted);
         void OnAnimationCompleted()
         {
             SceneLoadingServiceHandlerData.SceneReadyToPlay(_pendingLoading.SceneToLoadIndex);

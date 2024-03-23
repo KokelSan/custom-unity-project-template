@@ -9,14 +9,14 @@ public class UILoadingScreen : UITransition
     public Slider ProgressSlider;
     public TMP_Text ProgressText;
     
-    public override void PlayShowAnimation(Action _)
+    public override void PlayShowAnimation(Action onAnimationCompleted = null)
     {
         UILoadingScreenHandlerData.OnLoadingProgressUpdate += OnProgressUpdated;
         OnProgressUpdated(0);
-        base.PlayShowAnimation(_);
+        base.PlayShowAnimation(onAnimationCompleted);
     }
 
-    public override void PlayHideAnimation(Action onAnimationCompleted)
+    public override void PlayHideAnimation(Action onAnimationCompleted = null)
     {
         UILoadingScreenHandlerData.OnLoadingProgressUpdate -= OnProgressUpdated;
         OnProgressUpdated(1);

@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 3854027387298735362}
   - component: {fileID: 5474878256607325348}
   - component: {fileID: 4518868831157548259}
-  - component: {fileID: 1529242399993616403}
+  - component: {fileID: 2226395764847070077}
   m_Layer: 5
   m_Name: UILoadingScreen
   m_TagString: Untagged
@@ -363,7 +363,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1529242399993616403
+--- !u!114 &2226395764847070077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

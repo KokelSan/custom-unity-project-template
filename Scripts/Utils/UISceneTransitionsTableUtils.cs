@@ -2,9 +2,9 @@
 
 public static class UISceneTransitionsTableUtils
 {
-        public static ScreenTransitionType GetTransition(UISceneTransitionsTableSO table, int from, int to)
+        public static TransitionType GetTransition(UISceneTransitionsTableSO table, int from, int to)
         {
-                if (TryGetSpecificTransition(table.SpecificTransitions, from, to, out ScreenTransitionType transitionType))
+                if (TryGetSpecificTransition(table.SpecificTransitions, from, to, out TransitionType transitionType))
                 {
                         return transitionType;
                 }
@@ -22,7 +22,7 @@ public static class UISceneTransitionsTableUtils
                 return table.DefaultTransition;
         }
         
-        private static bool TryGetSpecificTransition(List<SpecificTransition> transitions, int from, int to, out ScreenTransitionType transitionType)
+        private static bool TryGetSpecificTransition(List<SpecificTransition> transitions, int from, int to, out TransitionType transitionType)
         {
                 foreach (SpecificTransition transition in transitions)
                 {
@@ -36,7 +36,7 @@ public static class UISceneTransitionsTableUtils
                 return false;
         }
 
-        private static bool TryGetGlobalTransition(List<GlobalTransition> transitions, int sceneIndex, out ScreenTransitionType transitionType)
+        private static bool TryGetGlobalTransition(List<GlobalTransition> transitions, int sceneIndex, out TransitionType transitionType)
         {
                 foreach (GlobalTransition transition in transitions)
                 {

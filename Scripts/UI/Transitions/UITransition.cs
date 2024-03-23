@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum ScreenTransitionType
+public enum TransitionType
 {
         Boot,
         LoadingScreen,
@@ -11,5 +11,5 @@ public enum ScreenTransitionType
 public class UITransition : UIAnimatedElement
 {
         [Header("Screen Transition Elements")]
-        public ScreenTransitionType TransitionType;
+        public TransitionType TransitionType;
 }

@@ -131,16 +131,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4210904907205968595, guid: a2e4974db9f623d43999b26953112768,
-        type: 3}
-      propertyPath: DebugGameStates
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4210904907205968595, guid: a2e4974db9f623d43999b26953112768,
-        type: 3}
-      propertyPath: DebugSceneLoading
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4278872821093449779, guid: a2e4974db9f623d43999b26953112768,
         type: 3}
       propertyPath: m_LocalPosition.x
