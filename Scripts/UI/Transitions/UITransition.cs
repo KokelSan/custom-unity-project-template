@@ -8,7 +8,7 @@ public enum ScreenTransitionType
         Fade,
 }
 
-public class UIScreenTransition : UIAnimatedElement
+public class UITransition : UIAnimatedElement
 {
         [Header("Screen Transition Elements")]
         public ScreenTransitionType TransitionType;

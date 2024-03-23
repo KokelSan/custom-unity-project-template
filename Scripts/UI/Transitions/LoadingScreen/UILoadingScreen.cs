@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UILoadingScreen : UIScreenTransition
+public class UILoadingScreen : UITransition
 {
     [Header("Loading Screen Elements")] 
     public Slider ProgressSlider;
