@@ -18,4 +18,9 @@ public static class SceneLoadingServiceHandlerData
     
     public static void SceneUnLoaded(int sceneIndex) => OnSceneUnLoaded?.Invoke(sceneIndex);
     public static event Action<int> OnSceneUnLoaded;
-    }
+
+    
+    public static int GetActiveScene() => OnGetActiveScene?.Invoke() ?? 0;
+    public static event Func<int> OnGetActiveScene;
+
+}

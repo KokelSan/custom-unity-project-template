@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameManager : Service
 {
+    public StartConfigSO StartConfig;
+    
     private bool _isGameStarted = false;
     private bool _isGamePaused = false;
     
@@ -41,19 +43,27 @@ public class GameManager : Service
     private void StartGame()
     {
         if(_isGameStarted) return;
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2));
+
+        if (StartConfig.LoadSceneOnStartGame)
+        {
+            SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(StartConfig.SceneIndexToLoadOnStart));
+            return;
+        }
+        
+        _isGameStarted = true;
+        GameManagerHandlerData.GameStarted();
     }
 
     private void OnSceneLoaded(int sceneIndex, LoadingReport _)
     {
         // Main menu scene
-        if(sceneIndex == 1)
+        if(sceneIndex == StartConfig.MainMenuSceneIndex)
         {
             UIMainMenuHandlerData.ShowMenu();
         }
         
-        // First scene
-        else if(sceneIndex == 2)
+        // Game scene
+        else if(StartConfig.LoadSceneOnStartGame && sceneIndex == StartConfig.SceneIndexToLoadOnStart)
         {
             if(_isGameStarted) return;
             _isGameStarted = true;
@@ -64,10 +74,19 @@ public class GameManager : Service
     private void StopGame()
     {
         if(!_isGameStarted) return;
+        
         ResumeGame();
         _isGameStarted = false;
         GameManagerHandlerData.GameStopped();
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(1));
+        
+        if (SceneLoadingServiceHandlerData.GetActiveScene() == StartConfig.MainMenuSceneIndex)
+        {
+            UIMainMenuHandlerData.ShowMenu();
+        }
+        else
+        {
+            SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(1));
+        }
     }
 
     private void PauseGame()

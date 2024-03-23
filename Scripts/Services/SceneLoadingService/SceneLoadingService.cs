@@ -8,9 +8,6 @@ public class SceneLoadingService : Service
     
     private LoadingReport _loadingReport;
     private SceneLoadingParameters _pendingLoading;
-
-    private int activeSceneIndex => SceneManager.GetActiveScene().buildIndex;
-    
     
     #region Overrides
 
@@ -20,6 +17,7 @@ public class SceneLoadingService : Service
         SceneLoadingServiceHandlerData.OnUnLoadScene += UnLoadScene;
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnLoaded;
+        SceneLoadingServiceHandlerData.OnGetActiveScene += GetActiveScene;
     }
 
     protected override void EventHandlerUnRegister()
@@ -28,6 +26,7 @@ public class SceneLoadingService : Service
         SceneLoadingServiceHandlerData.OnUnLoadScene -= UnLoadScene;
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneUnloaded -= OnSceneUnLoaded;
+        SceneLoadingServiceHandlerData.OnGetActiveScene -= GetActiveScene;
     }
 
     #endregion
@@ -109,7 +108,7 @@ public class SceneLoadingService : Service
             return;
         }
         
-        UISceneTransitionServiceHandlerData.ShowScreenTransition(activeSceneIndex, parameters.SceneToLoadIndex, OnAnimationCompleted);
+        UISceneTransitionServiceHandlerData.ShowScreenTransition(GetActiveScene(), parameters.SceneToLoadIndex, OnAnimationCompleted);
         void OnAnimationCompleted()
         {
             StartCoroutine(LoadSceneAsync(parameters));
@@ -182,6 +181,11 @@ public class SceneLoadingService : Service
     private void OnSceneUnLoaded(Scene scene)
     {
         SceneLoadingServiceHandlerData.SceneUnLoaded(scene.buildIndex);
+    }
+
+    private int GetActiveScene()
+    {
+        return SceneManager.GetActiveScene().buildIndex;
     }
 
     #endregion
