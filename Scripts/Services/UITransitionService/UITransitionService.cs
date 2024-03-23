@@ -56,8 +56,6 @@ public class UITransitionService : Service
 
     private void ShowTransition(TransitionType transitionType, Action onAnimationCompleted)
     {
-        Debug.Log($"Asking to show '{transitionType}' transition");
-        
         if (_pendingTransition != null)
         {
             Debug.LogWarning($"Trying to show {transitionType} transition while {_pendingTransition.TransitionType} is pending");

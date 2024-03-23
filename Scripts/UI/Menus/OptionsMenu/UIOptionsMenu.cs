@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIOptionsMenu : UIAnimatedElement
@@ -29,6 +30,7 @@ public class UIOptionsMenu : UIAnimatedElement
         GraphicsQualityDropdown.onValueChanged.AddListener(OnGraphicsQualitySelected);
         VolumeSlider.onValueChanged.AddListener(OnVolumeUpdated);
         GoBackButton.onClick.AddListener(GoBack);
+        
     }
     
     protected override void EventHandlerUnRegister()
@@ -66,14 +68,22 @@ public class UIOptionsMenu : UIAnimatedElement
     private void InitializeResolutionDropdown()
     {
         _resolutions.Clear();
+        _resolutions = GetDistinctResolutions();
+        UpdateResolutionDropdownValues();
+    }
+
+    private List<Resolution> GetDistinctResolutions()
+    {
+        return Screen.resolutions.Select(res => new Resolution{ width = res.width, height = res.height }).Distinct().ToList();
+    }
+
+    private void UpdateResolutionDropdownValues()
+    {
         _textResolutions.Clear();
         ResolutionDropdown.ClearOptions();
-        
-        _resolutions = Screen.resolutions.Select(res => new Resolution{ width = res.width, height = res.height }).Distinct().ToList();
-        _resolutions.Reverse();
         int currentResolutionIndex = 0;
         
-        for (var i = 0; i < _resolutions.Count; i++)
+        for (var i = _resolutions.Count - 1; i >= 0 ; i--)
         {
             Resolution resolution = _resolutions[i];
             string textResolution = $"{resolution.width} x {resolution.height}";
@@ -87,6 +97,16 @@ public class UIOptionsMenu : UIAnimatedElement
         
         ResolutionDropdown.AddOptions(_textResolutions);
         ResolutionDropdown.SetValueWithoutNotify(currentResolutionIndex);
+    }
+    
+    private void OnRectTransformDimensionsChange()
+    {
+        List<Resolution> resolutions = GetDistinctResolutions();
+        if (resolutions.Count != _resolutions.Count)
+        {
+            _resolutions = resolutions;
+            UpdateResolutionDropdownValues();
+        }
     }
 
     private void OnResolutionSelected(int index)

@@ -65,7 +65,5 @@ public class UIAnimatedElement : UIBaseElement
         {
             _onAnimationCompleted = null;
         }
-        
-        Debug.Log($"{name} completed, action is null = {_onAnimationCompleted == null}");
     }
 }
