@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace CustomAttributes
+namespace KokelSan.CustomAttributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
     public class ShowIfAttribute : PropertyAttribute

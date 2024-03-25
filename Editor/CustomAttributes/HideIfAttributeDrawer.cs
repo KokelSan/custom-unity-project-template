@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace CustomAttributes
+namespace KokelSan.CustomAttributes
 {
     [CustomPropertyDrawer(typeof(HideIfAttribute))]
     public class HideIfPropertyDrawer : PropertyDrawer

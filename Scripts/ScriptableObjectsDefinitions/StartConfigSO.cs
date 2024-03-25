@@ -1,4 +1,4 @@
-﻿using CustomAttributes;
+﻿using KokelSan.CustomAttributes;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Project Template/New Start Config",  fileName = "_StartConfigSO")]
