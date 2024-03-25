@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIOptionsMenu : UIAnimatedElement
@@ -30,7 +29,6 @@ public class UIOptionsMenu : UIAnimatedElement
         GraphicsQualityDropdown.onValueChanged.AddListener(OnGraphicsQualitySelected);
         VolumeSlider.onValueChanged.AddListener(OnVolumeUpdated);
         GoBackButton.onClick.AddListener(GoBack);
-        
     }
     
     protected override void EventHandlerUnRegister()
@@ -49,7 +47,7 @@ public class UIOptionsMenu : UIAnimatedElement
     {
         base.Initialize();
         
-        InitializeResolutionDropdown();
+        UpdateResolutionDropdownValues();
         FullscreenToggle.isOn = Screen.fullScreen;
         GraphicsQualityDropdown.SetValueWithoutNotify(QualitySettings.GetQualityLevel());
         VolumeSlider.SetValueWithoutNotify(AudioServiceDataHandler.GetVolume());
@@ -65,54 +63,99 @@ public class UIOptionsMenu : UIAnimatedElement
         PlayShowAnimation();
     }
 
-    private void InitializeResolutionDropdown()
-    {
-        _resolutions.Clear();
-        _resolutions = GetDistinctResolutions();
-        UpdateResolutionDropdownValues();
-    }
-
     private List<Resolution> GetDistinctResolutions()
     {
-        return Screen.resolutions.Select(res => new Resolution{ width = res.width, height = res.height }).Distinct().ToList();
+        List<Resolution> resolutions = Screen.resolutions.Select(res => new Resolution{ width = res.width, height = res.height }).Distinct().ToList();
+        resolutions.Reverse();
+        return resolutions;
     }
 
     private void UpdateResolutionDropdownValues()
     {
+        _resolutions.Clear();
         _textResolutions.Clear();
         ResolutionDropdown.ClearOptions();
-        int currentResolutionIndex = 0;
         
-        for (var i = _resolutions.Count - 1; i >= 0 ; i--)
+        _resolutions = GetDistinctResolutions();
+        int currentResolutionIndex = -1;
+        
+        for (var i = 0; i < _resolutions.Count ; i++)
         {
             Resolution resolution = _resolutions[i];
             string textResolution = $"{resolution.width} x {resolution.height}";
             _textResolutions.Add(textResolution);
             
-            if (resolution.width == Screen.currentResolution.width && resolution.height == Screen.currentResolution.height)
+            if (resolution.width == Screen.width && resolution.height == Screen.height)
             {
                 currentResolutionIndex = i;
             }
+        }
+
+        if (currentResolutionIndex == -1)
+        {
+            AddResolutionToList(Screen.width, Screen.height, out currentResolutionIndex);
         }
         
         ResolutionDropdown.AddOptions(_textResolutions);
         ResolutionDropdown.SetValueWithoutNotify(currentResolutionIndex);
     }
+
+    private void AddResolutionToList(int width, int height, out int index)
+    {
+        index = 0;
+        
+        for (int i = 0; i < _resolutions.Count; i++)
+        {
+            Resolution res = _resolutions[i];
+            
+            if (width > res.width)
+            {
+                index = i;
+                break;
+            }
+
+            if (width == res.width)
+            {
+                for (int j = i; j < _resolutions.Count; j++)
+                {
+                    res = _resolutions[j];
+                    
+                    if (height > res.height || width != res.width)
+                    {
+                        index = j;
+                        break;
+                    }
+                }
+
+                if (index != 0) break;
+            }
+        }
+
+        Resolution resolution = new Resolution { width = width, height = height };
+        string resText = $"{width} x {height}";
+
+        if (index == 0 && width < _resolutions[0].width)
+        {
+            _resolutions.Add(resolution);
+            _textResolutions.Add(resText);
+            index = _resolutions.Count - 1;
+            return;
+        }
+
+        _resolutions.Insert(index, resolution);
+        _textResolutions.Insert(index, resText);
+    }
     
     private void OnRectTransformDimensionsChange()
     {
-        List<Resolution> resolutions = GetDistinctResolutions();
-        if (resolutions.Count != _resolutions.Count)
-        {
-            _resolutions = resolutions;
-            UpdateResolutionDropdownValues();
-        }
+        UpdateResolutionDropdownValues();
     }
 
     private void OnResolutionSelected(int index)
     {
         Resolution resolution = _resolutions[index];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        Debug.Log($"Resolution set to {resolution.width} x {resolution.height}");
     }
 
     private void OnFullscreenToggled(bool newValue)
