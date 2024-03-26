@@ -10,7 +10,7 @@ namespace KokelSan.CustomAttributes
         public object ExpectedValue { get; private set; }
 
         /// <summary>
-        /// Enum comparison, the field is shown only if comparedProperty is expectedValue.
+        /// Enum comparison, the field will be visible if comparedProperty equals expectedValue.
         /// </summary>
         /// <param name="enumPropertyName"> Must be the name of an Enum variable </param>
         /// <param name="expectedValue"></param>
@@ -21,7 +21,7 @@ namespace KokelSan.CustomAttributes
         }
     
         /// <summary>
-        /// Bool comparison, the field is shown only if comparedProperty is True.
+        /// Bool comparison, the field will be visible if comparedProperty is True.
         /// </summary>
         /// <param name="booleanPropertyName"> Must be the name of a boolean variable </param>
         public ShowIfAttribute(string booleanPropertyName)

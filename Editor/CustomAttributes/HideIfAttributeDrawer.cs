@@ -10,11 +10,6 @@ namespace KokelSan.CustomAttributes
         private SerializedProperty _comparedProperty;
         private float _propertyHeight;
 
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return _propertyHeight;
-        }
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             _hideIf = attribute as HideIfAttribute;
@@ -32,13 +27,13 @@ namespace KokelSan.CustomAttributes
             }
 
             bool hide = false;
-            switch (_comparedProperty.type)
+            switch (_comparedProperty.propertyType)
             {
-                case "bool":
+                case SerializedPropertyType.Boolean:
                     hide = _comparedProperty.boolValue.Equals(_hideIf.ExpectedValue);
                     break;
 
-                case "Enum":
+                case SerializedPropertyType.Enum:
                     hide = _comparedProperty.enumValueIndex.Equals((int)_hideIf.ExpectedValue);
                     break;
 
@@ -47,15 +42,24 @@ namespace KokelSan.CustomAttributes
                     break;
             }
 
-            if (!hide)
+            if (hide)
             {
-                _propertyHeight = base.GetPropertyHeight(property, label);
-                EditorGUI.PropertyField(position, property);
+                _propertyHeight = -EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {
-                _propertyHeight = 0f;
+                _propertyHeight = EditorGUIUtility.standardVerticalSpacing;
+                
+                int originalIndentLevel = EditorGUI.indentLevel;
+                EditorGUI.indentLevel = property.depth;
+                EditorGUILayout.PropertyField(property);
+                EditorGUI.indentLevel = originalIndentLevel;
             }
+        }
+        
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return _propertyHeight;
         }
     }
 }
