@@ -22,7 +22,7 @@ public class UIOptionsMenu : UIButtonMenu
     {
         base.EventHandlerRegister();
         
-        UIMenuServiceHandlerData.OnShowOptionsMenu += ShowMenu;
+        UIMenuManagerHandlerData.OnShowOptionsMenu += ShowMenu;
         GameManagerHandlerData.OnGameResumed += OnGameResumed;
         
         ResolutionDropdown.onValueChanged.AddListener(OnResolutionSelected);
@@ -35,7 +35,7 @@ public class UIOptionsMenu : UIButtonMenu
     {
         base.EventHandlerUnRegister();
         
-        UIMenuServiceHandlerData.OnShowOptionsMenu -= ShowMenu;
+        UIMenuManagerHandlerData.OnShowOptionsMenu -= ShowMenu;
         GameManagerHandlerData.OnGameResumed -= OnGameResumed;
         
         ResolutionDropdown.onValueChanged.RemoveAllListeners();
@@ -51,7 +51,7 @@ public class UIOptionsMenu : UIButtonMenu
         UpdateResolutionDropdownValues();
         FullscreenToggle.isOn = Screen.fullScreen;
         GraphicsQualityDropdown.SetValueWithoutNotify(QualitySettings.GetQualityLevel());
-        VolumeSlider.SetValueWithoutNotify(AudioServiceDataHandler.GetVolume());
+        VolumeSlider.SetValueWithoutNotify(AudioManagerDataHandler.GetVolume());
     }
 
     private void ShowMenu(Action onGoBack)
@@ -188,6 +188,6 @@ public class UIOptionsMenu : UIButtonMenu
 
     private void OnVolumeUpdated(float value)
     {
-        AudioServiceDataHandler.UpdateVolume(value);
+        AudioManagerDataHandler.UpdateVolume(value);
     }
 }

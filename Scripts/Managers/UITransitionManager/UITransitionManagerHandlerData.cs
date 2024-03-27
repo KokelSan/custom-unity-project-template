@@ -1,6 +1,6 @@
 ﻿using System;
 
-public static class UITransitionServiceHandlerData
+public static class UITransitionManagerHandlerData
 {
     public static void ShowSceneTransition(int fromScene, int toScene, Action onAnimationCompleted = null) => OnShowSceneTransition?.Invoke(fromScene, toScene, onAnimationCompleted);
     public static event Action<int, int, Action> OnShowSceneTransition;

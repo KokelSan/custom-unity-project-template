@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class Boot : MonoBehaviour
 {
-    public List<Service> ServicesToInstantiate;
+    public List<GameObject> ServicesToInstantiate;
     public int SceneIndexToLoadOnBootCompleted = 1;
     public int TargetedFrameRate = 60;
 
@@ -15,10 +15,10 @@ public class Boot : MonoBehaviour
     {
         Application.targetFrameRate = TargetedFrameRate;
         
-        foreach (Service manager in ServicesToInstantiate)
+        foreach (GameObject go in ServicesToInstantiate)
         {
-            Service instance = Instantiate(manager);
-            instance.name = manager.name;
+            GameObject instance = Instantiate(go);
+            instance.name = go.name;
             DontDestroyOnLoad(instance);
         }
 

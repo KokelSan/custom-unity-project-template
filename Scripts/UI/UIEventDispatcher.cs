@@ -74,7 +74,7 @@ public static class UIEventDispatcher
                         
                         case UIEventType.ShowOptionsMenu:
                                 Action onGoBack = uiEvent.ShowBackWhenOptionsMenuHidden ? () => caller.PlayShowAnimation() : null;
-                                UIMenuServiceHandlerData.ShowOptionsMenu(onGoBack);
+                                UIMenuManagerHandlerData.ShowOptionsMenu(onGoBack);
                                 break;
                         
                         case UIEventType.CloseMenu:

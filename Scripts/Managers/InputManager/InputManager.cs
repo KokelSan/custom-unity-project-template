@@ -1,36 +1,36 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputService : Service
+public class InputManager : BaseBehaviour
 {
     #region Mouse & Keyboard
     
     public void OnMove(InputValue input)
     {
         Vector2 value = input.Get<Vector2>();
-        InputServiceHandlerData.Move(value);
+        InputManagerHandlerData.Move(value);
     }
     
     public void OnLook(InputValue input)
     {
         Vector2 value = input.Get<Vector2>();
-        InputServiceHandlerData.Look(value);
+        InputManagerHandlerData.Look(value);
     }
     
     public void OnRightClick()
     {
         Vector2 position = Pointer.current.position.value;
-        InputServiceHandlerData.RightClick(position);
+        InputManagerHandlerData.RightClick(position);
     }
     
     public void OnEscape()
     {
-        InputServiceHandlerData.Escape();
+        InputManagerHandlerData.Escape();
     }
     
     public void OnSpace()
     {
-        InputServiceHandlerData.Space();
+        InputManagerHandlerData.Space();
     }
     
     #endregion
@@ -40,7 +40,7 @@ public class InputService : Service
     public void OnTap()
     {
         Vector2 position = Touchscreen.current.primaryTouch.position.value;
-        InputServiceHandlerData.Tap(position);
+        InputManagerHandlerData.Tap(position);
     }
     
     #endregion
@@ -50,13 +50,13 @@ public class InputService : Service
     public void OnPointerMove(InputValue input)
     {
         Vector2 value = input.Get<Vector2>();
-        InputServiceHandlerData.PointerMove(value);
+        InputManagerHandlerData.PointerMove(value);
     }
     
     public void OnClick()
     {
         Vector2 position = Pointer.current.position.value;
-        InputServiceHandlerData.Click(position);
+        InputManagerHandlerData.Click(position);
     }
 
     #endregion
@@ -70,7 +70,7 @@ public class InputService : Service
     
     public void OnTest2()
     {
-        UITransitionServiceHandlerData.PlayFullTransition(TransitionType.Fade);
+        UITransitionManagerHandlerData.PlayFullTransition(TransitionType.Fade);
     }
     
     public void OnTest3()

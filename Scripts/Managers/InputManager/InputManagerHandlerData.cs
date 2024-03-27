@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public static class InputServiceHandlerData
+public static class InputManagerHandlerData
 {
     #region Mouse & Keyboard
     

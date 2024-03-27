@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 4071915341839608023}
   - component: {fileID: 6260837695170409693}
   m_Layer: 0
-  m_Name: UITransitionService
+  m_Name: UITransitionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

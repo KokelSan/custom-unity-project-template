@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UITransitionService : Service
+public class UITransitionManager : BaseBehaviour
 {
     public UISceneTransitionsTableSO TransitionsTableSO;
     public List<UITransition> Transitions;
@@ -12,18 +12,18 @@ public class UITransitionService : Service
     
     protected override void EventHandlerRegister()
     {
-        UITransitionServiceHandlerData.OnShowSceneTransition += ShowSceneTransition;
-        UITransitionServiceHandlerData.OnShowTransition += ShowTransition;
-        UITransitionServiceHandlerData.OnPlayFullTransition += PlayFullTransition;
-        UITransitionServiceHandlerData.OnHideTransition += HideTransition;
+        UITransitionManagerHandlerData.OnShowSceneTransition += ShowSceneTransition;
+        UITransitionManagerHandlerData.OnShowTransition += ShowTransition;
+        UITransitionManagerHandlerData.OnPlayFullTransition += PlayFullTransition;
+        UITransitionManagerHandlerData.OnHideTransition += HideTransition;
     }
 
     protected override void EventHandlerUnRegister()
     {
-        UITransitionServiceHandlerData.OnShowSceneTransition -= ShowSceneTransition;
-        UITransitionServiceHandlerData.OnShowTransition -= ShowTransition;
-        UITransitionServiceHandlerData.OnPlayFullTransition -= PlayFullTransition;
-        UITransitionServiceHandlerData.OnHideTransition -= HideTransition;
+        UITransitionManagerHandlerData.OnShowSceneTransition -= ShowSceneTransition;
+        UITransitionManagerHandlerData.OnShowTransition -= ShowTransition;
+        UITransitionManagerHandlerData.OnPlayFullTransition -= PlayFullTransition;
+        UITransitionManagerHandlerData.OnHideTransition -= HideTransition;
     }
 
     protected override void Initialize()

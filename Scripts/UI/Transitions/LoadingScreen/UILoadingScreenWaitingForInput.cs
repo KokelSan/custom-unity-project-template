@@ -38,14 +38,14 @@ public class UILoadingScreenWaitingForInput : UILoadingScreen
         base.OnAnimationCompleted();
         if (!_isWaitingForInput) return;
         
-        InputServiceHandlerData.OnClick += OnClick;
+        InputManagerHandlerData.OnClick += OnClick;
     }
 
     private void OnClick(Vector2 _)
     {
         if (!_isWaitingForInput) return;
         
-        InputServiceHandlerData.OnClick -= OnClick;
+        InputManagerHandlerData.OnClick -= OnClick;
         _onScreenClickedWhenWaiting?.Invoke();
         _isWaitingForInput = false;
     }

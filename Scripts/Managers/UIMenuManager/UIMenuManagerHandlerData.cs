@@ -1,6 +1,6 @@
 ﻿using System;
 
-public static class UIMenuServiceHandlerData
+public static class UIMenuManagerHandlerData
 {
     public static void ShowMainMenu(Action onMenuHidden = null) => OnShowMainMenu?.Invoke(onMenuHidden);
     public static event Action<Action> OnShowMainMenu;

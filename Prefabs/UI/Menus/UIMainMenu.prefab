@@ -800,7 +800,7 @@ MonoBehaviour:
       HideMenuOnEvent: 1
   - Button: {fileID: 3962166804476546831}
     Events:
-    - EventType: 8
+    - EventType: 5
       ShowBackWhenOptionsMenuHidden: 0
       SceneLoadingData:
         SceneToLoadIndex: 3

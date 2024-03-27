@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public class GameManager : Service
+public class GameManager : BaseBehaviour
 {
     public StartConfigSO StartConfig;
     
@@ -21,7 +21,7 @@ public class GameManager : Service
             GameManagerHandlerData.OnIsGamePaused += IsGamePaused;
             GameManagerHandlerData.OnExitGame += ExitGame;
 
-            InputServiceHandlerData.OnEscape += TogglePause;
+            InputManagerHandlerData.OnEscape += TogglePause;
         }
     
         protected override void EventHandlerUnRegister()
@@ -35,7 +35,7 @@ public class GameManager : Service
             GameManagerHandlerData.OnIsGamePaused -= IsGamePaused;
             GameManagerHandlerData.OnExitGame -= ExitGame;
             
-            InputServiceHandlerData.OnEscape -= TogglePause;
+            InputManagerHandlerData.OnEscape -= TogglePause;
         }
 
     #endregion
@@ -59,7 +59,7 @@ public class GameManager : Service
         // Main menu scene
         if(sceneIndex == StartConfig.MainMenuSceneIndex)
         {
-            UIMenuServiceHandlerData.ShowMainMenu();
+            UIMenuManagerHandlerData.ShowMainMenu();
         }
         
         // Game scene
@@ -81,7 +81,7 @@ public class GameManager : Service
         
         if (SceneLoadingServiceHandlerData.GetActiveScene() == StartConfig.MainMenuSceneIndex)
         {
-            UIMenuServiceHandlerData.ShowMainMenu();
+            UIMenuManagerHandlerData.ShowMainMenu();
         }
         else
         {

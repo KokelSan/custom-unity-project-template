@@ -58,27 +58,27 @@ public class EventDebugger : BaseBehaviour
         if (DebugInputs && !_inputsDebugged)
         {
             _inputsDebugged = true;
-            InputServiceHandlerData.OnMove += OnMove;
-            InputServiceHandlerData.OnLook += OnLook;
-            InputServiceHandlerData.OnRightClick += OnRightClick;
-            InputServiceHandlerData.OnEscape += OnEscape;
-            InputServiceHandlerData.OnSpace += OnSpace;
-            InputServiceHandlerData.OnTap += OnTap;
-            InputServiceHandlerData.OnPointerMove += OnPointerMove;
-            InputServiceHandlerData.OnClick += OnClick;
+            InputManagerHandlerData.OnMove += OnMove;
+            InputManagerHandlerData.OnLook += OnLook;
+            InputManagerHandlerData.OnRightClick += OnRightClick;
+            InputManagerHandlerData.OnEscape += OnEscape;
+            InputManagerHandlerData.OnSpace += OnSpace;
+            InputManagerHandlerData.OnTap += OnTap;
+            InputManagerHandlerData.OnPointerMove += OnPointerMove;
+            InputManagerHandlerData.OnClick += OnClick;
         }
         
         if (!DebugInputs && _inputsDebugged)
         {
             _inputsDebugged = false;
-            InputServiceHandlerData.OnMove -= OnMove;
-            InputServiceHandlerData.OnLook -= OnLook;
-            InputServiceHandlerData.OnRightClick -= OnRightClick;
-            InputServiceHandlerData.OnEscape -= OnEscape;
-            InputServiceHandlerData.OnSpace -= OnSpace;
-            InputServiceHandlerData.OnTap -= OnTap;
-            InputServiceHandlerData.OnPointerMove -= OnPointerMove;
-            InputServiceHandlerData.OnClick -= OnClick;
+            InputManagerHandlerData.OnMove -= OnMove;
+            InputManagerHandlerData.OnLook -= OnLook;
+            InputManagerHandlerData.OnRightClick -= OnRightClick;
+            InputManagerHandlerData.OnEscape -= OnEscape;
+            InputManagerHandlerData.OnSpace -= OnSpace;
+            InputManagerHandlerData.OnTap -= OnTap;
+            InputManagerHandlerData.OnPointerMove -= OnPointerMove;
+            InputManagerHandlerData.OnClick -= OnClick;
         }
     }
     

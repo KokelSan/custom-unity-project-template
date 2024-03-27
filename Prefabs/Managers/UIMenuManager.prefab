@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5297230899019573763}
-  - component: {fileID: 8202564103586003190}
   m_Layer: 0
-  m_Name: UIMenuService
+  m_Name: UIMenuManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,23 +29,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1020041457210069593}
-  - {fileID: 3600026588680590955}
   - {fileID: 3047871284994251748}
+  - {fileID: 3600026588680590955}
+  - {fileID: 1020041457210069593}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8202564103586003190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401761482382112221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95c687d5ece54f5685ceb69c774d08fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1823381651148254036
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -741,7 +728,7 @@ PrefabInstance:
     - target: {fileID: 7681019516924083894, guid: 59c7413a0f4df9e4c98b094299566f5f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 328.63
       objectReference: {fileID: 0}
     - target: {fileID: 7681019516924083894, guid: 59c7413a0f4df9e4c98b094299566f5f,
         type: 3}

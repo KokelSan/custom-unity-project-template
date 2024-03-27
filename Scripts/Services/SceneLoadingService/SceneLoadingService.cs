@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoadingService : Service
+public class SceneLoadingService : BaseBehaviour
 {
     private SceneLoadingData _pendingLoading;
     
@@ -109,7 +109,7 @@ public class SceneLoadingService : Service
         
         _pendingLoading = loadingData;
         
-        UITransitionServiceHandlerData.ShowSceneTransition(GetActiveScene(), loadingData.SceneToLoadIndex, OnAnimationCompleted);
+        UITransitionManagerHandlerData.ShowSceneTransition(GetActiveScene(), loadingData.SceneToLoadIndex, OnAnimationCompleted);
         void OnAnimationCompleted()
         {
             StartCoroutine(LoadSceneAsync(loadingData));
@@ -160,7 +160,7 @@ public class SceneLoadingService : Service
 
     private void DeclareSceneReady()
     {
-        UITransitionServiceHandlerData.HideTransition(OnAnimationCompleted);
+        UITransitionManagerHandlerData.HideTransition(OnAnimationCompleted);
         void OnAnimationCompleted()
         {
             SceneLoadingServiceHandlerData.SceneReadyToPlay(_pendingLoading.SceneToLoadIndex);

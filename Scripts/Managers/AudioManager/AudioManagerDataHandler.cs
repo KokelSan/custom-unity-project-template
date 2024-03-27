@@ -1,6 +1,6 @@
 ﻿using System;
 
-public static class AudioServiceDataHandler
+public static class AudioManagerDataHandler
 {
         public static float GetVolume() => OnGetVolume?.Invoke() ?? 0f;
         public static event Func<float> OnGetVolume;
