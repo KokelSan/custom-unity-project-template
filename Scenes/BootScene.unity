@@ -134,12 +134,12 @@ PrefabInstance:
     - target: {fileID: 4210904907205968595, guid: a2e4974db9f623d43999b26953112768,
         type: 3}
       propertyPath: DebugGameStates
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4210904907205968595, guid: a2e4974db9f623d43999b26953112768,
         type: 3}
       propertyPath: DebugSceneLoading
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4278872821093449779, guid: a2e4974db9f623d43999b26953112768,
         type: 3}
@@ -195,6 +195,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EventDebugger
+      objectReference: {fileID: 0}
+    - target: {fileID: 6915074969886457533, guid: a2e4974db9f623d43999b26953112768,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -263,6 +268,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Boot
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629268490885117174, guid: b8a4f9c46f855f64aa963df811d5f321,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

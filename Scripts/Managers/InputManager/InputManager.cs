@@ -70,12 +70,11 @@ public class InputManager : BaseBehaviour
     
     public void OnTest2()
     {
-        UITransitionManagerHandlerData.PlayFullTransition(TransitionType.Fade);
+        SceneLoadingService.LoadScene(new SceneLoadingData(2));
     }
     
     public void OnTest3()
     {
-        GameManagerHandlerData.StartGame();
         SceneLoadingService.LoadScene(new SceneLoadingData(3));
     }
 }

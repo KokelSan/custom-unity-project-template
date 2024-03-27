@@ -13,6 +13,7 @@ public class GameManager : BaseBehaviour
         protected override void EventHandlerRegister()
         {
             SceneLoadingService.OnSceneReadyToPlay += OnSceneReadyToPlay;
+            SceneLoadingService.OnSceneLoaded += OnSceneLoaded;
             
             GameManagerHandlerData.OnStartGame += StartGame;
             GameManagerHandlerData.OnStopGame += StopGame;
@@ -27,6 +28,7 @@ public class GameManager : BaseBehaviour
         protected override void EventHandlerUnRegister()
         {
             SceneLoadingService.OnSceneReadyToPlay -= OnSceneReadyToPlay;
+            SceneLoadingService.OnSceneLoaded -= OnSceneLoaded;
             
             GameManagerHandlerData.OnStartGame -= StartGame;
             GameManagerHandlerData.OnStopGame -= StopGame;
@@ -54,16 +56,19 @@ public class GameManager : BaseBehaviour
         GameManagerHandlerData.GameStarted();
     }
 
-    private void OnSceneReadyToPlay(int sceneIndex)
+    private void OnSceneLoaded(int sceneIndex, float _)
     {
         // Main menu scene
         if(sceneIndex == StartConfig.MainMenuSceneIndex)
         {
             UIMenuManagerHandlerData.ShowMainMenu();
         }
-        
+    }
+
+    private void OnSceneReadyToPlay(int sceneIndex)
+    {
         // Game scene
-        else if(StartConfig.LoadSceneOnStartGame && sceneIndex == StartConfig.SceneIndexToLoadOnStart)
+        if(StartConfig.LoadSceneOnStartGame && sceneIndex == StartConfig.SceneIndexToLoadOnStart)
         {
             if(_isGameStarted) return;
             _isGameStarted = true;

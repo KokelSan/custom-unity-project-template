@@ -41,7 +41,7 @@ public class UITransitionManager : BaseBehaviour
             
             if (!_transitionsDict.TryAdd(transition.TransitionType, transition))
             {
-                Debug.LogWarning($"Transition with type {transition.TransitionType} has more than one use, keeping the first one.");
+                Debug.LogWarning($"Transition with type {transition.TransitionType} has multiple instance, only the first one will be used.");
             }
         }
     }

@@ -7,9 +7,16 @@ using UnityEngine.UI;
 public class UILoadingScreen : UITransition
 {
     [Header("Loading Screen Elements")] 
+    
     public Slider ProgressSlider;
     public TMP_Text ProgressText;
+
+    public bool WaitForInputOnSceneLoaded;
     
+    private bool _isWaitingForInput;
+
+    private const string ShowWaitingScreenAnimatorTrigger = "ShowWaitingScreen";
+
     public override void PlayShowAnimation(Action onAnimationCompleted = null)
     {
         SceneLoadingService.OnLoadingStarted += OnLoadingStarted;
@@ -44,5 +51,35 @@ public class UILoadingScreen : UITransition
         ProgressSlider.value = adjustedProgress;
         int progressPercent = (int)(adjustedProgress * 100);
         ProgressText.text = $"{progressPercent}%";
+    }
+    
+    protected override void CompleteLoading()
+    {
+        SetProgress(1);
+        
+        if (WaitForInputOnSceneLoaded)
+        {
+            _isWaitingForInput = true;
+            Animator.SetTrigger(ShowWaitingScreenAnimatorTrigger);
+            return;
+        }
+        
+        SceneLoadingService.CompleteLoading();
+    }
+    
+    public override void OnAnimationCompleted()
+    {
+        base.OnAnimationCompleted();
+        if (!WaitForInputOnSceneLoaded || !_isWaitingForInput) return;
+        
+        InputManagerHandlerData.OnClick += OnClick;
+    }
+
+    private void OnClick(Vector2 _)
+    {
+        InputManagerHandlerData.OnClick -= OnClick;
+        
+        SceneLoadingService.CompleteLoading();
+        _isWaitingForInput = false;
     }
 }
