@@ -82,7 +82,7 @@ public static class UIEventDispatcher
                                 break;
                         
                         case UIEventType.LoadScene:
-                                SceneLoadingServiceHandlerData.LoadScene(uiEvent.SceneLoadingData);
+                                SceneLoadingService.LoadScene(uiEvent.SceneLoadingData);
                                 break;
                        
                         default:

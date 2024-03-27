@@ -47,7 +47,6 @@ MonoBehaviour:
   ServicesToInstantiate:
   - {fileID: 8254714484861509777, guid: 22552bb7114eb17439d84d4b3900071a, type: 3}
   - {fileID: 8254714484861509777, guid: 61827e6305b6b9a47b38bc0422b79e82, type: 3}
-  - {fileID: 4389428855990276622, guid: 346e37dcc729d9b4695196438e065ebf, type: 3}
   - {fileID: 1401761482382112221, guid: 11c36c0ce02ddc74facae72a18a562d8, type: 3}
   - {fileID: 7654331071734191355, guid: a386a119d47d95743b089d8612a114c6, type: 3}
   SceneIndexToLoadOnBootCompleted: 1

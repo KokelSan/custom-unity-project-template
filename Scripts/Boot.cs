@@ -22,6 +22,6 @@ public class Boot : MonoBehaviour
             DontDestroyOnLoad(instance);
         }
 
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingData(SceneIndexToLoadOnBootCompleted));
+        SceneLoadingService.LoadScene(new SceneLoadingData(SceneIndexToLoadOnBootCompleted));
     }
 }

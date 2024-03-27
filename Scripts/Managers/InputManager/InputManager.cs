@@ -76,6 +76,6 @@ public class InputManager : BaseBehaviour
     public void OnTest3()
     {
         GameManagerHandlerData.StartGame();
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingData(3));
+        SceneLoadingService.LoadScene(new SceneLoadingData(3));
     }
 }

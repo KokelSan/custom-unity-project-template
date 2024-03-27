@@ -31,21 +31,21 @@ public class EventDebugger : BaseBehaviour
         if (DebugSceneLoading && !_sceneLoadingDebugged)
         {
             _sceneLoadingDebugged = true;
-            SceneLoadingServiceHandlerData.OnSceneLoaded += OnSceneLoaded;
-            SceneLoadingServiceHandlerData.OnSceneReadyToPlay += OnSceneReadyToPlay;
-            SceneLoadingServiceHandlerData.OnSceneUnLoaded += OnSceneUnLoaded;
+            SceneLoadingService.OnSceneLoaded += OnSceneLoaded;
+            SceneLoadingService.OnSceneReadyToPlay += OnSceneReadyToPlay;
+            SceneLoadingService.OnSceneUnLoaded += OnSceneUnLoaded;
         }
         
         if (!DebugSceneLoading && _sceneLoadingDebugged)
         {
             _sceneLoadingDebugged = false;
-            SceneLoadingServiceHandlerData.OnSceneLoaded -= OnSceneLoaded;
-            SceneLoadingServiceHandlerData.OnSceneReadyToPlay -= OnSceneReadyToPlay;
-            SceneLoadingServiceHandlerData.OnSceneUnLoaded -= OnSceneUnLoaded;
+            SceneLoadingService.OnSceneLoaded -= OnSceneLoaded;
+            SceneLoadingService.OnSceneReadyToPlay -= OnSceneReadyToPlay;
+            SceneLoadingService.OnSceneUnLoaded -= OnSceneUnLoaded;
         }
     }
     
-    private void OnSceneLoaded(int index, SceneLoadingData data) => Debug.Log($"Scene {index} loaded in {data.Duration}s");
+    private void OnSceneLoaded(int index, float duration) => Debug.Log($"Scene {index} loaded in {duration}s");
     private void OnSceneReadyToPlay(int index) => Debug.Log($"Scene {index} ready to play");
     private void OnSceneUnLoaded(int index) => Debug.Log($"Scene {index} unloaded");
 

@@ -12,7 +12,7 @@ public class GameManager : BaseBehaviour
 
         protected override void EventHandlerRegister()
         {
-            SceneLoadingServiceHandlerData.OnSceneReadyToPlay += OnSceneReadyToPlay;
+            SceneLoadingService.OnSceneReadyToPlay += OnSceneReadyToPlay;
             
             GameManagerHandlerData.OnStartGame += StartGame;
             GameManagerHandlerData.OnStopGame += StopGame;
@@ -26,7 +26,7 @@ public class GameManager : BaseBehaviour
     
         protected override void EventHandlerUnRegister()
         {
-            SceneLoadingServiceHandlerData.OnSceneReadyToPlay -= OnSceneReadyToPlay;
+            SceneLoadingService.OnSceneReadyToPlay -= OnSceneReadyToPlay;
             
             GameManagerHandlerData.OnStartGame -= StartGame;
             GameManagerHandlerData.OnStopGame -= StopGame;
@@ -46,7 +46,7 @@ public class GameManager : BaseBehaviour
 
         if (StartConfig.LoadSceneOnStartGame)
         {
-            SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingData(StartConfig.SceneIndexToLoadOnStart));
+            SceneLoadingService.LoadScene(new SceneLoadingData(StartConfig.SceneIndexToLoadOnStart));
             return;
         }
         
@@ -73,19 +73,19 @@ public class GameManager : BaseBehaviour
     
     private void StopGame()
     {
-        if(!_isGameStarted) return;
+        if(!_isGameStarted || SceneLoadingService.IsLoading) return;
         
         Time.timeScale = 1;
         _isGameStarted = _isGamePaused = false;
         GameManagerHandlerData.GameStopped();
         
-        if (SceneLoadingServiceHandlerData.GetActiveScene() == StartConfig.MainMenuSceneIndex)
+        if (SceneLoadingService.ActiveScene == StartConfig.MainMenuSceneIndex)
         {
             UIMenuManagerHandlerData.ShowMainMenu();
         }
         else
         {
-            SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingData(StartConfig.MainMenuSceneIndex));
+            SceneLoadingService.LoadScene(new SceneLoadingData(StartConfig.MainMenuSceneIndex));
         }
     }
 

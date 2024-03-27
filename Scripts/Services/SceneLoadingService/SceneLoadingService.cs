@@ -1,53 +1,38 @@
-using System.Collections;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoadingService : BaseBehaviour
+public static class SceneLoadingService
 {
-    private SceneLoadingData _pendingLoading;
+    public static bool IsLoading => _pendingLoading != null;
+    private static SceneLoadingData _pendingLoading;
     
-    public bool IsLoading => _pendingLoading != null;
-    
-    #region Overrides
+    public static int ActiveScene => SceneManager.GetActiveScene().buildIndex;
 
-    protected override void EventHandlerRegister()
-    {
-        SceneLoadingServiceHandlerData.OnLoadScene += LoadScene;
-        SceneLoadingServiceHandlerData.OnUnLoadScene += UnLoadScene;
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnLoaded;
-        SceneLoadingServiceHandlerData.OnGetActiveScene += GetActiveScene;
-    }
+    public static event Action<AsyncOperation> OnLoadingStarted; 
+    public static event Action<int, float> OnSceneLoaded; // sceneIndex, loadingDuration
+    public static event Action<int> OnSceneUnLoaded;
+    public static event Action<int> OnSceneReadyToPlay;
 
-    protected override void EventHandlerUnRegister()
-    {
-        SceneLoadingServiceHandlerData.OnLoadScene -= LoadScene;
-        SceneLoadingServiceHandlerData.OnUnLoadScene -= UnLoadScene;
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-        SceneManager.sceneUnloaded -= OnSceneUnLoaded;
-        SceneLoadingServiceHandlerData.OnGetActiveScene -= GetActiveScene;
-    }
-
-    #endregion
 
     #region Utils
 
-    private bool IsSceneIndexValid(int sceneIndex)
+    private static bool IsSceneIndexValid(int sceneIndex)
     {
         return sceneIndex >= 0 && sceneIndex < SceneManager.sceneCountInBuildSettings;
     }
     
-    private bool IsSceneLoaded(int sceneIndex)
+    private static bool IsSceneLoaded(int sceneIndex)
     {
         return SceneManager.GetSceneByBuildIndex(sceneIndex).IsValid();
     }
     
-    private bool IsSceneLastLoadedScene(int sceneIndex)
+    private static bool IsSceneLastLoadedScene(int sceneIndex)
     {
         return SceneManager.loadedSceneCount == 1 && SceneManager.GetActiveScene().buildIndex == sceneIndex;
     }
 
-    private bool CanSceneBeLoaded(int sceneIndex, out string errorMsg)
+    private static bool CanSceneBeLoaded(int sceneIndex, out string errorMsg)
     {
         if (IsLoading)
         {
@@ -71,7 +56,7 @@ public class SceneLoadingService : BaseBehaviour
         return true;
     }
     
-    private bool CanSceneBeUnLoaded(int sceneIndex, out string errorMsg)
+    private static bool CanSceneBeUnLoaded(int sceneIndex, out string errorMsg)
     {
         if (!IsSceneIndexValid(sceneIndex))
         {
@@ -99,7 +84,7 @@ public class SceneLoadingService : BaseBehaviour
 
     #region Load/Unload Core
 
-    private void LoadScene(SceneLoadingData loadingData)
+    public static void LoadScene(SceneLoadingData loadingData)
     {
         if (!CanSceneBeLoaded(loadingData.SceneToLoadIndex, out string errorMsg))
         {
@@ -109,37 +94,32 @@ public class SceneLoadingService : BaseBehaviour
         
         _pendingLoading = loadingData;
         
-        UITransitionManagerHandlerData.ShowSceneTransition(GetActiveScene(), loadingData.SceneToLoadIndex, OnAnimationCompleted);
+        UITransitionManagerHandlerData.ShowSceneTransition(ActiveScene, loadingData.SceneToLoadIndex, OnAnimationCompleted);
         void OnAnimationCompleted()
         {
-            StartCoroutine(LoadSceneAsync(loadingData));
+            PerformLoading(loadingData);
         }
     }
 
-    IEnumerator LoadSceneAsync(SceneLoadingData loadingData)
+    private static void PerformLoading(SceneLoadingData loadingData)
     {
         AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(loadingData.SceneToLoadIndex, loadingData.LoadSceneMode);
         if (loadingOperation == null)
         {
             Debug.LogWarning($"Scene {loadingData.SceneToLoadIndex} couldn't be loaded, operation aborted.");
             _pendingLoading = null;
-            yield break;
+            return;
         }
-
         
         _pendingLoading.StartDurationRecord();
-
-        while (!loadingOperation.isDone)
-        {
-            UILoadingScreenHandlerData.UpdateLoadingProgress(loadingOperation.progress);
-            yield return null;
-        }
+        SceneManager.sceneLoaded += SceneLoaded;
+        SceneManager.sceneUnloaded += SceneUnLoaded;
+        
+        OnLoadingStarted?.Invoke(loadingOperation);
     }
     
-    private void OnSceneLoaded(Scene scene, LoadSceneMode _)
+    private static void SceneLoaded(Scene scene, LoadSceneMode _)
     {
-        if(scene.buildIndex == 0) return; // We ignore the BootScene, which is loaded directly from Unity at start
-
         if (scene.buildIndex != _pendingLoading.SceneToLoadIndex)
         {
             Debug.LogWarning($"The loaded scene ({scene.buildIndex}) doesn't match with the expected pending one ({_pendingLoading.SceneToLoadIndex}");
@@ -147,28 +127,21 @@ public class SceneLoadingService : BaseBehaviour
         }
         
         _pendingLoading.StopDurationRecord();
-        SceneLoadingServiceHandlerData.SceneLoaded(scene.buildIndex, _pendingLoading);
-
-        if (UILoadingScreenHandlerData.ShouldWaitForInput())
-        {
-            UILoadingScreenHandlerData.WaitForInput(DeclareSceneReady);
-            return;
-        }
-        
-        DeclareSceneReady();
+        SceneManager.sceneLoaded -= SceneLoaded;
+        OnSceneLoaded?.Invoke(scene.buildIndex, _pendingLoading.Duration);
     }
 
-    private void DeclareSceneReady()
+    public static void CompleteLoading()
     {
         UITransitionManagerHandlerData.HideTransition(OnAnimationCompleted);
         void OnAnimationCompleted()
         {
-            SceneLoadingServiceHandlerData.SceneReadyToPlay(_pendingLoading.SceneToLoadIndex);
+            OnSceneReadyToPlay?.Invoke(_pendingLoading.SceneToLoadIndex);
             _pendingLoading = null;
         }
     }
     
-    private void UnLoadScene(int sceneIndex)
+    public static void UnLoadScene(int sceneIndex)
     {
         if (!CanSceneBeUnLoaded(sceneIndex, out string errorMsg))
         {
@@ -176,17 +149,14 @@ public class SceneLoadingService : BaseBehaviour
             return;
         }
 
+        SceneManager.sceneUnloaded += SceneUnLoaded;
         SceneManager.UnloadSceneAsync(sceneIndex);
     }
     
-    private void OnSceneUnLoaded(Scene scene)
+    private static void SceneUnLoaded(Scene scene)
     {
-        SceneLoadingServiceHandlerData.SceneUnLoaded(scene.buildIndex);
-    }
-
-    private int GetActiveScene()
-    {
-        return SceneManager.GetActiveScene().buildIndex;
+        SceneManager.sceneUnloaded -= SceneUnLoaded;
+        OnSceneUnLoaded?.Invoke(scene.buildIndex);
     }
 
     #endregion
