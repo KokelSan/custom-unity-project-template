@@ -70,16 +70,12 @@ public class InputService : Service
     
     public void OnTest2()
     {
-        // GameManagerHandlerData.StartGame();
-        // SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(2));
-        
         UITransitionServiceHandlerData.PlayFullTransition(TransitionType.Fade);
-
     }
     
     public void OnTest3()
     {
         GameManagerHandlerData.StartGame();
-        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(3));
+        SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingData(3));
     }
 }

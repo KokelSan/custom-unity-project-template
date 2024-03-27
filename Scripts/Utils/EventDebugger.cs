@@ -45,7 +45,7 @@ public class EventDebugger : BaseBehaviour
         }
     }
     
-    private void OnSceneLoaded(int index, LoadingReport report) => Debug.Log($"Scene {index} loaded in {report.Duration}s");
+    private void OnSceneLoaded(int index, SceneLoadingData data) => Debug.Log($"Scene {index} loaded in {data.Duration}s");
     private void OnSceneReadyToPlay(int index) => Debug.Log($"Scene {index} ready to play");
     private void OnSceneUnLoaded(int index) => Debug.Log($"Scene {index} unloaded");
 

@@ -1,52 +1,17 @@
-using System;
-using UnityEngine;
-using UnityEngine.UI;
 
-
-public class UIMainMenu : UIAnimatedElement
+public class UIMainMenu : UIButtonMenu
 {
-    [Header("Main Menu Elements")]
-    public Button StartButton;
-    public Button OptionsButton;
-    public Button ExitButton;
-
     protected override void EventHandlerRegister()
     {
-        UIMainMenuHandlerData.OnShowMenu += ShowMenu;
+        base.EventHandlerRegister();
         
-        StartButton.onClick.AddListener(OnStartButtonClicked);
-        OptionsButton.onClick.AddListener(OnOptionsButtonClicked);
-        ExitButton.onClick.AddListener(OnExitButtonClicked);
+        UIMenuServiceHandlerData.OnShowMainMenu += PlayShowAnimation;
     }
     
     protected override void EventHandlerUnRegister()
     {
-        UIMainMenuHandlerData.OnShowMenu -= ShowMenu;
+        base.EventHandlerUnRegister();
         
-        StartButton.onClick.RemoveAllListeners();
-        OptionsButton.onClick.RemoveAllListeners();
-        ExitButton.onClick.RemoveAllListeners();
-    }
-
-    private void ShowMenu(Action onMenuHidden)
-    {
-        PlayShowAnimation(onMenuHidden);
-    }
-
-    private void OnStartButtonClicked()
-    {
-        PlayHideAnimation();
-        GameManagerHandlerData.StartGame();
-    }
-
-    private void OnOptionsButtonClicked()
-    {
-        PlayHideAnimation();
-        UIOptionsMenuHandlerData.ShowMenu(() => PlayShowAnimation());    
-    }
-
-    private void OnExitButtonClicked()
-    {
-        GameManagerHandlerData.ExitGame();
+        UIMenuServiceHandlerData.OnShowMainMenu -= PlayShowAnimation;
     }
 }

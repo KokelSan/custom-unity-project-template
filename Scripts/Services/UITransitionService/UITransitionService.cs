@@ -39,12 +39,10 @@ public class UITransitionService : Service
                 continue;
             }
             
-            if (_transitionsDict.ContainsKey(transition.TransitionType))
+            if (!_transitionsDict.TryAdd(transition.TransitionType, transition))
             {
-                Debug.LogWarning($"Transition with type {transition.TransitionType} has more than one use, keeping the first.");
-                continue;
+                Debug.LogWarning($"Transition with type {transition.TransitionType} has more than one use, keeping the first one.");
             }
-            _transitionsDict.Add(transition.TransitionType, transition);
         }
     }
 

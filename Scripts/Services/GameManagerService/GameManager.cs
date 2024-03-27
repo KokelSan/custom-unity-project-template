@@ -12,7 +12,7 @@ public class GameManager : Service
 
         protected override void EventHandlerRegister()
         {
-            SceneLoadingServiceHandlerData.OnSceneLoaded += OnSceneLoaded;
+            SceneLoadingServiceHandlerData.OnSceneReadyToPlay += OnSceneReadyToPlay;
             
             GameManagerHandlerData.OnStartGame += StartGame;
             GameManagerHandlerData.OnStopGame += StopGame;
@@ -26,7 +26,7 @@ public class GameManager : Service
     
         protected override void EventHandlerUnRegister()
         {
-            SceneLoadingServiceHandlerData.OnSceneLoaded -= OnSceneLoaded;
+            SceneLoadingServiceHandlerData.OnSceneReadyToPlay -= OnSceneReadyToPlay;
             
             GameManagerHandlerData.OnStartGame -= StartGame;
             GameManagerHandlerData.OnStopGame -= StopGame;
@@ -46,7 +46,7 @@ public class GameManager : Service
 
         if (StartConfig.LoadSceneOnStartGame)
         {
-            SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(StartConfig.SceneIndexToLoadOnStart));
+            SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingData(StartConfig.SceneIndexToLoadOnStart));
             return;
         }
         
@@ -54,12 +54,12 @@ public class GameManager : Service
         GameManagerHandlerData.GameStarted();
     }
 
-    private void OnSceneLoaded(int sceneIndex, LoadingReport _)
+    private void OnSceneReadyToPlay(int sceneIndex)
     {
         // Main menu scene
         if(sceneIndex == StartConfig.MainMenuSceneIndex)
         {
-            UIMainMenuHandlerData.ShowMenu();
+            UIMenuServiceHandlerData.ShowMainMenu();
         }
         
         // Game scene
@@ -75,17 +75,17 @@ public class GameManager : Service
     {
         if(!_isGameStarted) return;
         
-        ResumeGame();
-        _isGameStarted = false;
+        Time.timeScale = 1;
+        _isGameStarted = _isGamePaused = false;
         GameManagerHandlerData.GameStopped();
         
         if (SceneLoadingServiceHandlerData.GetActiveScene() == StartConfig.MainMenuSceneIndex)
         {
-            UIMainMenuHandlerData.ShowMenu();
+            UIMenuServiceHandlerData.ShowMainMenu();
         }
         else
         {
-            SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingParameters(1));
+            SceneLoadingServiceHandlerData.LoadScene(new SceneLoadingData(StartConfig.MainMenuSceneIndex));
         }
     }
 

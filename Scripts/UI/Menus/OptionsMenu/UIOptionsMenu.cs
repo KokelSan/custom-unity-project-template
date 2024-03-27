@@ -5,14 +5,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIOptionsMenu : UIAnimatedElement
+public class UIOptionsMenu : UIButtonMenu
 {
     [Header("Options Menu Elements")] 
     public TMP_Dropdown ResolutionDropdown;
     public Toggle FullscreenToggle;
     public TMP_Dropdown GraphicsQualityDropdown;
     public Slider VolumeSlider;
-    public Button GoBackButton;
 
     private List<Resolution> _resolutions = new List<Resolution>();
     private List<string> _textResolutions = new List<string>();
@@ -21,26 +20,28 @@ public class UIOptionsMenu : UIAnimatedElement
     
     protected override void EventHandlerRegister()
     {
-        UIOptionsMenuHandlerData.OnShowMenu += ShowMenu;
-        GameManagerHandlerData.OnGameResumed += HideMenu;
+        base.EventHandlerRegister();
+        
+        UIMenuServiceHandlerData.OnShowOptionsMenu += ShowMenu;
+        GameManagerHandlerData.OnGameResumed += OnGameResumed;
         
         ResolutionDropdown.onValueChanged.AddListener(OnResolutionSelected);
         FullscreenToggle.onValueChanged.AddListener(OnFullscreenToggled);
         GraphicsQualityDropdown.onValueChanged.AddListener(OnGraphicsQualitySelected);
         VolumeSlider.onValueChanged.AddListener(OnVolumeUpdated);
-        GoBackButton.onClick.AddListener(GoBack);
     }
     
     protected override void EventHandlerUnRegister()
     {
-        UIOptionsMenuHandlerData.OnShowMenu -= ShowMenu;
-        GameManagerHandlerData.OnGameResumed -= HideMenu;
+        base.EventHandlerUnRegister();
+        
+        UIMenuServiceHandlerData.OnShowOptionsMenu -= ShowMenu;
+        GameManagerHandlerData.OnGameResumed -= OnGameResumed;
         
         ResolutionDropdown.onValueChanged.RemoveAllListeners();
         FullscreenToggle.onValueChanged.RemoveAllListeners();
         GraphicsQualityDropdown.onValueChanged.RemoveAllListeners();
         VolumeSlider.onValueChanged.RemoveAllListeners();
-        GoBackButton.onClick.RemoveAllListeners();
     }
 
     protected override void Initialize()
@@ -61,6 +62,23 @@ public class UIOptionsMenu : UIAnimatedElement
         LayoutRebuilder.MarkLayoutForRebuild((RectTransform)GraphicsQualityDropdown.transform);
         
         PlayShowAnimation();
+    }
+    
+    public override void HideMenu()
+    {
+        if(!IsVisible) return;
+        PlayHideAnimation();
+        
+        if (_onGoBack == null) return;
+        _onGoBack.Invoke();
+        _onGoBack = null;
+    }
+
+    private void OnGameResumed()
+    {
+        if(!IsVisible) return;
+        PlayHideAnimation();
+        _onGoBack = null;
     }
 
     private List<Resolution> GetDistinctResolutions()
@@ -171,18 +189,5 @@ public class UIOptionsMenu : UIAnimatedElement
     private void OnVolumeUpdated(float value)
     {
         AudioServiceDataHandler.UpdateVolume(value);
-    }
-
-    private void GoBack()
-    {
-        if(!IsVisible) return;
-        PlayHideAnimation();
-        _onGoBack?.Invoke();
-    }
-
-    private void HideMenu()
-    {
-        if(!IsVisible) return;
-        PlayHideAnimation();
     }
 }
