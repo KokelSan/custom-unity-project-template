@@ -17,7 +17,7 @@
     {
       "displayName": "Base elements",
       "description": "Basic scene, prefabs, animations and other elements to illustrate the package functionalities",
-      "path": "Samples"
+      "path": "Samples~"
     }
   ]
 }
