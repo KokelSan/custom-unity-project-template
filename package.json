@@ -17,5 +17,12 @@
     "name": "KokelSan",
     "email": "kokelsan@outlook.com",
     "url": "https://github.com/KokelSan"
+  },
+  "samples": [
+  {
+    "displayName": "Base elements",
+    "description": "Base Prefabs, Scenes and ScriptableObjects to use and from which you can derive to create custom behaviours.",
+    "path": "Samples~/BaseElements"
   }
+]
 }
