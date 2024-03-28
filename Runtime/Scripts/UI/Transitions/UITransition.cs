@@ -16,13 +16,21 @@ public class UITransition : UIAnimatedElement
         
         public override void PlayShowAnimation(Action onAnimationCompleted = null)
         {
-                SceneLoadingService.OnSceneLoaded += OnSceneLoaded;
+                if (SceneLoadingService.IsLoading)
+                {
+                        SceneLoadingService.OnSceneLoaded += OnSceneLoaded;
+                }
+                
                 base.PlayShowAnimation(onAnimationCompleted);
         }
 
         public override void PlayHideAnimation(Action onAnimationCompleted = null)
         {
-                SceneLoadingService.OnSceneLoaded -= OnSceneLoaded;
+                if (SceneLoadingService.IsLoading)
+                {
+                        SceneLoadingService.OnSceneLoaded -= OnSceneLoaded;
+                }
+                
                 base.PlayHideAnimation(onAnimationCompleted);
         }
         
