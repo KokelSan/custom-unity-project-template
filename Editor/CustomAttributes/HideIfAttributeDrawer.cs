@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+
+using UnityEditor;
 using UnityEngine;
 
 namespace KokelSan.CustomAttributes
@@ -63,3 +65,5 @@ namespace KokelSan.CustomAttributes
         }
     }
 }
+
+#endif
