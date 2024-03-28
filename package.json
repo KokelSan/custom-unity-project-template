@@ -12,5 +12,12 @@
   "dependencies": {
     "com.unity.inputsystem" : "1.7.0",
     "com.unity.textmeshpro": "3.0.8"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Base elements",
+      "description": "Basic scene, prefabs, animations and other elements to illustrate the package functionalities",
+      "path": "Samples"
+    }
+  ]
 }
