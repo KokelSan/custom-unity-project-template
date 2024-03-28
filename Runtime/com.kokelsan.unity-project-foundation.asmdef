@@ -1,5 +1,5 @@
 {
-    "name": "com.kokelsan.custom-unity-project-template",
+    "name": "com.kokelsan.unity-project-foundation",
     "rootNamespace": "",
     "references": [
         "GUID:75469ad4d38634e559750d17036d5f7c",

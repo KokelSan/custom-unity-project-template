@@ -1,23 +1,21 @@
 {
-  "name": "com.kokelsan.custom-unity-project-template",
+  "name": "com.kokelsan.unity-project-foundation",
   "version": "1.0.0",
-  "displayName": "Custom Project Template",
-  "description": "A template implementing base classes for the architecture of a new project",
+  "displayName": "Project Foundation",
+  "description": "A package implementing base classes and assets for the architecture of a new project",
   "unity": "2022.3",
-  "author": {
-    "name": "KokelSan",
-    "email": "kokelsan@outlook.com",
-    "url": "https://github.com/KokelSan"
-  },
   "dependencies": {
     "com.unity.inputsystem" : "1.7.0",
     "com.unity.textmeshpro": "3.0.8"
   },
-  "samples": [
-    {
-      "displayName": "Base elements",
-      "description": "Basic scene, prefabs, animations and other elements to illustrate the package functionalities",
-      "path": "Samples~"
-    }
-  ]
+  "keywords": [
+    "Template",
+    "Foundation",
+    "Events"
+  ],
+  "author": {
+    "name": "KokelSan",
+    "email": "kokelsan@outlook.com",
+    "url": "https://github.com/KokelSan"
+  }
 }

@@ -1,8 +1,8 @@
 {
-    "name": "com.kokelsan.custom-unity-project-template.Editor",
+    "name": "com.kokelsan.unity-project-foundation.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:9326be11da4d2704a87ad239bd783db2"
+        "GUID:d52fd70b5cf33b7419d04c9e54aa74cb"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
