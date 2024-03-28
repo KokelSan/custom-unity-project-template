@@ -10,7 +10,7 @@
     "url": "https://github.com/KokelSan"
   },
   "dependencies": {
-    "com.unity.inputsystem" : "",
-    "com.unity.textmeshpro": ""
+    "com.unity.inputsystem" : "1.7.0",
+    "com.unity.textmeshpro": "3.0.8"
   }
 }
