@@ -1,55 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using KokelSan.CustomAttributes;
 using UnityEngine;
-
-public enum UIEventType
-{
-        None,
-        StartGame,
-        PauseGame,
-        ResumeGame,
-        StopGame,
-        ExitGame,
-        ShowOptionsMenu,
-        CloseMenu,
-        LoadScene
-}
-
-[Serializable]
-public class UIEvent
-{
-        public UIEventType EventType;
-        
-        [ShowIf(nameof(EventType), UIEventType.ShowOptionsMenu)]
-        public bool ShowBackWhenOptionsMenuHidden;
-
-        [ShowIf(nameof(EventType), UIEventType.LoadScene)]
-        public SceneLoadingData SceneLoadingData;
-        
-        [HideIf(nameof(EventType), UIEventType.None)]
-        [HideIf(nameof(EventType), UIEventType.CloseMenu)]
-        [HideIf(nameof(EventType), UIEventType.ExitGame)]
-        public bool HideMenuOnEvent;
-}
 
 public static class UIEventDispatcher
 {
-        public static void TriggerEvents(List<UIEvent> uiEvents, UIButtonMenu caller, object value = null)
+        public static void TriggerEvents(List<UIEvent> uiEvents, UIButtonMenu caller)
         {
                 foreach (var uiEvent in uiEvents)
                 {
-                        TriggerEvent(uiEvent,caller,value);
+                        if (uiEvent.HideMenuOnEvent)
+                        {
+                                caller.PlayHideAnimation(() => TriggerEvent(uiEvent,caller));
+                                continue;
+                        }
+                        TriggerEvent(uiEvent,caller);
                 }
         }
         
-        private static void TriggerEvent(UIEvent uiEvent, UIButtonMenu caller, object value)
+        private static void TriggerEvent(UIEvent uiEvent, UIButtonMenu caller)
         {
-                if (uiEvent.HideMenuOnEvent)
-                {
-                        caller.PlayHideAnimation();
-                }
-                
                 switch (uiEvent.EventType)
                 {
                         case UIEventType.StartGame:
