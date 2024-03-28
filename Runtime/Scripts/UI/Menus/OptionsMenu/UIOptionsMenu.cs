@@ -67,11 +67,12 @@ public class UIOptionsMenu : UIButtonMenu
     public override void HideMenu()
     {
         if(!IsVisible) return;
-        PlayHideAnimation();
-        
-        if (_onGoBack == null) return;
-        _onGoBack.Invoke();
-        _onGoBack = null;
+        PlayHideAnimation(OnMenuHidden);
+        void OnMenuHidden()
+        {
+            _onGoBack?.Invoke();
+            _onGoBack = null;
+        }
     }
 
     private void OnGameResumed()
