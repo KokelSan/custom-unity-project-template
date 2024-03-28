@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Unity.Collections;
  
+/// <summary>
+/// From https://forum.unity.com/threads/save-rendertexture-or-texture2d-as-image-file-utility.1325130/
+/// </summary>
 public static class SaveTextureToFileTool
 {
    public enum SaveTextureFileFormat

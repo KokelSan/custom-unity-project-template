@@ -19,7 +19,7 @@ public class SaveTextureToFileToolWindow : EditorWindow
     private string uniqueFilePath;
  
  
-    [MenuItem("Tools/Save Texture To File Window")]
+    [MenuItem("Project Foundation/Tools/Save Texture To File")]
     public static void ShowWindow()
     {
         SaveTextureToFileToolWindow wnd = GetWindow<SaveTextureToFileToolWindow>();
