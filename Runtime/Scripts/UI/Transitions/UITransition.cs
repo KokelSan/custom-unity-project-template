@@ -14,24 +14,24 @@ public class UITransition : UIAnimatedElement
         [Header("Screen Transition Elements")]
         public TransitionType TransitionType;
         
-        public override void PlayShowAnimation(Action onAnimationCompleted = null)
+        public override void Show(bool showInstant = false, Action onAnimationCompleted = null)
         {
                 if (SceneLoadingService.IsLoading)
                 {
                         SceneLoadingService.OnSceneLoaded += OnSceneLoaded;
                 }
                 
-                base.PlayShowAnimation(onAnimationCompleted);
+                base.Show(showInstant, onAnimationCompleted);
         }
 
-        public override void PlayHideAnimation(Action onAnimationCompleted = null)
+        public override void Hide(bool hideInstant = false, Action onAnimationCompleted = null)
         {
                 if (SceneLoadingService.IsLoading)
                 {
                         SceneLoadingService.OnSceneLoaded -= OnSceneLoaded;
                 }
                 
-                base.PlayHideAnimation(onAnimationCompleted);
+                base.Hide(hideInstant, onAnimationCompleted);
         }
         
         private void OnSceneLoaded(int sceneIndex, float loadingDuration)

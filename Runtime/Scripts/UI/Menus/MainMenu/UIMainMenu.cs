@@ -5,13 +5,13 @@ public class UIMainMenu : UIButtonMenu
     {
         base.EventHandlerRegister();
         
-        UIMenuManagerHandlerData.OnShowMainMenu += PlayShowAnimation;
+        UIMenuManagerHandlerData.OnShowMainMenu += Show;
     }
     
     protected override void EventHandlerUnRegister()
     {
         base.EventHandlerUnRegister();
         
-        UIMenuManagerHandlerData.OnShowMainMenu -= PlayShowAnimation;
+        UIMenuManagerHandlerData.OnShowMainMenu -= Show;
     }
 }

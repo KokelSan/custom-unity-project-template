@@ -19,11 +19,11 @@ public class UIPauseMenu : UIButtonMenu
     
     private void OnGamePaused()
     {
-        PlayShowAnimation();
+        Show();
     }
     
     private void OnGameResumed()
     {
-        PlayHideAnimation();
+        Hide();
     }
 }
