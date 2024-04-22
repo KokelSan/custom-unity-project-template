@@ -10,7 +10,7 @@ public static class UIEventDispatcher
                 {
                         if (uiEvent.HideMenuOnEvent)
                         {
-                                caller.Hide(uiEvent.HideInstant, () => TriggerEvent(uiEvent,caller));
+                                caller.PlayHideAnimation(() => TriggerEvent(uiEvent,caller));
                                 continue;
                         }
                         TriggerEvent(uiEvent,caller);
@@ -42,8 +42,8 @@ public static class UIEventDispatcher
                                 break;
                         
                         case UIEventType.ShowOptionsMenu:
-                                Action onGoBack = uiEvent.ShowBackWhenOptionsMenuHidden ? () => caller.Show(uiEvent.ShowBackInstant) : null;
-                                UIMenuManagerHandlerData.ShowOptionsMenu(onGoBack: onGoBack);
+                                Action onGoBack = uiEvent.ShowBackWhenOptionsMenuHidden ? () => caller.PlayShowAnimation() : null;
+                                UIMenuManagerHandlerData.ShowOptionsMenu(onGoBack);
                                 break;
                         
                         case UIEventType.CloseMenu:

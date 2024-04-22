@@ -62,7 +62,7 @@ public class UITransitionManager : BaseBehaviour
         
         if (_transitionsDict.TryGetValue(transitionType, out UITransition transition))
         {
-            transition.Show(onAnimationCompleted: onAnimationCompleted);
+            transition.PlayShowAnimation(onAnimationCompleted);
             _pendingTransition = transition;
             return;
         }
@@ -82,7 +82,7 @@ public class UITransitionManager : BaseBehaviour
     {
         if (_pendingTransition != null)
         {
-            _pendingTransition.Hide(onAnimationCompleted: OnAnimationCompleted);
+            _pendingTransition.PlayHideAnimation(OnAnimationCompleted);
             void OnAnimationCompleted()
             {
                 onAnimationCompleted?.Invoke();   

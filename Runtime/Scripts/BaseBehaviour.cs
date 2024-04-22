@@ -17,8 +17,13 @@ public abstract class BaseBehaviour : MonoBehaviour
         EventHandlerUnRegister();
     }
 
-    public void SetActive(bool isActive)
+    public void Enable()
     {
-        gameObject.SetActive(isActive);
+        gameObject.SetActive(true);
+    }
+    
+    public void Disable()
+    {
+        gameObject.SetActive(false);
     }
 }

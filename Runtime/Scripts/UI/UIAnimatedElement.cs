@@ -13,8 +13,6 @@ public class UIAnimatedElement : UIBaseElement
     
     private const string ShowAnimatorTrigger = "Show";
     private const string HideAnimatorTrigger = "Hide";
-    private const string InstantShowAnimatorTrigger = "InstantShow";
-    private const string InstantHideAnimatorTrigger = "InstantHide";
     
     protected override void Initialize()
     {
@@ -31,16 +29,14 @@ public class UIAnimatedElement : UIBaseElement
         return Animator != null && !IsAnimating && IsVisible != show;
     }
     
-    public virtual void Show (bool showInstant = false, Action onAnimationCompleted = null)
+    public virtual void PlayShowAnimation (Action onAnimationCompleted = null)
     {
-        string trigger = showInstant ? InstantShowAnimatorTrigger : ShowAnimatorTrigger;
-        TriggerAnimator(true, trigger, onAnimationCompleted);
+        TriggerAnimator(true, ShowAnimatorTrigger, onAnimationCompleted);
     }
     
-    public virtual void Hide (bool hideInstant = false, Action onAnimationCompleted = null)
+    public virtual void PlayHideAnimation (Action onAnimationCompleted = null)
     {
-        string trigger = hideInstant ? InstantHideAnimatorTrigger : HideAnimatorTrigger;
-        TriggerAnimator(false, trigger, onAnimationCompleted);
+        TriggerAnimator(false, HideAnimatorTrigger, onAnimationCompleted);
     }
 
     private void TriggerAnimator(bool visible, string triggerName, Action onAnimationCompleted)

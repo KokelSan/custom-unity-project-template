@@ -23,13 +23,13 @@ public abstract class UIBaseElement : BaseBehaviour
         CanvasGroup.interactable = CanvasGroup.blocksRaycasts = interactableAndBlocksRaycasts;
     }
     
-    public void Enable()
+    public void Show()
     {
         IsVisible = true;
         SetCanvasGroupProperties(1, true);
     }
 
-    public void Disable()
+    public void Hide()
     {
         IsVisible = false;
         SetCanvasGroupProperties(0, false);

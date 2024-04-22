@@ -54,20 +54,20 @@ public class UIOptionsMenu : UIButtonMenu
         VolumeSlider.SetValueWithoutNotify(AudioManagerDataHandler.GetVolume());
     }
 
-    private void ShowMenu(bool showInstant, Action onGoBack)
+    private void ShowMenu(Action onGoBack)
     {
         _onGoBack = onGoBack;
         
         // For unknown reasons, the dropdown is sometimes not placed properly, the rebuild fix this
         LayoutRebuilder.MarkLayoutForRebuild((RectTransform)GraphicsQualityDropdown.transform);
         
-        Show(showInstant);
+        PlayShowAnimation();
     }
     
     public override void HideMenu()
     {
         if(!IsVisible) return;
-        Hide(onAnimationCompleted: OnMenuHidden);
+        PlayHideAnimation(OnMenuHidden);
         void OnMenuHidden()
         {
             _onGoBack?.Invoke();
@@ -78,7 +78,7 @@ public class UIOptionsMenu : UIButtonMenu
     private void OnGameResumed()
     {
         if(!IsVisible) return;
-        Hide();
+        PlayHideAnimation();
         _onGoBack = null;
     }
 

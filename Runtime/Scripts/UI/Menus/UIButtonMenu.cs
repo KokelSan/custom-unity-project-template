@@ -38,6 +38,6 @@ public class UIButtonMenu : UIAnimatedElement
 
     public virtual void HideMenu()
     {
-        Hide();
+        PlayHideAnimation();
     }
 }

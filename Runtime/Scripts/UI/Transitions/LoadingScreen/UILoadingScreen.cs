@@ -17,18 +17,18 @@ public class UILoadingScreen : UITransition
 
     private const string ShowWaitingScreenAnimatorTrigger = "ShowWaitingScreen";
 
-    public override void Show(bool showInstant = false, Action onAnimationCompleted = null)
+    public override void PlayShowAnimation(Action onAnimationCompleted = null)
     {
         SceneLoadingService.OnLoadingStarted += OnLoadingStarted;
         SetProgress(0);
-        base.Show(showInstant, onAnimationCompleted);
+        base.PlayShowAnimation(onAnimationCompleted);
     }
 
-    public override void Hide(bool hideInstant = false, Action onAnimationCompleted = null)
+    public override void PlayHideAnimation(Action onAnimationCompleted = null)
     {
         SceneLoadingService.OnLoadingStarted -= OnLoadingStarted;
         SetProgress(1);
-        base.Hide(hideInstant, onAnimationCompleted);
+        base.PlayHideAnimation(onAnimationCompleted);
     }
 
     private void OnLoadingStarted(AsyncOperation loadingOperation)
