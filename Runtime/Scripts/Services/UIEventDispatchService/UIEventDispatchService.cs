@@ -10,7 +10,18 @@ public static class UIEventDispatcher
                 {
                         if (uiEvent.HideMenuOnEvent)
                         {
-                                caller.PlayHideAnimation(() => TriggerEvent(uiEvent,caller));
+                                switch (uiEvent.EventExecutionOrder)
+                                {
+                                        case EventExecutionOrder.HideThenPerformAction:
+                                                caller.PlayHideAnimation(() => TriggerEvent(uiEvent,caller));
+                                                break;
+                                        
+                                        case EventExecutionOrder.PerformActionThenHide:
+                                                TriggerEvent(uiEvent,caller);
+                                                caller.PlayHideAnimation();
+                                                break;
+                                }
+                                
                                 continue;
                         }
                         TriggerEvent(uiEvent,caller);

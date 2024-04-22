@@ -14,6 +14,12 @@ public enum UIEventType
     LoadScene
 }
 
+public enum EventExecutionOrder
+{
+    HideThenPerformAction,
+    PerformActionThenHide,
+}
+
 [Serializable]
 public class UIEvent
 {
@@ -23,6 +29,9 @@ public class UIEvent
     [HideIf(nameof(EventType), UIEventType.CloseMenu)]
     [HideIf(nameof(EventType), UIEventType.ExitGame)]
     public bool HideMenuOnEvent;
+
+    [ShowIf(nameof(HideMenuOnEvent))]
+    public EventExecutionOrder EventExecutionOrder;
     
     // ShowOptionsMenu parameters
     [ShowIf(nameof(EventType), UIEventType.ShowOptionsMenu)]
