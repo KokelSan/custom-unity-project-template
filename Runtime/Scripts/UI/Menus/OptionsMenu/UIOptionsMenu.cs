@@ -12,6 +12,7 @@ public class UIOptionsMenu : UIButtonMenu
     public Toggle FullscreenToggle;
     public TMP_Dropdown GraphicsQualityDropdown;
     public Slider VolumeSlider;
+    public Toggle FPSToggle;
 
     private List<Resolution> _resolutions = new List<Resolution>();
     private List<string> _textResolutions = new List<string>();
@@ -29,6 +30,7 @@ public class UIOptionsMenu : UIButtonMenu
         FullscreenToggle.onValueChanged.AddListener(OnFullscreenToggled);
         GraphicsQualityDropdown.onValueChanged.AddListener(OnGraphicsQualitySelected);
         VolumeSlider.onValueChanged.AddListener(OnVolumeUpdated);
+        FPSToggle.onValueChanged.AddListener(OnFPSToggled);
     }
     
     protected override void EventHandlerUnRegister()
@@ -42,6 +44,7 @@ public class UIOptionsMenu : UIButtonMenu
         FullscreenToggle.onValueChanged.RemoveAllListeners();
         GraphicsQualityDropdown.onValueChanged.RemoveAllListeners();
         VolumeSlider.onValueChanged.RemoveAllListeners();
+        FPSToggle.onValueChanged.RemoveAllListeners();
     }
 
     protected override void Initialize()
@@ -52,6 +55,7 @@ public class UIOptionsMenu : UIButtonMenu
         FullscreenToggle.isOn = Screen.fullScreen;
         GraphicsQualityDropdown.SetValueWithoutNotify(QualitySettings.GetQualityLevel());
         VolumeSlider.SetValueWithoutNotify(AudioManagerDataHandler.GetVolume());
+        OnFPSToggled(FPSToggle.isOn);
     }
 
     private void ShowMenu(Action onGoBack)
@@ -190,5 +194,10 @@ public class UIOptionsMenu : UIButtonMenu
     private void OnVolumeUpdated(float value)
     {
         AudioManagerDataHandler.UpdateVolume(value);
+    }
+    
+    private void OnFPSToggled(bool newValue)
+    {
+        FPSCounterHandlerData.SetFPSCountVisibility(newValue);
     }
 }

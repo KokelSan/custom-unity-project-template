@@ -705,15 +705,35 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIOptionsMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 7681019516924083894, guid: 59c7413a0f4df9e4c98b094299566f5f,
+    - target: {fileID: 7286619355693492679, guid: 59c7413a0f4df9e4c98b094299566f5f,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7681019516924083894, guid: 59c7413a0f4df9e4c98b094299566f5f,
+    - target: {fileID: 7286619355693492679, guid: 59c7413a0f4df9e4c98b094299566f5f,
         type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286619355693492679, guid: 59c7413a0f4df9e4c98b094299566f5f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286619355693492679, guid: 59c7413a0f4df9e4c98b094299566f5f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681019516924083894, guid: 59c7413a0f4df9e4c98b094299566f5f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681019516924083894, guid: 59c7413a0f4df9e4c98b094299566f5f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7681019516924083894, guid: 59c7413a0f4df9e4c98b094299566f5f,
         type: 3}
@@ -733,7 +753,7 @@ PrefabInstance:
     - target: {fileID: 7681019516924083894, guid: 59c7413a0f4df9e4c98b094299566f5f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 8132716347803223910, guid: 59c7413a0f4df9e4c98b094299566f5f,
         type: 3}
